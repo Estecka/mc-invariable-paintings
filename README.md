@@ -30,7 +30,7 @@ On the other hand, mods that add new paintings in accordance with the vanilla sy
 
 ## Versions
 
-- Minecraft 1.19.4
-- Fabric Loader 0.14.19 or above
+- Minecraft 1.20.1
+- Fabric Loader 0.14.21 or above
 - Fabric API 0.79.0 or above
-- Optionally: Patched 1.0.2 or above. (Versions below do not apply patch for fabric mods)
+- Optionally: Patched 1.1.0 or above
