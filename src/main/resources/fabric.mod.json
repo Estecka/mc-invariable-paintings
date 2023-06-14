@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "invariablepaintings",
+	"version": "${version}",
+
+	"name": "Invariable Paintings",
+	"description": "Painting variant are no longer random, turning them into collectibles.",
+	"authors": [
+		"Estecka"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/invariable-paintings",
+		"sources": "https://github.com/Estecka/mc-invariable-paintings"
+	},
+	"license":"GNU AGPLv3",
+
+	"icon": "assets/invarpaint/icon.png",
+
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"tk.estecka.invarpaint.InvariablePaintings"
+		]
+	},
+	"mixins": [
+		"invarpaint.mixins.json"
+	],
+
+	"depends": {
+		"fabricloader": ">=0.14.19",
+		"fabric-api": "*",
+		"minecraft": "~1.19.4",
+		"java": ">=17"
+	},
+	"suggests": {
+		"patched": ">=1.19.3-1.0.2"
+	}
+}
