@@ -46,18 +46,20 @@ public class DecorationItemMixin {
             )
     )
     private Optional<PaintingEntity> filterPlacedPainting(World world, BlockPos pos, Direction facing) {
-        var optEntity = PaintingEntity.placePainting(world, pos, facing);
         String variantId = PaintStackCreator.GetVariantId(this.itemStack);
-        PaintingVariant variant = (variantId==null) ? null : Registries.PAINTING_VARIANT.get(new Identifier(variantId));
+        PaintingVariant itemVariant = (variantId==null) ? null : Registries.PAINTING_VARIANT.get(new Identifier(variantId));
 
-        if (variantId != null && variant == null)
-            InvariablePaintings.LOGGER.warn("Unknown painting id: {}", variantId);
-        else if (optEntity.isPresent() && variant != null) {
-            PaintingEntity entity = optEntity.get();
-            entity.setVariant(Registries.PAINTING_VARIANT.getEntry(variant));
-            if (!entity.canStayAttached())
+        if (itemVariant != null) {
+            PaintingEntity entity = new PaintingEntity(world, pos, facing, Registries.PAINTING_VARIANT.getEntry(itemVariant));
+            if (entity.canStayAttached())
+                return Optional.of(entity);
+            else
                 return Optional.empty();
         }
-        return optEntity;
+        else {
+            if (variantId != null)
+                InvariablePaintings.LOGGER.warn("Unknown painting id: {}", variantId);
+            return PaintingEntity.placePainting(world, pos, facing);
+        }
     }
 }
