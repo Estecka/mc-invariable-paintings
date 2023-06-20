@@ -5,6 +5,7 @@ Turns paintings into collectibles, by making them harder to obtain, and have the
 ## Changes
 
 - When a painting is broken, the dropped item will remember which variant it was; those are the same as the paintings available in the vanilla creative menu. The vanilla variantless painting still exists in the code, but is no longer obtainable in survival. If you were to obtain one, it would still drop a variant-locked item after being placed and broken.  
+- Fixes a vanilla bug whereby using variant-locked items in too small a space would consume the item without placing the painting.
 - Paintings can no longer be crafted, but can be acquired through other means.
 - Master Sheperds and Wandering Traders may sell paintings as their last trades.
 Master sheperd sell variant-locked paintings instead of the variantless one. (This will not retroactively apply to existing master sheperds).

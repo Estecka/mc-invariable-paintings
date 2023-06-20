@@ -54,4 +54,16 @@ public class PaintStackCreator
 		return SetVariant(new ItemStack(Items.PAINTING), variantId);
 	}
 
+	static public String	GetVariantId(ItemStack stack){
+		NbtCompound nbt = stack.getNbt();
+		if (nbt == null || !nbt.contains(ENTITY_TAG, NbtCompound.COMPOUND_TYPE))
+			return null;
+
+		NbtCompound entityTag = nbt.getCompound(ENTITY_TAG);
+		if (!entityTag.contains(VARIANT_TAG, NbtCompound.STRING_TYPE))
+			return null;
+		
+		return entityTag.getString(VARIANT_TAG);
+	}
+
 }
