@@ -26,8 +26,6 @@
 		"invarpaint.mixins.json"
 	],
 
-	"accessWidener" : "invarpaint.accesswidener",
-
 	"depends": {
 		"fabricloader": ">=0.14.21",
 		"fabric-api": "*",

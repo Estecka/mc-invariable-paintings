@@ -29,10 +29,6 @@ dependencies {
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 }
 
-loom {
-	accessWidenerPath = file("src/main/resources/invarpaint.accesswidener")
-}
-
 base {
 	archivesName = project.archives_base_name
 }

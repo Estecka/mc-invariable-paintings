@@ -8,6 +8,7 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -22,13 +23,16 @@ public class PaintingDropLocker {
 		)
 	)
 	private ItemEntity replaceDroppedItem(PaintingEntity painting, ItemConvertible itemType) {
-		// InvariablePaintings.LOGGER.debug("Painting drop is being unrandomized!");
-		if (itemType != Items.PAINTING) {
-			InvariablePaintings.LOGGER.error("Unexpected painting drop type: ", itemType);
-			return painting.dropItem(itemType);
-		} else {
-			String variant = painting.writeNbt(new NbtCompound()).getString("variant");
-			return painting.dropStack(PaintStackCreator.CreateVariant(variant));
-		}
+			// InvariablePaintings.LOGGER.debug("Painting drop is being unrandomized!");
+			if (itemType != Items.PAINTING)
+			{
+				InvariablePaintings.LOGGER.error("Unexpected painting drop type: ", itemType);
+				return painting.dropItem(itemType);
+			}
+			else 
+			{
+				String variant = painting.writeNbt(new NbtCompound()).getString("variant");
+				return painting.dropStack(PaintStackCreator.CreateVariant(variant));
+			}
 	}
 }
