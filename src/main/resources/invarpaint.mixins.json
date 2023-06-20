@@ -1,12 +1,14 @@
 {
-	"required": true,
-	"minVersion": "0.8",
-	"package": "tk.estecka.invarpaint.mixin",
-	"compatibilityLevel": "JAVA_17",
-	"mixins": [
-		"PaintingDropLocker"
-	],
-	"injectors": {
-		"defaultRequire": 1
+  "required": true,
+  "minVersion": "0.8",
+  "package": "tk.estecka.invarpaint.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "DecorationItemMixin",
+    "PaintingDropLocker",
+    "PaintingEntityAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
 	}
 }

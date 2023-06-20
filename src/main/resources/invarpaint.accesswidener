@@ -1,0 +1,3 @@
+accessWidener	v1	named
+accessible method net/minecraft/entity/decoration/painting/PaintingEntity <init> (Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V
+accessible method net/minecraft/entity/decoration/AbstractDecorationEntity setFacing (Lnet/minecraft/util/math/Direction;)V
