@@ -1,11 +1,14 @@
 package tk.estecka.invarpaint.mixin;
 
+import net.minecraft.entity.decoration.painting.PaintingVariant;
+import net.minecraft.item.DecorationItem;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import tk.estecka.invarpaint.InvariablePaintings;
 import tk.estecka.invarpaint.PaintStackCreator;
 import net.minecraft.entity.ItemEntity;
@@ -19,7 +22,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+
+import static net.minecraft.entity.decoration.painting.PaintingEntity.readVariantFromNbt;
 
 @Mixin(PaintingEntity.class)
 public class PaintingDropLocker {
@@ -40,16 +47,4 @@ public class PaintingDropLocker {
 			return painting.dropStack(PaintStackCreator.CreateVariant(variant));
 		}
 	}
-
-	/*
-	@Inject(
-			method = "placePainting(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Ljava/util/Optional;",
-			at = @At(
-					value = "TAIL"
-			),
-			cancellable = true)
-	private static void placePainting(World world, BlockPos pos, Direction facing, CallbackInfoReturnable<Optional<PaintingEntity>> cir) {
-		//PaintingEntity paintingEntity = new PaintingEntity(world, pos);
-		cir.setReturnValue(Optional.empty());
-	}*/
 }
