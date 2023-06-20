@@ -5,6 +5,7 @@ Turns paintings into collectibles, by making them harder to obtain, and have the
 ## Changes
 
 - When a painting is broken, the dropped item will remember which variant it was; those are the same as the paintings available in the vanilla creative menu. The vanilla variantless painting still exists in the code, but is no longer obtainable in survival. If you were to obtain one, it would still drop a variant-locked item after being placed and broken.  
+- Fixes a vanilla bug whereby using variant-locked items in too small a space would consume the item without placing the painting.
 - Paintings can no longer be crafted, but can be acquired through other means.
 - Master Sheperds and Wandering Traders may sell paintings as their last trades.
 Master sheperd sell variant-locked paintings instead of the variantless one. (This will not retroactively apply to existing master sheperds).
@@ -32,5 +33,5 @@ On the other hand, mods that add new paintings in accordance with the vanilla sy
 
 - Minecraft 1.20.1
 - Fabric Loader 0.14.21 or above
-- Fabric API 0.79.0 or above
+- Fabric API 0.83.1 or above
 - Optionally: Patched 1.1.0 or above

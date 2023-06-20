@@ -4,6 +4,7 @@
 	"package": "tk.estecka.invarpaint.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"DecorationItemMixin",
 		"PaintingDropLocker"
 	],
 	"injectors": {
