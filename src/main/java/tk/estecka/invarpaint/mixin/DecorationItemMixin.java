@@ -85,10 +85,8 @@ public class DecorationItemMixin extends Item {
                 return Optional.of(entity);
             else {
                 if (player != null) {
-                    player.sendMessage(Text.translatable("painting."+variantId.replace(":",".")+".title").formatted(Formatting.YELLOW)
-                        .append(Text.literal(" needs a ").formatted(Formatting.WHITE))
-                        .append(Text.translatable("painting.dimensions", MathHelper.ceilDiv(itemVariant.getWidth(), 16), MathHelper.ceilDiv(itemVariant.getHeight(), 16)).formatted(Formatting.WHITE))
-                        .append(Text.literal(" space!").formatted(Formatting.WHITE)),
+                    player.sendMessage(Text.translatable("painting.invalid_space", Text.translatable("painting."+variantId.replace(":",".")+".title").formatted(Formatting.YELLOW),
+                        Text.translatable("painting.dimensions", MathHelper.ceilDiv(itemVariant.getWidth(), 16), MathHelper.ceilDiv(itemVariant.getHeight(), 16)).formatted(Formatting.WHITE)),
                         true);
                 }
                 return Optional.empty();
