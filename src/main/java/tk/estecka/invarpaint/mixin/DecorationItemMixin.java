@@ -130,7 +130,7 @@ public class DecorationItemMixin extends Item {
                     authorLine.append(" ");
                 if (author!=null)
                     authorLine.append(author);
-                    tooltip.add(authorLine);
+                tooltip.add(authorLine);
             }
         }
     }
