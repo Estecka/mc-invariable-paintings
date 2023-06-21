@@ -15,6 +15,7 @@ The drop rate for these loots was chosen aphazardly, and is subject to be rebala
 ### Client-side
 - Fixes a vanilla bug whereby using variant-locked items in too small a space would consume the item without placing the painting.
 - _(Requires [CIT Resewn](https://modrinth.com/mod/cit-resewn))_ Makes the vanilla painting items have a unique texture for each variant.
+- Makes the painting tooltip a bit more compact, and display the painting's title in the item name.
 
 
 ## Compatibility
