@@ -34,7 +34,7 @@ import tk.estecka.invarpaint.PaintStackCreator;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Mixin(DecorationItem.class)
 public class DecorationItemMixin extends Item {
@@ -97,31 +97,40 @@ public class DecorationItemMixin extends Item {
     )
     public void condenseTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context, CallbackInfo ci) {
         if (this.entityType == EntityType.PAINTING) {
-            MutableText mutableText = Text.empty();
-            AtomicBoolean randomPainting = new AtomicBoolean(true);
+            AtomicReference<Text> atmAuthor = new AtomicReference<Text>(null);
+            AtomicReference<Text> atmSize   = new AtomicReference<Text>(null);
             tooltip.removeIf(text -> {
                 TextContent textContent = text.getContent();
                 if (textContent instanceof TranslatableTextContent) {
                     String key = ((TranslatableTextContent) textContent).getKey();
-                    boolean isPainting = key.contains("painting");
-                    if (isPainting) {
-                        if (key.contains("title")) {
-                            randomPainting.set(false); // Painting has title and thus is not random
-                            // do not append mutableText because the title is now in the getName function
-                        } else {
-                            mutableText.append(text);
-                            mutableText.append(Text.literal(" "));
-                        }
+                    if (key.equals("painting.random"))
+                        return true;
+                    else if (key.startsWith("painting.") && key.endsWith(".title"))
+                        return true;
+                    else if (key.startsWith("painting.") && key.endsWith(".author")){
+                        atmAuthor.set(text);
+                        return true;
                     }
-                    return isPainting; // remove all vanilla painting tooltips
+                    else if (key.equals("painting.dimensions")){
+                        atmSize.set(text);
+                        return true;
+                    }
                 }
                 return false;
             });
-            if (randomPainting.get()) {
+
+            if (PaintStackCreator.GetVariantId(stack) == null)
                 tooltip.add(Text.translatable("painting.random").formatted(Formatting.GRAY));
-            } else {
-                mutableText.getSiblings().remove(mutableText.getSiblings().size()-1); // remove trailing space
-                tooltip.add(mutableText);
+            else {
+                Text author=atmAuthor.get(), size=atmSize.get();
+                MutableText authorLine = Text.empty();
+                if (size!=null)
+                    authorLine.append(size);
+                if (size!=null && author!=null)
+                    authorLine.append(" ");
+                if (author!=null)
+                    authorLine.append(author);
+                    tooltip.add(authorLine);
             }
         }
     }
