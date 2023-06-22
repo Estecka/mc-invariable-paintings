@@ -22,7 +22,7 @@ public class PaintEntityPlacer
 	 * Iteration is done in a ring-like pattern, so the positions closest to the targeted block are evaluated first.
 	 * 
 	 * Internally, all positions are relative to the bottom-left corner of the maximum scanned surface,
-	 * but the values returned by the iterators are relative to the targeted block.
+	 * but the values returned by the iterator are relative to the targeted block.
 	 */
 	static class	SurfaceIterator implements Iterator<Vector2i>
 	{
@@ -125,9 +125,6 @@ public class PaintEntityPlacer
 		// The direction of the horizontal axis of the wall
 		Vec3i right = facing.rotateYCounterclockwise().getVector();
 
-		// int i=0;
-		// RegistryEntry<PaintingVariant> debugVariant = Registries.PAINTING_VARIANT.getEntry(PaintingVariants.ALBAN).get();
-
 		SurfaceIterator surface = new SurfaceIterator(variant.getWidth()/16, variant.getHeight()/16);
 		surface.next(); // Skip the targeted position, which was already tested.
 		while (surface.hasNext()) {
@@ -141,15 +138,6 @@ public class PaintEntityPlacer
 			);
 			if (entity.canStayAttached())
 				return Optional.of(entity);
-
-			// if (!world.isClient) {
-			// 	BlockPos pos = targetPos.add(worldOffset);
-			// 	InvariablePaintings.LOGGER.warn("[{}, {}]", planeOffset.x, planeOffset.y);
-			// 	PaintingEntity debugEntity = new PaintingEntity(world, pos, facing, debugVariant);
-			// 	debugEntity.setCustomName(Text.literal("---- " + String.valueOf(i++)));
-			// 	debugEntity.setCustomNameVisible(true);
-			// 	world.spawnEntity(debugEntity);
-			// }
 		}
 
 		return Optional.empty();
