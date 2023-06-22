@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.decoration.AbstractDecorationEntity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DecorationItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,6 +20,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,6 +47,7 @@ public class DecorationItemMixin extends Item {
     private final EntityType<? extends AbstractDecorationEntity> entityType;
 
     private ItemStack itemStack;
+    private PlayerEntity player;
 
     public DecorationItemMixin(Settings settings, EntityType<? extends AbstractDecorationEntity> entityType) {
         super(settings);
@@ -60,8 +63,9 @@ public class DecorationItemMixin extends Item {
                     shift = At.Shift.BEFORE
             )
     )
-    private void captureItemStack(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
+    private void captureContext(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
         itemStack = context.getStack();
+        player = context.getPlayer();
     }
 
         @Redirect(
@@ -79,8 +83,16 @@ public class DecorationItemMixin extends Item {
             PaintingEntity entity = new PaintingEntity(world, pos, facing, Registries.PAINTING_VARIANT.getEntry(itemVariant));
             if (entity.canStayAttached())
                 return Optional.of(entity);
-            else
-                return Optional.empty();
+            else {
+                if (player != null) {
+                    player.sendMessage(Text.translatable("painting.invalid_space",
+                            Text.translatable("painting."+variantId.replace(":",".")+".title").formatted(Formatting.YELLOW),
+                            Text.translatable("painting.dimensions", MathHelper.ceilDiv(itemVariant.getWidth(), 16), MathHelper.ceilDiv(itemVariant.getHeight(), 16)).formatted(Formatting.WHITE)),
+                    true);
+                }
+            }
+            return Optional.empty();
+
         }
         else {
             if (variantId != null)
