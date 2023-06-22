@@ -12,6 +12,7 @@ import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.entity.decoration.painting.PaintingVariants;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
@@ -23,9 +24,8 @@ public class PaintEntityPlacer
 	/**
 	 * Iterates over the possible positions a paintings could placed on, while still covering the block targeted by the player.
 	 * Iteration is done in a ring-like pattern, so the positions closest to the targeted block are evaluated first.
-	 * Elements within each ring are evaluated clockwise, starting from the bottom left.
 	 * 
-	 * Internally, all positions are relative to the bottom-left corner of the maximum scanned surface,
+	 * Internally, all positions are relative to the top-right corner of the maximum scanned surface,
 	 * but the values returned by the iteration are relative to the targeted block.
 	 */
 	static class	SurfaceIterator implements Iterator<Vector2i>
@@ -52,41 +52,37 @@ public class PaintEntityPlacer
 
 			boolean evenW = (variantWidth %2) == 0;
 			boolean evenH = (variantHeight%2) == 0;
-			if (evenW)
-				--startPos.x;
-			if (evenH)
-				--startPos.y;
 			
 			currentRing.add(new Vector2i(startPos));
 			if (evenW)
-				currentRing.add(new Vector2i(startPos.x+1, startPos.y  ));
-			if (evenW && evenH)
-				currentRing.add(new Vector2i(startPos.x+1, startPos.y+1));
+				currentRing.add(new Vector2i(startPos.x-1, startPos.y  ));
 			if (evenH)
-				currentRing.add(new Vector2i(startPos.x,   startPos.y+1));
+				currentRing.add(new Vector2i(startPos.x,   startPos.y-1));
+			if (evenW && evenH)
+				currentRing.add(new Vector2i(startPos.x-1, startPos.y-1));
 			
 			for (Vector2i p : currentRing)
 				checkList[p.x][p.y] = true;
 		}
 
 		/**
-		 * Returns positions adjacents to this one, including diagonals.
-		 * Elements are ordered so as to start from the bottom-left, and circle clocwise around the center.
+		 * Returns positions adjacents to this one.
+		 * Elements are ordered so as to start from the right, and circle counter-clockwise around the center.
 		 */
 		private Vector2i[]	GetAdjacents(Vector2i v){
-			Vector2i[] r = new Vector2i[8];
-			for (int i=0; i<8; ++i)
-				r[i] = new Vector2i();
-			
-			int i = 0;
-			v.add(-1, -1, r[i++]); // ↙
-			v.add(-1,  0, r[i++]); // ←
-			v.add(-1,  1, r[i++]); // ↖
-			v.add( 0,  1, r[i++]); // ↑
-			v.add( 1,  1, r[i++]); // ↗
-			v.add( 1,  0, r[i++]); // →
-			v.add( 1, -1, r[i++]); // ↘
-			v.add( 0, -1, r[i++]); // ↓
+			Vector2i[] r = new Vector2i[4];
+			for (int i=0; i<r.length; ++i)
+				r[i] = new Vector2i(v);
+
+			int i=0;
+			r[i++].add( 1,  0); // →
+			r[i++].add( 0,  1); // ↑
+			r[i++].add(-1,  0); // ←
+			r[i++].add( 0, -1); // ↓
+			// r[i++].add(-1, -1); // ↙
+			// r[i++].add(-1,  1); // ↖
+			// r[i++].add( 1,  1); // ↗
+			// r[i++].add( 1, -1); // ↘
 
 			return r;
 		}
@@ -135,9 +131,12 @@ public class PaintEntityPlacer
 		// if (entity.canStayAttached())
 		// 	return Optional.of(entity);
 
+		// The direction of the horizontal axis of the wall
 		Vec3i right = facing.rotateYCounterclockwise().getVector();
+
 		RegistryEntry<PaintingVariant> debugVariant = Registries.PAINTING_VARIANT.getEntry(PaintingVariants.ALBAN).get();
 
+		int i=0;
 		SurfaceIterator surface = new SurfaceIterator(variant.getWidth()/16, variant.getHeight()/16);
 		while (surface.hasNext()) {
 			Vector2i planeOffset = surface.next();
@@ -146,9 +145,11 @@ public class PaintEntityPlacer
 
 			
 			BlockPos pos = targetPos.add(worldOffset);
-			PaintingEntity debugEntity = new PaintingEntity(world, pos, facing, debugVariant);
 			if (!world.isClient) {
 				InvariablePaintings.LOGGER.warn("[{}, {}]", planeOffset.x, planeOffset.y);
+				PaintingEntity debugEntity = new PaintingEntity(world, pos, facing, debugVariant);
+				debugEntity.setCustomName(Text.literal("---- " + String.valueOf(i++)));
+				debugEntity.setCustomNameVisible(true);
 				world.spawnEntity(debugEntity);
 			}
 		}
