@@ -30,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import tk.estecka.invarpaint.InvariablePaintings;
+import tk.estecka.invarpaint.PaintEntityPlacer;
 import tk.estecka.invarpaint.PaintStackCreator;
 
 import java.util.List;
@@ -75,13 +76,8 @@ public class DecorationItemMixin extends Item {
         String variantId = PaintStackCreator.GetVariantId(this.itemStack);
         PaintingVariant itemVariant = (variantId==null) ? null : Registries.PAINTING_VARIANT.get(new Identifier(variantId));
 
-        if (itemVariant != null) {
-            PaintingEntity entity = new PaintingEntity(world, pos, facing, Registries.PAINTING_VARIANT.getEntry(itemVariant));
-            if (entity.canStayAttached())
-                return Optional.of(entity);
-            else
-                return Optional.empty();
-        }
+        if (itemVariant != null) 
+            return PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant);
         else {
             if (variantId != null)
                 InvariablePaintings.LOGGER.warn("Unknown painting id: {}", variantId);
