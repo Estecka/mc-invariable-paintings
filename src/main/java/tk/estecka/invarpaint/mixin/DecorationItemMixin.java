@@ -32,6 +32,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import tk.estecka.invarpaint.InvariablePaintings;
+import tk.estecka.invarpaint.PaintEntityPlacer;
 import tk.estecka.invarpaint.PaintStackCreator;
 
 import java.util.List;
@@ -80,19 +81,16 @@ public class DecorationItemMixin extends Item {
         PaintingVariant itemVariant = (variantId==null) ? null : Registries.PAINTING_VARIANT.get(new Identifier(variantId));
 
         if (itemVariant != null) {
-            PaintingEntity entity = new PaintingEntity(world, pos, facing, Registries.PAINTING_VARIANT.getEntry(itemVariant));
-            if (entity.canStayAttached())
-                return Optional.of(entity);
-            else {
-                if (player != null) {
-                    player.sendMessage(Text.translatable("painting.invalid_space",
-                            Text.translatable("painting."+variantId.replace(":",".")+".title").formatted(Formatting.YELLOW),
-                            Text.translatable("painting.dimensions", MathHelper.ceilDiv(itemVariant.getWidth(), 16), MathHelper.ceilDiv(itemVariant.getHeight(), 16)).formatted(Formatting.WHITE)),
-                    true);
-                }
+            Optional<PaintingEntity> entity = PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant);
+            if (entity.isEmpty() && player != null) {
+                player.sendMessage(
+                    Text.translatable("painting.invalid_space",
+                    Text.translatable("painting."+variantId.replace(":",".")+".title").formatted(Formatting.YELLOW),
+                    Text.translatable("painting.dimensions", MathHelper.ceilDiv(itemVariant.getWidth(), 16), MathHelper.ceilDiv(itemVariant.getHeight(), 16)).formatted(Formatting.WHITE)),
+                    true
+                );
             }
-            return Optional.empty();
-
+            return entity;
         }
         else {
             if (variantId != null)
