@@ -1,14 +1,15 @@
 package tk.estecka.invarpaint;
 
 import org.jetbrains.annotations.Nullable;
-
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
+import net.minecraft.village.TradeOffers.Factory;
 import net.minecraft.village.VillagerProfession;
 
 public class SellPaintingFactory implements TradeOffers.Factory
@@ -20,20 +21,13 @@ public class SellPaintingFactory implements TradeOffers.Factory
 	public static final int	MASTER_LVL = 5;
 
 	public static void	RegisterPaintings(){
-		Int2ObjectMap<TradeOffers.Factory[]> shepherd = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.SHEPHERD);
-		Int2ObjectMap<TradeOffers.Factory[]> wanderer = TradeOffers.WANDERING_TRADER_TRADES;
-
-		InvariablePaintings.LOGGER.info("Replacing villager trades");
-
-		//This line assumes that variantless paintings are the only trade available for master Shepherds, and overwrites them.
+		InvariablePaintings.LOGGER.info("Adding locked paintings to trade pools");
+		
+		//This assumes that variantless painting is the only master trade available to Shepherds, and overwrites it.
+		Int2ObjectMap<Factory[]> shepherd = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.SHEPHERD);
 		shepherd.get(MASTER_LVL)[0] = new SellPaintingFactory();
-	
-		TradeOffers.Factory[] old = wanderer.get(APPRENTICE_LVL);
-		TradeOffers.Factory[] neo = new TradeOffers.Factory[old.length+1];
-		for (int i=0; i<old.length; i++)
-			neo[i] = old[i];
-		neo[old.length] = new SellPaintingFactory();
-		wanderer.put(APPRENTICE_LVL, neo);
+
+		TradeOfferHelper.registerWanderingTraderOffers(APPRENTICE_LVL, list->list.add(new SellPaintingFactory()));
 	}
 
 	@Override
