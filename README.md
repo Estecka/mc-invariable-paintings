@@ -14,7 +14,7 @@ Paintings are no longer craftable and must be obtained through other means, such
 - Placement of variant-locked paintings in tight spaces is more forgiving.
 - Paintings are no longer craftables.
 - Wandering Traders and Master Shepherds can sell variant-locked paintings. Shepherds no longer sell variantless paintings. (This will not retroactively apply to existing master shepherds).
-- _(Requires [Patched](https://modrinth.com/mod/patched))_ Paintings will be added to several loot tables: fishing, monster-rooms, buried treasures, shipwrecks, woodland mansions, pillager outposts, and stronghold libraries.  
+- _(Requires [Patched](https://modrinth.com/mod/patched))_ Paintings will be added to several loot tables: fishing, suspicious soils, monster-rooms, buried treasures, shipwrecks, woodland mansions, pillager outposts, and stronghold libraries.  
 The drop rate for these loots was chosen aphazardly, and is subject to be rebalanced.
 - Added a new function `lock_variant_randomly`, which can applied to painting items in loot tables.
 
