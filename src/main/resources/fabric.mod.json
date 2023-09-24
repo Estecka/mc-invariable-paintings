@@ -4,9 +4,10 @@
 	"version": "${version}",
 
 	"name": "Invariable Paintings",
-	"description": "Painting variant are no longer random, turning them into collectibles.",
+	"description": "Turns paintings into collectibles. They are harder to obtain, and remember which variant they are when dropped.",
 	"authors": [
-		"Estecka"
+		"Estecka",
+		"Andrew Grant"
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/invariable-paintings",
@@ -27,7 +28,7 @@
 	],
 
 	"depends": {
-		"fabricloader": ">=0.14.19",
+		"fabricloader": ">=0.14.22",
 		"fabric-api": "*",
 		"minecraft": "~1.19.4",
 		"java": ">=17"
