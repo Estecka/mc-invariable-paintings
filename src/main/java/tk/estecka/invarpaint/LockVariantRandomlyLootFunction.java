@@ -43,6 +43,6 @@ extends ConditionalLootFunction
 	}
 
 	protected ItemStack	process(ItemStack stack, LootContext ctx){
-		return PaintStackCreator.SetRandomVariant(stack, ctx.getRandom());
+		return PaintStackUtil.SetRandomVariant(stack, ctx.getRandom());
 	}
 }

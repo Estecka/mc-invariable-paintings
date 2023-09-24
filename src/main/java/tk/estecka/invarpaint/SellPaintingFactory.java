@@ -35,7 +35,7 @@ public class SellPaintingFactory implements TradeOffers.Factory
 	public TradeOffer	create(Entity entity, Random random){
 		return new TradeOffer(
 			new ItemStack(Items.EMERALD, 12),
-			PaintStackCreator.CreateRandomVariant(random),
+			PaintStackUtil.CreateRandomVariant(random),
 			12,
 			30,
 			0.05f

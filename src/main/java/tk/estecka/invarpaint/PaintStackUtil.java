@@ -1,5 +1,7 @@
 package tk.estecka.invarpaint;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -7,7 +9,7 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.math.random.Random;
 
-public class PaintStackCreator
+public class PaintStackUtil
 {
 	static public final String ENTITY_TAG = "EntityTag";
 	static public final String VARIANT_TAG = "variant";
@@ -54,6 +56,7 @@ public class PaintStackCreator
 		return SetVariant(new ItemStack(Items.PAINTING), variantId);
 	}
 
+	@Nullable
 	static public String	GetVariantId(ItemStack stack){
 		NbtCompound nbt = stack.getNbt();
 		if (nbt == null || !nbt.contains(ENTITY_TAG, NbtCompound.COMPOUND_TYPE))

@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import tk.estecka.invarpaint.InvariablePaintings;
 import tk.estecka.invarpaint.PaintEntityPlacer;
-import tk.estecka.invarpaint.PaintStackCreator;
+import tk.estecka.invarpaint.PaintStackUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,120 +42,122 @@ import java.util.concurrent.atomic.AtomicReference;
 @Mixin(DecorationItem.class)
 public class DecorationItemMixin extends Item {
 
-    @Mutable
-    @Final
-    @Shadow
-    private final EntityType<? extends AbstractDecorationEntity> entityType;
+	@Mutable
+	@Final
+	@Shadow
+	private final EntityType<? extends AbstractDecorationEntity> entityType;
 
-    private ItemStack itemStack;
-    private PlayerEntity player;
+	private ItemStack itemStack;
+	private PlayerEntity player;
 
-    public DecorationItemMixin(Settings settings, EntityType<? extends AbstractDecorationEntity> entityType) {
-        super(settings);
-        this.entityType = entityType;
-    }
+	public DecorationItemMixin(Settings settings, EntityType<? extends AbstractDecorationEntity> entityType) {
+		super(settings);
+		this.entityType = entityType;
+	}
 
 
-    @Inject(
-            method = "useOnBlock(Lnet/minecraft/item/ItemUsageContext;)Lnet/minecraft/util/ActionResult;",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/entity/decoration/painting/PaintingEntity;placePainting(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Ljava/util/Optional;",
-                    shift = At.Shift.BEFORE
-            )
-    )
-    private void captureContext(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
-        itemStack = context.getStack();
-        player = context.getPlayer();
-    }
+	@Inject(
+		method = "useOnBlock(Lnet/minecraft/item/ItemUsageContext;)Lnet/minecraft/util/ActionResult;",
+		at = @At(
+				value = "INVOKE",
+				target = "Lnet/minecraft/entity/decoration/painting/PaintingEntity;placePainting(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Ljava/util/Optional;",
+				shift = At.Shift.BEFORE
+		)
+	)
+	private void captureContext(ItemUsageContext context, CallbackInfoReturnable<ActionResult> cir) {
+		itemStack = context.getStack();
+		player = context.getPlayer();
+	}
 
-        @Redirect(
-            method = "useOnBlock(Lnet/minecraft/item/ItemUsageContext;)Lnet/minecraft/util/ActionResult;",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/entity/decoration/painting/PaintingEntity;placePainting(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Ljava/util/Optional;"
-            )
-    )
-    private Optional<PaintingEntity> filterPlacedPainting(World world, BlockPos pos, Direction facing) {
-        String variantId = PaintStackCreator.GetVariantId(this.itemStack);
-        PaintingVariant itemVariant = (variantId==null) ? null : Registries.PAINTING_VARIANT.get(new Identifier(variantId));
+	@Redirect(
+		method = "useOnBlock(Lnet/minecraft/item/ItemUsageContext;)Lnet/minecraft/util/ActionResult;",
+		at = @At(
+				value = "INVOKE",
+				target = "Lnet/minecraft/entity/decoration/painting/PaintingEntity;placePainting(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Ljava/util/Optional;"
+		)
+	)
+	private Optional<PaintingEntity> filterPlacedPainting(World world, BlockPos pos, Direction facing) {
+		String variantId = PaintStackUtil.GetVariantId(this.itemStack);
+		PaintingVariant itemVariant = (variantId==null) ? null : Registries.PAINTING_VARIANT.get(new Identifier(variantId));
 
-        if (itemVariant != null) {
-            Optional<PaintingEntity> entity = PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant);
-            if (entity.isEmpty() && player != null) {
-                player.sendMessage(
-                    Text.translatable("painting.invalid_space",
-                    Text.translatable("painting."+variantId.replace(":",".")+".title").formatted(Formatting.YELLOW),
-                    Text.translatable("painting.dimensions", MathHelper.ceilDiv(itemVariant.getWidth(), 16), MathHelper.ceilDiv(itemVariant.getHeight(), 16)).formatted(Formatting.WHITE)),
-                    true
-                );
-            }
-            return entity;
-        }
-        else {
-            if (variantId != null)
-                InvariablePaintings.LOGGER.warn("Unknown painting id: {}", variantId);
-            return PaintingEntity.placePainting(world, pos, facing);
-        }
-    }
+		if (itemVariant != null) {
+			Optional<PaintingEntity> entity = PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant);
+			if (entity.isEmpty() && player != null) {
+				player.sendMessage(
+					Text.translatable("painting.invalid_space",
+					Text.translatable("painting."+variantId.replace(":",".")+".title").formatted(Formatting.YELLOW),
+					Text.translatable("painting.dimensions", MathHelper.ceilDiv(itemVariant.getWidth(), 16), MathHelper.ceilDiv(itemVariant.getHeight(), 16)).formatted(Formatting.WHITE)),
+					true
+				);
+			}
+			return entity;
+		}
+		else {
+			if (variantId != null)
+				InvariablePaintings.LOGGER.warn("Unknown painting id: {}", variantId);
+			return PaintingEntity.placePainting(world, pos, facing);
+		}
+	}
 
-    @Inject(
-            method = "appendTooltip(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List;Lnet/minecraft/client/item/TooltipContext;)V",
-            at = @At(
-                    value = "TAIL"
-            )
-    )
-    public void condenseTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context, CallbackInfo ci) {
-        if (this.entityType == EntityType.PAINTING) {
-            AtomicReference<Text> atmAuthor = new AtomicReference<Text>(null);
-            AtomicReference<Text> atmSize   = new AtomicReference<Text>(null);
-            tooltip.removeIf(text -> {
-                TextContent textContent = text.getContent();
-                if (textContent instanceof TranslatableTextContent) {
-                    String key = ((TranslatableTextContent) textContent).getKey();
-                    if (key.equals("painting.random"))
-                        return true;
-                    else if (key.startsWith("painting.") && key.endsWith(".title"))
-                        return true;
-                    else if (key.startsWith("painting.") && key.endsWith(".author")){
-                        atmAuthor.set(text);
-                        return true;
-                    }
-                    else if (key.equals("painting.dimensions")){
-                        atmSize.set(text);
-                        return true;
-                    }
-                }
-                return false;
-            });
+	@Inject(
+		method = "appendTooltip(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List;Lnet/minecraft/client/item/TooltipContext;)V",
+		at = @At(
+				value = "TAIL"
+		)
+	)
+	public void condenseTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context, CallbackInfo ci) {
+		if (this.entityType == EntityType.PAINTING) {
+			AtomicReference<Text> atmAuthor = new AtomicReference<Text>(null);
+			AtomicReference<Text> atmSize   = new AtomicReference<Text>(null);
+			tooltip.removeIf(text -> {
+				TextContent textContent = text.getContent();
+				if (textContent instanceof TranslatableTextContent) {
+					String key = ((TranslatableTextContent) textContent).getKey();
+					if (key.equals("painting.random"))
+						return true;
+					else if (key.startsWith("painting.") && key.endsWith(".title"))
+						return true;
+					else if (key.startsWith("painting.") && key.endsWith(".author")){
+						atmAuthor.set(text);
+						return true;
+					}
+					else if (key.equals("painting.dimensions")){
+						atmSize.set(text);
+						return true;
+					}
+				}
+				return false;
+			});
 
-            if (PaintStackCreator.GetVariantId(stack) == null)
-                tooltip.add(Text.translatable("painting.random").formatted(Formatting.GRAY));
-            else {
-                Text author=atmAuthor.get(), size=atmSize.get();
-                MutableText authorLine = Text.empty();
-                if (size!=null)
-                    authorLine.append(size);
-                if (size!=null && author!=null)
-                    authorLine.append(" ");
-                if (author!=null)
-                    authorLine.append(author);
-                tooltip.add(authorLine);
-            }
-        }
-    }
+			if (PaintStackUtil.GetVariantId(stack) == null)
+				tooltip.add(Text.translatable("painting.random").formatted(Formatting.GRAY));
+			else {
+				Text author = atmAuthor.get();
+				Text size   = atmSize.get();
+				MutableText authorLine = Text.empty();
+				if (size!=null)
+					authorLine.append(size);
+				if (size!=null && author!=null)
+					authorLine.append(" ");
+				if (author!=null)
+					authorLine.append(author);
+				tooltip.add(authorLine);
+			}
+		}
+	}
 
-    @Override
-    public Text getName(ItemStack stack) {
-        if (this.entityType == EntityType.PAINTING) {
-            String variantId = PaintStackCreator.GetVariantId(stack);
-            if (variantId != null) {
-                return Text.translatable(this.getTranslationKey(stack)) // I could just use translatable variables,
-                    .append(Text.literal(" (")                    // but this way is compatible with other languages
-                    .append(Text.translatable("painting."+variantId.replace(":",".")+".title")
-                    .append(")")).formatted(Formatting.YELLOW));
-            }
-        }
-        return super.getName();
-    }
+	@Override
+	public Text getName(ItemStack stack) {
+		if (this.entityType == EntityType.PAINTING) {
+			String variantId = PaintStackUtil.GetVariantId(stack);
+			if (variantId != null) {
+				return Text.translatable(this.getTranslationKey(stack)) // I could just use translatable variables,
+				           .append(Text.literal(" (")                   // but this way is compatible with other languages
+				           .append(Text.translatable("painting."+variantId.replace(":",".")+".title")
+				           .append(")")).formatted(Formatting.YELLOW))
+				           ;
+			}
+		}
+		return super.getName();
+	}
 }
