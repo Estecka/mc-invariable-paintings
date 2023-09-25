@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint;
+package tk.estecka.invarpaint.crafting;
 
 import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.inventory.CraftingInventory;
@@ -14,6 +14,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import tk.estecka.invarpaint.InvariablePaintings;
+import tk.estecka.invarpaint.PaintStackUtil;
 
 public class FilledPaintingRecipe 
 extends SpecialCraftingRecipe
@@ -60,10 +62,11 @@ extends SpecialCraftingRecipe
 		}
 
 		RegistryEntry<PaintingVariant> entry;
-		try{
-			entry = Registries.PAINTING_VARIANT.getIndexedEntries().getOrThrow(dyeCode);
+		try {
+			entry = DyeCodeUtil.FindFromDyecode(dyeCode);
 		}
 		catch (IllegalArgumentException e){
+			InvariablePaintings.LOGGER.error("{}", e);
 			return ItemStack.EMPTY;
 		}
 		return PaintStackUtil.CreateVariant(entry.getKey().get().getValue().toString());
