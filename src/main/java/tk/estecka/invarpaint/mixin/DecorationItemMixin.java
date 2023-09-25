@@ -59,26 +59,25 @@ public abstract class DecorationItemMixin
 	private Optional<PaintingEntity> filterPlacedPainting(World world, BlockPos pos, Direction facing) {
 		String variantId = PaintStackUtil.GetVariantId(this.itemStack);
 		Identifier id = (variantId==null) ? null : Identifier.tryParse(variantId);
-		PaintingVariant itemVariant = (variantId==null) ? null : Registries.PAINTING_VARIANT.get(id);
+		Optional<PaintingVariant> itemVariant = Registries.PAINTING_VARIANT.getOrEmpty(id);
 
-		if (itemVariant != null) {
-			Optional<PaintingEntity> entity = PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant);
+		if (itemVariant.isPresent()) {
+			Optional<PaintingEntity> entity = PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant.get());
 			if (entity.isEmpty() && player != null) {
 				player.sendMessage(
 					Text.translatable("painting.invalid_space",
 						Text.translatableWithFallback(id.toTranslationKey("painting", "title"), variantId).formatted(Formatting.YELLOW),
-						Text.translatable("painting.dimensions", itemVariant.getWidth()/16, itemVariant.getHeight()/16).formatted(Formatting.WHITE)
+						Text.translatable("painting.dimensions", itemVariant.get().getWidth()/16, itemVariant.get().getHeight()/16).formatted(Formatting.WHITE)
 					),
 					true
 				);
 			}
 			return entity;
 		}
-		else {
-			if (variantId != null)
-				InvariablePaintings.LOGGER.warn("Unknown painting id: {}", variantId);
+		else if (player.isCreative() || (variantId!=null && InvariablePaintings.IsNokebabInstalled()))
 			return PaintingEntity.placePainting(world, pos, facing);
-		}
+		else
+			return Optional.empty();
 	}
 
 	@Inject(
