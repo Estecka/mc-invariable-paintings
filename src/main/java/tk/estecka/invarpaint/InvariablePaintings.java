@@ -16,7 +16,8 @@ public class InvariablePaintings implements ModInitializer
 
 	@Override
 	public void onInitialize() {
-		SellPaintingFactory.RegisterPaintings();
-		LockVariantRandomlyLootFunction.RegisterFunction();
+		SellPaintingFactory.Register();
+		LockVariantRandomlyLootFunction.Register();
+		FilledPaintingRecipe.Register();
 	}
 }
