@@ -15,23 +15,29 @@ import tk.estecka.invarpaint.PaintStackUtil;
 @Mixin(Item.class)
 public abstract class ItemMixin 
 {
+	static private final Text	EMPTY_NOTICE = 
+		Text.literal(" (")
+		    .append(Text.translatable("painting.empty"))
+		    .append(")")
+		    .formatted(Formatting.GRAY)
+		;
+
 	@Inject( method="getName(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/text/Text;", at=@At("RETURN") )
 	void	GetNameWithVariant(ItemStack stack, CallbackInfoReturnable<Text> info){
-		String variantId;
-
-		if ((stack.isOf(Items.PAINTING))
-		 && (info.getReturnValue() instanceof MutableText)
-		 && (null != (variantId=PaintStackUtil.GetVariantId(stack)))
-		) {
+		if (stack.isOf(Items.PAINTING) && (info.getReturnValue() instanceof MutableText)) {
 			// I could just use translatable variables,
 			// but this way is compatible with other languages
 			MutableText text = (MutableText)info.getReturnValue();
-			text.append(
-				Text.literal(" (")
-				    .append(Text.translatableWithFallback("painting."+variantId.replace(":",".")+".title", variantId))
-				    .append(")")
-				    .formatted(Formatting.YELLOW)
-			);
+			String variantId = PaintStackUtil.GetVariantId(stack);
+			if (variantId == null)	
+				text.append(EMPTY_NOTICE);
+			else
+				text.append(
+					Text.literal(" (")
+						.append(Text.translatableWithFallback("painting."+variantId.replace(":",".")+".title", variantId))
+						.append(")")
+						.formatted(Formatting.YELLOW)
+				);
 		}
 	}
 
