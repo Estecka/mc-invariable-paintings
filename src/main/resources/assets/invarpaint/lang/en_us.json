@@ -1,3 +1,4 @@
 {
-  "painting.invalid_space": "%s needs a %s space!"
+  "painting.invalid_space": "%s needs a %s space!",
+  "painting.unknown": "Unknown variant"
 }

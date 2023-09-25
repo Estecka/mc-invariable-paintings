@@ -28,7 +28,7 @@ public abstract class ItemMixin
 			MutableText text = (MutableText)info.getReturnValue();
 			text.append(
 				Text.literal(" (")
-				    .append(Text.translatable("painting."+variantId.replace(":",".")+".title"))
+				    .append(Text.translatableWithFallback("painting."+variantId.replace(":",".")+".title", variantId))
 				    .append(")")
 				    .formatted(Formatting.YELLOW)
 			);

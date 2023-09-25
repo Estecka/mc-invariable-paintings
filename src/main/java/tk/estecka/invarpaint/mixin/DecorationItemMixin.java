@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextContent;
 import net.minecraft.text.TranslatableTextContent;
@@ -18,7 +17,6 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,7 +29,6 @@ import tk.estecka.invarpaint.PaintEntityPlacer;
 import tk.estecka.invarpaint.PaintStackUtil;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Mixin(DecorationItem.class)
 public abstract class DecorationItemMixin 
@@ -61,15 +58,17 @@ public abstract class DecorationItemMixin
 	)
 	private Optional<PaintingEntity> filterPlacedPainting(World world, BlockPos pos, Direction facing) {
 		String variantId = PaintStackUtil.GetVariantId(this.itemStack);
-		PaintingVariant itemVariant = (variantId==null) ? null : Registries.PAINTING_VARIANT.get(new Identifier(variantId));
+		Identifier id = (variantId==null) ? null : Identifier.tryParse(variantId);
+		PaintingVariant itemVariant = (variantId==null) ? null : Registries.PAINTING_VARIANT.get(id);
 
 		if (itemVariant != null) {
 			Optional<PaintingEntity> entity = PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant);
 			if (entity.isEmpty() && player != null) {
 				player.sendMessage(
 					Text.translatable("painting.invalid_space",
-					Text.translatable("painting."+variantId.replace(":",".")+".title").formatted(Formatting.YELLOW),
-					Text.translatable("painting.dimensions", MathHelper.ceilDiv(itemVariant.getWidth(), 16), MathHelper.ceilDiv(itemVariant.getHeight(), 16)).formatted(Formatting.WHITE)),
+						Text.translatableWithFallback(id.toTranslationKey("painting", "title"), variantId).formatted(Formatting.YELLOW),
+						Text.translatable("painting.dimensions", itemVariant.getWidth()/16, itemVariant.getHeight()/16).formatted(Formatting.WHITE)
+					),
 					true
 				);
 			}
@@ -90,42 +89,37 @@ public abstract class DecorationItemMixin
 	)
 	public void condenseTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context, CallbackInfo ci) {
 		if (stack.isOf(Items.PAINTING)) {
-			AtomicReference<Text> atmAuthor = new AtomicReference<Text>(null);
-			AtomicReference<Text> atmSize   = new AtomicReference<Text>(null);
 			tooltip.removeIf(text -> {
 				TextContent textContent = text.getContent();
 				if (textContent instanceof TranslatableTextContent) {
 					String key = ((TranslatableTextContent) textContent).getKey();
-					if (key.equals("painting.random"))
-						return true;
-					else if (key.startsWith("painting.") && key.endsWith(".title"))
-						return true;
-					else if (key.startsWith("painting.") && key.endsWith(".author")){
-						atmAuthor.set(text);
-						return true;
-					}
-					else if (key.equals("painting.dimensions")){
-						atmSize.set(text);
-						return true;
-					}
+					return key.startsWith("painting.") 
+						&& ( key.equals("painting.random") 
+							|| key.equals("painting.dimensions") 
+							|| key.endsWith(".title") 
+							|| key.endsWith(".author") 
+						)
+					;
 				}
 				return false;
 			});
 
-			if (PaintStackUtil.GetVariantId(stack) == null)
+			String variantId = PaintStackUtil.GetVariantId(stack);
+			if (variantId == null)
 				tooltip.add(Text.translatable("painting.random").formatted(Formatting.GRAY));
 			else {
-				Text author = atmAuthor.get();
-				Text size   = atmSize.get();
-				MutableText authorLine = Text.empty();
-				if (size!=null)
-					authorLine.append(size);
-				if (size!=null && author!=null)
-					authorLine.append(" ");
-				if (author!=null)
-					authorLine.append(author);
-				tooltip.add(authorLine);
+				Identifier id = Identifier.tryParse(variantId);
+				Optional<PaintingVariant> variant = Registries.PAINTING_VARIANT.getOrEmpty(id);
+				if (variant.isEmpty())
+					tooltip.add(Text.translatable("painting.unknown").formatted(Formatting.GRAY));
+				else {
+					tooltip.add(
+						Text.translatable("painting.dimensions", variant.get().getWidth()/16, variant.get().getHeight()/16)
+						.append(" ").append(Text.translatableWithFallback(id.toTranslationKey("painting", "author"), "").formatted(Formatting.GRAY))
+					);
+				}
 			}
 		}
 	}
+
 }
