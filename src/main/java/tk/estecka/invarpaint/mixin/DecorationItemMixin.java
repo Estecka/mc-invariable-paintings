@@ -18,7 +18,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -33,6 +36,9 @@ import java.util.Optional;
 @Mixin(DecorationItem.class)
 public abstract class DecorationItemMixin 
 {
+	static private final Text UNKNOWN_TEXT = Text.translatable("painting.unknown").formatted(Formatting.GRAY);
+	@Shadow @Final static private Text RANDOM_TEXT;
+
 	private ItemStack itemStack;
 	private PlayerEntity player;
 
@@ -104,13 +110,11 @@ public abstract class DecorationItemMixin
 			});
 
 			String variantId = PaintStackUtil.GetVariantId(stack);
-			if (variantId == null)
-				tooltip.add(Text.translatable("painting.random").formatted(Formatting.GRAY));
-			else {
+			if (variantId != null){
 				Identifier id = Identifier.tryParse(variantId);
 				Optional<PaintingVariant> variant = Registries.PAINTING_VARIANT.getOrEmpty(id);
 				if (variant.isEmpty())
-					tooltip.add(Text.translatable("painting.unknown").formatted(Formatting.GRAY));
+					tooltip.add(UNKNOWN_TEXT);
 				else {
 					tooltip.add(
 						Text.translatable("painting.dimensions", variant.get().getWidth()/16, variant.get().getHeight()/16)
@@ -118,6 +122,8 @@ public abstract class DecorationItemMixin
 					);
 				}
 			}
+			else if (context.isCreative())
+				tooltip.add(RANDOM_TEXT);
 		}
 	}
 
