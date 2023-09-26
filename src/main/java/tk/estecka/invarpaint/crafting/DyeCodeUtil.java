@@ -1,8 +1,6 @@
 package tk.estecka.invarpaint.crafting;
 
-import java.util.SortedSet;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
-import net.minecraft.item.DyeItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 
@@ -22,14 +20,23 @@ public class DyeCodeUtil
 		return Registries.PAINTING_VARIANT.getIndexedEntries().getOrThrow(0);
 	}
 
-	static int	UnorderedDyeset2RawId(SortedSet<DyeItem> dyeSet){
+	static public long	MaskToCode(short mask){
+		long code = 0;
+		byte n = 0;
+		for (byte b=0; b<16; ++b){
+			if ((mask & (1<<b)) != 0) {
+				code |= (long)b << n;
+				n += 4;
+			}
+		}
+		return code;
+	}
+
+	static public int	CombinationToIndex(long code, int setSize){
 		int result = 0;
 
-		int i = 1;
-		for (DyeItem dye : dyeSet) {
-			int dyeId = dye.getColor().getId();
-			result += n_choose_k(dyeId, i);
-			++i;
+		for (int i=0; i<setSize; ++i) {
+			result += n_choose_k((int)(code>>(4*i)) & 0xf, i+1);
 		}
 
 		return result;
@@ -43,21 +50,6 @@ public class DyeCodeUtil
 
 		for (int i=2; i<=k; ++i)
 			result /= i;
-
-		return result;
-	}
-
-	static public int SuccessiveSum(int min, int max){
-		return (min + max) * (1 + max - min) / 2;
-	}
-
-	static public int SuccessiveSuccesiveSumSum(int min, int max){
-		int result = 0;
-		int succesive = 0;
-		for (int i=min; i<=max; ++i){
-			succesive += i;
-			result += succesive;
-		}
 
 		return result;
 	}

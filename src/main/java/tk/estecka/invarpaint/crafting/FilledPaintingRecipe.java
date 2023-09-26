@@ -1,7 +1,6 @@
 package tk.estecka.invarpaint.crafting;
 
 import java.util.HashSet;
-import java.util.TreeSet;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
@@ -49,20 +48,18 @@ extends SpecialCraftingRecipe
 	}
 
 	public ItemStack craft(CraftingInventory ingredients, DynamicRegistryManager manager){
-		var dyes = new TreeSet<DyeItem>( (a,b)->Integer.compare(a.getColor().getId(), b.getColor().getId()) );
-		int n = 0;
-		for (int i=0; i<ingredients.size(); ++i)
-			if (ingredients.getStack(i).getItem() instanceof DyeItem){
-				dyes.add((DyeItem)ingredients.getStack(i).getItem());
-				n |= ((DyeItem)ingredients.getStack(i).getItem()).getColor().getId() << (i*4);
-			}
+		short dyeMask = 0;
+		for (int i=0; i<ingredients.size(); ++i){
+			if (ingredients.getStack(i).getItem() instanceof DyeItem)
+				dyeMask |= 1 << ((DyeItem)ingredients.getStack(i).getItem()).getColor().getId();
+		}
 
-		int dyeCode = DyeCodeUtil.UnorderedDyeset2RawId(dyes);
-		InvariablePaintings.LOGGER.warn("Crafted {} from {}", dyeCode, String.format("0x%08X", n));
-		
-		dyeCode %= Registries.PAINTING_VARIANT.size();
-		var entry = Registries.PAINTING_VARIANT.getEntry(dyeCode);
+		long dyeCode = DyeCodeUtil.MaskToCode(dyeMask);
+		int index = DyeCodeUtil.CombinationToIndex(dyeCode, 8);
+		InvariablePaintings.LOGGER.info("Crafted {} from {}", index, String.format("0x%08X", dyeCode));
+		index %= Registries.PAINTING_VARIANT.size();
 
+		var entry = Registries.PAINTING_VARIANT.getEntry(index);
 		if (entry.isPresent())
 			return PaintStackUtil.CreateVariant(entry.get().getKey().get().getValue().toString());
 		else
