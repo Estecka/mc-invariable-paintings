@@ -1,6 +1,7 @@
 package tk.estecka.invarpaint.crafting;
 
-import net.minecraft.entity.decoration.painting.PaintingVariant;
+import java.util.HashSet;
+import java.util.TreeSet;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
@@ -11,7 +12,6 @@ import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import tk.estecka.invarpaint.InvariablePaintings;
@@ -31,49 +31,46 @@ extends SpecialCraftingRecipe
 		super(id, category);
 	}
 
-	public boolean matches(CraftingInventory ingredients, World manager){
+	public boolean matches(CraftingInventory ingredients, World world){
 		boolean hasPainting = false;
-		boolean hasDyes = false;
+		var dyes = new HashSet<DyeItem>(8);
 
 		for (int i=0; i<ingredients.size(); ++i){
-			ItemStack item = ingredients.getStack(i);
-			if (item.getItem() instanceof DyeItem)
-				hasDyes = true;
-			else if (!hasPainting && item.isOf(Items.PAINTING))
+			ItemStack stack = ingredients.getStack(i);
+			if (stack.getItem() instanceof DyeItem)
+				dyes.add((DyeItem)stack.getItem());
+			else if (!hasPainting && stack.isOf(Items.PAINTING))
 				hasPainting = true;
-			else if (!item.isEmpty())
+			else if (!stack.isEmpty())
 				return false;
 		}
 
-		return hasPainting && hasDyes;
+		return hasPainting && (dyes.size() == 8);
 	}
 
 	public ItemStack craft(CraftingInventory ingredients, DynamicRegistryManager manager){
-		int dyeCode = 0;
-		int offset = 0;
-		for (int i=0; i<ingredients.size(); ++i){
-			ItemStack item = ingredients.getStack(i);
-			if (!(item.getItem() instanceof DyeItem))
-				++offset;
-			else {
-				DyeItem dye = (DyeItem)item.getItem();
-				dyeCode |= dye.getColor().getId() << 4*(i-offset);
+		var dyes = new TreeSet<DyeItem>( (a,b)->Integer.compare(a.getColor().getId(), b.getColor().getId()) );
+		int n = 0;
+		for (int i=0; i<ingredients.size(); ++i)
+			if (ingredients.getStack(i).getItem() instanceof DyeItem){
+				dyes.add((DyeItem)ingredients.getStack(i).getItem());
+				n |= ((DyeItem)ingredients.getStack(i).getItem()).getColor().getId() << (i*4);
 			}
-		}
 
-		RegistryEntry<PaintingVariant> entry;
-		try {
-			entry = DyeCodeUtil.FindFromDyecode(dyeCode);
-		}
-		catch (IllegalArgumentException e){
-			InvariablePaintings.LOGGER.error("{}", e);
+		int dyeCode = DyeCodeUtil.UnorderedDyeset2RawId(dyes);
+		InvariablePaintings.LOGGER.warn("Crafted {} from {}", dyeCode, String.format("0x%08X", n));
+		
+		dyeCode %= Registries.PAINTING_VARIANT.size();
+		var entry = Registries.PAINTING_VARIANT.getEntry(dyeCode);
+
+		if (entry.isPresent())
+			return PaintStackUtil.CreateVariant(entry.get().getKey().get().getValue().toString());
+		else
 			return ItemStack.EMPTY;
-		}
-		return PaintStackUtil.CreateVariant(entry.getKey().get().getValue().toString());
 	}
 
 	public boolean fits(int width, int height){
-		return (2 <= width) && (2 <= height);
+		return (width*height) >= 9;
 	}
 
 	public SpecialRecipeSerializer<FilledPaintingRecipe> getSerializer(){
