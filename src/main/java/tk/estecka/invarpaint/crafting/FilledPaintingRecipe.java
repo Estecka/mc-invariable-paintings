@@ -34,6 +34,9 @@ extends SpecialCraftingRecipe
 		boolean hasPainting = false;
 		var dyes = new HashSet<DyeItem>(8);
 
+		if (!world.getGameRules().getBoolean(InvariablePaintings.CRAFTING_RULE))
+			return false;
+
 		for (int i=0; i<ingredients.size(); ++i){
 			ItemStack stack = ingredients.getStack(i);
 			if (stack.getItem() instanceof DyeItem)
