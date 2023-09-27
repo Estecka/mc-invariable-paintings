@@ -63,8 +63,9 @@ public class TooltipUtil
 			);
 
 			if (advanced){
-				int rawId = Registries.PAINTING_VARIANT.getRawId(variant.get());
-				short dyeMask = DyeCodeUtil.IndexToCombination(rawId, 8);
+				int index = Registries.PAINTING_VARIANT.getRawId(variant.get());
+				index = DyeCodeUtil.Var2Comb(index);
+				short dyeMask = DyeCodeUtil.IndexToCombination(index, 8);
 				tooltip.add(DyeCode(dyeMask));
 			}
 		}

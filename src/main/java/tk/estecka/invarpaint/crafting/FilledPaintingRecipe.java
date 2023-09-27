@@ -59,14 +59,16 @@ extends SpecialCraftingRecipe
 
 		long dyeCode = DyeCodeUtil.MaskToCode(dyeMask);
 		int index = DyeCodeUtil.CombinationToIndex(dyeCode, 8);
+		index = DyeCodeUtil.Comb2Var(index);
 		InvariablePaintings.LOGGER.info("Crafted {} from {}", index, String.format("0x%08X", dyeCode));
-		index %= Registries.PAINTING_VARIANT.size();
 
 		var entry = Registries.PAINTING_VARIANT.getEntry(index);
 		if (entry.isPresent())
 			return PaintStackUtil.CreateVariant(entry.get().getKey().get().getValue().toString());
-		else
+		else {
+			InvariablePaintings.LOGGER.error("Unable to find a valid painting: {} -> {}", String.format("0x%08X", dyeCode), index);
 			return ItemStack.EMPTY;
+		}
 	}
 
 	public boolean fits(int width, int height){
