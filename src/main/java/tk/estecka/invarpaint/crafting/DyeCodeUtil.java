@@ -41,12 +41,40 @@ public class DyeCodeUtil
 
 	/**
 	 * https://en.wikipedia.org/wiki/Combinatorial_number_system
+	 * @param code A dyeCode were dyes are ordered from smallest to largest.
 	 */
 	static public int	CombinationToIndex(long code, int setSize){
 		int result = 0;
 
 		for (int i=0; i<setSize; ++i) {
 			result += n_choose_k((int)(code>>(4*i)) & 0xf, i+1);
+		}
+
+		return result;
+	}
+	/**
+	 * https://en.wikipedia.org/wiki/Combinatorial_number_system#Finding_the_k-combination_for_a_given_number
+	 * @param rawId
+	 * @return A dyeMask
+	 */
+	static public short	IndexToCombination(int rawId, int setSize){
+		short result = 0x0;
+
+		while (0 < setSize) {
+			int pos = 0;
+			int dye = 0;
+
+			for (int n=setSize-1; true; ++n){
+				int nCk = n_choose_k(n, setSize);
+				if (rawId < nCk)
+					break;
+				pos = nCk;
+				dye = n;
+			}
+
+			result |= 1 << dye;
+			rawId -= pos;
+			setSize--;
 		}
 
 		return result;

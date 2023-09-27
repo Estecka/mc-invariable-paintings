@@ -76,7 +76,7 @@ public abstract class DecorationItemMixin
 				TooltipUtil.RemoveOriginalTooltip(tooltip);
 
 			if (variantId != null)
-				TooltipUtil.AddCustomTooltip(tooltip, variantId);
+				TooltipUtil.AddCustomTooltip(tooltip, variantId, context.isAdvanced());
 		}
 	}
 
