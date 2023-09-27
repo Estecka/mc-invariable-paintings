@@ -18,13 +18,17 @@ import net.minecraft.world.World;
 public class PaintEntityPlacer 
 {
 	/**
-	 * Iterates over the possible positions a paintings could placed on, while still covering the block targeted by the player.
-	 * Iteration is done in a ring-like pattern, so the positions closest to the targeted block are evaluated first.
+	 * Iterates over  the possible positions  where a painting  could be  placed
+	 * and still cover up  the block  targeted by the player.  Iteration is done
+	 * in a ring-like pattern,  such that the positions  closest to the targeted
+	 * block are evaluated first.
 	 * 
-	 * Internally, all positions are relative to the bottom-left corner of the maximum scanned surface,
-	 * but the values returned by the iterator are relative to the targeted block.
+	 * Internally, all positions  are relative to  the bottom-left corner of the
+	 * scanned surface,  but the values returned by the iterator are relative to
+	 * the targeted block.
 	 */
-	static class	SurfaceIterator implements Iterator<Vector2i>
+	static class SurfaceIterator
+	implements Iterator<Vector2i>
 	{
 		private final int width, height;
 		/**
@@ -32,32 +36,31 @@ public class PaintEntityPlacer
 		 */
 		private final Vector2i targetBlock;
 		/**
-		 * Keeps track of which blocks have already been iterated on.
+		 * Keeps track of which positions have already been added to the queue.
 		 */
 		private final boolean[][] checkList;
-		private Queue<Vector2i> currentRing, nextRing;
+		private final Queue<Vector2i> queue;
 
 		public SurfaceIterator (int variantWidth, int variantHeight){
 			this.width = variantWidth;
 			this.height = variantHeight;
 			this.targetBlock = new Vector2i(variantWidth/2, variantHeight/2);
 			this.checkList = new boolean[variantWidth][variantHeight];
-			this.currentRing = new LinkedList<Vector2i>();
-			this.nextRing    = new LinkedList<Vector2i>();
+			this.queue = new LinkedList<Vector2i>();
 
 
 			boolean evenW = (variantWidth %2) == 0;
 			boolean evenH = (variantHeight%2) == 0;
 			
-			currentRing.add(new Vector2i(targetBlock));
+			queue.add(new Vector2i(targetBlock));
 			if (evenW)
-				currentRing.add(new Vector2i(targetBlock.x-1, targetBlock.y  ));
+				queue.add(new Vector2i(targetBlock).add(-1,  0));
 			if (evenH)
-				currentRing.add(new Vector2i(targetBlock.x,   targetBlock.y-1));
+				queue.add(new Vector2i(targetBlock).add( 0, -1));
 			if (evenW && evenH)
-				currentRing.add(new Vector2i(targetBlock.x-1, targetBlock.y-1));
+				queue.add(new Vector2i(targetBlock).add(-1, -1));
 			
-			for (Vector2i p : currentRing)
+			for (Vector2i p : queue)
 				checkList[p.x][p.y] = true;
 		}
 
@@ -89,23 +92,18 @@ public class PaintEntityPlacer
 		}
 
 		public boolean	hasNext(){
-			return !currentRing.isEmpty() || !nextRing.isEmpty();
+			return !queue.isEmpty();
 		}
 
 		/**
 		 * @return	The offset of the position to evaluate, relative to the targeted block.
 		 */
 		public Vector2i	next(){
-			if (currentRing.isEmpty()){
-				currentRing = nextRing;
-				nextRing = new LinkedList<Vector2i>();
-			}
-
-			Vector2i pos = currentRing.remove();
+			Vector2i pos = queue.remove();
 
 			for (Vector2i adj : GetAdjacents(pos))
 			if (ShouldEvaluate(adj)){
-				nextRing.add(adj);
+				queue.add(adj);
 				checkList[adj.x][adj.y] = true;
 			}
 

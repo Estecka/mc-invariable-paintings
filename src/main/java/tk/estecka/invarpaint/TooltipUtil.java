@@ -59,7 +59,9 @@ public class TooltipUtil
 		else {
 			tooltip.add(
 				Text.translatable("painting.dimensions", variant.get().getWidth()/16, variant.get().getHeight()/16)
-				.append(" ").append(Text.translatableWithFallback(id.toTranslationKey("painting", "author"), "").formatted(Formatting.GRAY))
+					.append(" ")
+					.append(Text.translatableWithFallback(id.toTranslationKey("painting", "author"), "")
+					.formatted(Formatting.GRAY))
 			);
 
 			if (advanced){
