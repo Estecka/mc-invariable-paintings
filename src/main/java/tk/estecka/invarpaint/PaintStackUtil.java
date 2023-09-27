@@ -69,4 +69,12 @@ public class PaintStackUtil
 		return entityTag.getString(VARIANT_TAG);
 	}
 
+	static public boolean	HasVariantId(ItemStack stack){
+		NbtCompound nbt = stack.getNbt();
+		return nbt != null
+		    && nbt.contains(ENTITY_TAG, NbtCompound.COMPOUND_TYPE)
+		    && nbt.getCompound(ENTITY_TAG).contains(VARIANT_TAG, NbtCompound.STRING_TYPE)
+		    ;
+	}
+
 }

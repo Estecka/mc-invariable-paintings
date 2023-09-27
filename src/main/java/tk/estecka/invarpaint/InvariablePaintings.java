@@ -3,6 +3,7 @@ package tk.estecka.invarpaint;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import tk.estecka.invarpaint.crafting.FilledPaintingRecipe;
+import tk.estecka.invarpaint.crafting.PaintingReplicationRecipe;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,5 +21,6 @@ public class InvariablePaintings implements ModInitializer
 		SellPaintingFactory.Register();
 		LockVariantRandomlyLootFunction.Register();
 		FilledPaintingRecipe.Register();
+		PaintingReplicationRecipe.Register();
 	}
 }

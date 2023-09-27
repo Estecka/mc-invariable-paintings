@@ -4,6 +4,13 @@ import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 
+/**
+ * DyeMask: Unordered set of dyes stored in 16 bits (short). Every bit indicates
+ * the absence or presence of the with the id corresponding to the bit index.
+ * 
+ * DyeCode: Ordered list of dyes  where every 4-bits (0x0 to 0xf) indicates  the
+ * id of a dye. int32 can store 8 dyes, int64 (long) can store 16.
+ */
 public class DyeCodeUtil
 {
 	/**
@@ -32,6 +39,9 @@ public class DyeCodeUtil
 		return code;
 	}
 
+	/**
+	 * https://en.wikipedia.org/wiki/Combinatorial_number_system
+	 */
 	static public int	CombinationToIndex(long code, int setSize){
 		int result = 0;
 

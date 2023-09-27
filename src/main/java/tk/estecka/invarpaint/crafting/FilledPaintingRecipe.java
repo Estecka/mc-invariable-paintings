@@ -19,7 +19,7 @@ import tk.estecka.invarpaint.PaintStackUtil;
 public class FilledPaintingRecipe 
 extends SpecialCraftingRecipe
 {
-	static public final Identifier ID = new Identifier("invarpaint", "crafting_special_painting");
+	static public final Identifier ID = new Identifier("invarpaint", "crafting_special_painting_creation");
 	static public final SpecialRecipeSerializer<FilledPaintingRecipe> SERIALIZER = new SpecialRecipeSerializer<FilledPaintingRecipe>(FilledPaintingRecipe::new);
 
 	static public void Register(){
