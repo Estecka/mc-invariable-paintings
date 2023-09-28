@@ -27,7 +27,7 @@ Crafting of filled paintings is disabled by default, it is only available as an 
 All filled painting recipes require 1 Blank Painting, which now costs **1 Phantom Membrane** instead of 1 wool.
 
 Two gamerules control whether and how paintings can be crafted:
-- **`invarpaint.allowCrafting`** Allows you to craft new any painting, at the cost of **any 8 different Dyes**.
+- **`invarpaint.allowCreating`** Allows you to craft new any painting, at the cost of **any 8 different Dyes**.
 The colour of the dyes has no particular meaning. The correspondance between each combination and painting is random but deterministic; it will vary depending on the set of paintings you have installed.  
 The number of possible combinations is 12,870. So long as you don't have this many paintings installed, all paintings variants can be crafted. All combinations will yield a painting, so multiple combination will give the same result.
 - **`invarpaint.allowReplication`** Allows crafing replicas of already owned paintings, at the cost of **7 Glow Ink** instead of dyes.

@@ -1,4 +1,9 @@
 {
+	"gamerule.category.invarpaint": "Invariable Paintings",
+	"gamerule.invarpaint.allowCreating": "Allow painting creation",
+	"gamerule.invarpaint.allowCreating.description": "New paintings can be created using dyes.",
+	"gamerule.invarpaint.allowReplication": "Allow painting replication",
+	"gamerule.invarpaint.allowReplication.description": "Existing paintings can be replicated using the crafting table.",
 	"painting.empty": "Blank",
 	"painting.invalid_space": "%s needs a %s space!",
 	"painting.unknown": "Unknown variant"
