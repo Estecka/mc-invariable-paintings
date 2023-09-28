@@ -67,11 +67,12 @@ public class DyeCodeUtil
 
 	/**
 	 * https://en.wikipedia.org/wiki/Combinatorial_number_system
+	 * https://stackoverflow.com/a/3948303
 	 */
 	static public int	MaskToRank(short mask){
 		int rank = 0;
 
-		for (int n=0,k=0; mask!=0; ++n,mask>>>=1){
+		for (int n=0,k=0; n<16; ++n,mask>>>=1){
 			if ((mask & 1) != 0)
 				rank += n_choose_k(n, k++);
 		}
