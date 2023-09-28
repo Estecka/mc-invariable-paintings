@@ -30,24 +30,36 @@ extends SpecialCraftingRecipe
 		super(id, category);
 	}
 
+	private boolean ValidatePainting(ItemStack painting, World world){
+		boolean canCreate = world.getGameRules().getBoolean(InvariablePaintings.CREATING_RULE);
+		boolean canDerive = world.getGameRules().getBoolean(InvariablePaintings.DERIVATE_RULE);
+		boolean hasVariant = PaintStackUtil.HasVariantId(painting);
+
+		return (canCreate && !hasVariant) || (canDerive && hasVariant);
+	}
+
 	public boolean matches(CraftingInventory ingredients, World world){
 		boolean hasPainting = false;
-		var dyes = new HashSet<DyeItem>(8);
-
-		if (!world.getGameRules().getBoolean(InvariablePaintings.CREATING_RULE))
-			return false;
+		var dyeSet = new HashSet<DyeItem>(8);
 
 		for (int i=0; i<ingredients.size(); ++i){
 			ItemStack stack = ingredients.getStack(i);
-			if (stack.getItem() instanceof DyeItem)
-				dyes.add((DyeItem)stack.getItem());
-			else if (!hasPainting && stack.isOf(Items.PAINTING))
+			if (stack.getItem() instanceof DyeItem){
+				DyeItem dye = (DyeItem)stack.getItem();
+				if(dyeSet.contains(dye))
+					return false;
+				dyeSet.add(dye);
+			}
+			else if (!hasPainting && stack.isOf(Items.PAINTING)){
+				if(!ValidatePainting(stack, world))
+					return false;
 				hasPainting = true;
+			}
 			else if (!stack.isEmpty())
 				return false;
 		}
 
-		return hasPainting && (dyes.size() == 8);
+		return hasPainting && (dyeSet.size() == 8);
 	}
 
 	public ItemStack craft(CraftingInventory ingredients, DynamicRegistryManager manager){
@@ -60,11 +72,12 @@ extends SpecialCraftingRecipe
 		long dyeCode = DyeCodeUtil.MaskToCode(dyeMask);
 		int index = DyeCodeUtil.CombinationToIndex(dyeCode, 8);
 		index = DyeCodeUtil.Comb2Var(index);
-		InvariablePaintings.LOGGER.info("Crafted {} from {}", index, String.format("0x%08X", dyeCode));
 
 		var entry = Registries.PAINTING_VARIANT.getEntry(index);
-		if (entry.isPresent())
+		if (entry.isPresent()){
+			InvariablePaintings.LOGGER.info("Crafted {} from {}", index, String.format("0x%08X", dyeCode));
 			return PaintStackUtil.CreateVariant(entry.get().getKey().get().getValue().toString());
+		}
 		else {
 			InvariablePaintings.LOGGER.error("Unable to find a valid painting: {} -> {}", String.format("0x%08X", dyeCode), index);
 			return ItemStack.EMPTY;
