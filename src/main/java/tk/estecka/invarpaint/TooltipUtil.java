@@ -2,14 +2,15 @@ package tk.estecka.invarpaint;
 
 import java.util.List;
 import java.util.Optional;
-import org.jetbrains.annotations.Nullable;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextContent;
 import net.minecraft.text.TranslatableTextContent;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import tk.estecka.invarpaint.crafting.DyeCodeUtil;
@@ -17,11 +18,13 @@ import tk.estecka.invarpaint.crafting.DyeCodeUtil;
 public class TooltipUtil 
 {
 	static private final Text UNKNOWN_TEXT = Text.translatable("painting.unknown").formatted(Formatting.GRAY);
-	static private final Text EMPTY_NOTICE = Text.literal(" (").append(Text.translatable("painting.empty")).append(")").formatted(Formatting.GRAY);
+	static private final Text OBFUSCATED_NOTICE = Text.literal(" (").append(Text.translatable("painting.obfuscated")).append(")").formatted(Formatting.GRAY);
+	static private final Text EMPTY_NOTICE      = Text.literal(" (").append(Text.translatable("painting.empty"))     .append(")").formatted(Formatting.GRAY);
 
-	static public void	AppendPaintingName(MutableText text, @Nullable String variantId){
+	static public void	AppendPaintingName(MutableText text, ItemStack stack){
 		// I could just use translatable variables,
 		// but this way is compatible with other languages
+		String variantId = PaintStackUtil.GetVariantId(stack);
 		if (variantId != null)
 			text.append(
 				Text.literal(" (")
@@ -29,6 +32,8 @@ public class TooltipUtil
 					.append(")")
 					.formatted(Formatting.YELLOW)
 			);
+		else if (PaintStackUtil.HasDyeCode(stack))
+			text.append(OBFUSCATED_NOTICE);
 		else
 			text.append(EMPTY_NOTICE);
 
@@ -51,7 +56,7 @@ public class TooltipUtil
 		});
 	}
 
-	static public void AddCustomTooltip(List<Text> tooltip, String variantId, boolean advanced){
+	static public void AddVariantTooltip(List<Text> tooltip, String variantId, boolean advanced){
 		Identifier id = Identifier.tryParse(variantId);
 		Optional<PaintingVariant> variant = Registries.PAINTING_VARIANT.getOrEmpty(id);
 		if (variant.isEmpty())
@@ -65,11 +70,18 @@ public class TooltipUtil
 			);
 
 			if (advanced){
-				int index = Registries.PAINTING_VARIANT.getRawId(variant.get());
-				index = DyeCodeUtil.Var2Comb(index);
-				short dyeMask = DyeCodeUtil.IndexToCombination(index, 8);
-				tooltip.add(DyeCode(dyeMask));
+				tooltip.add(DyeCode(DyeCodeUtil.VariantToDyemask(variant.get())));
 			}
+		}
+	}
+
+	static public void	AddObfuscationTooltip(List<Text> tooltip, long dyeCode){
+		for (long dyes=dyeCode; dyes != 0; dyes>>>=4){
+			byte id = (byte)(dyes & 0xf);
+			String colorName = DyeColor.byId(id).getName();
+			var txt = Text.translatableWithFallback("color.minecraft."+colorName, colorName);
+			txt.setStyle(Style.EMPTY.withColor(IdToRgb(id)));
+			tooltip.add(txt);
 		}
 	}
 

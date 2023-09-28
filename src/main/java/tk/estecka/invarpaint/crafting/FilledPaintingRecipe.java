@@ -22,6 +22,8 @@ extends SpecialCraftingRecipe
 	static public final Identifier ID = new Identifier("invarpaint", "crafting_special_painting_creation");
 	static public final SpecialRecipeSerializer<FilledPaintingRecipe> SERIALIZER = new SpecialRecipeSerializer<FilledPaintingRecipe>(FilledPaintingRecipe::new);
 
+	private World world;
+
 	static public void Register(){
 		Registry.register(Registries.RECIPE_SERIALIZER, FilledPaintingRecipe.ID, FilledPaintingRecipe.SERIALIZER);
 	}
@@ -59,6 +61,7 @@ extends SpecialCraftingRecipe
 				return false;
 		}
 
+		this.world = world;
 		return hasPainting && (dyeSet.size() == 8);
 	}
 
@@ -70,16 +73,16 @@ extends SpecialCraftingRecipe
 		}
 
 		long dyeCode = DyeCodeUtil.MaskToCode(dyeMask);
-		int index = DyeCodeUtil.CombinationToIndex(dyeCode, 8);
-		index = DyeCodeUtil.Comb2Var(index);
+		if (world.getGameRules().getBoolean(InvariablePaintings.OBFUSCATE_RULE))
+			return PaintStackUtil.CreateDyeCode(dyeCode);
 
-		var entry = Registries.PAINTING_VARIANT.getEntry(index);
+		var entry = DyeCodeUtil.DyemaskToVariant(dyeMask);
 		if (entry.isPresent()){
-			InvariablePaintings.LOGGER.info("Crafted {} from {}", index, String.format("0x%08X", dyeCode));
+			// InvariablePaintings.LOGGER.info("Crafted {} from {}", index, String.format("0x%08X", dyeCode));
 			return PaintStackUtil.CreateVariant(entry.get().getKey().get().getValue().toString());
 		}
 		else {
-			InvariablePaintings.LOGGER.error("Unable to find a valid painting: {} -> {}", String.format("0x%08X", dyeCode), index);
+			InvariablePaintings.LOGGER.error("Unable to find a valid painting: {}", String.format("0x%08X", dyeCode));
 			return ItemStack.EMPTY;
 		}
 	}

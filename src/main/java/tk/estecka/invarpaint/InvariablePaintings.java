@@ -23,9 +23,10 @@ public class InvariablePaintings implements ModInitializer
 	static public final Text CATEGORY_NAME = Text.translatable("gamerule.category.invarpaint").formatted(Formatting.BOLD, Formatting.YELLOW);
 	static public final CustomGameRuleCategory CATEGORY = new CustomGameRuleCategory(new Identifier("invarpaint", "general"), CATEGORY_NAME);
 
-	static public final GameRules.Key<BooleanRule> CREATING_RULE = GameRuleRegistry.register("invarpaint.allowCreation",    CATEGORY, GameRuleFactory.createBooleanRule(false));
-	static public final GameRules.Key<BooleanRule> DERIVATE_RULE = GameRuleRegistry.register("invarpaint.allowDerivation",  CATEGORY, GameRuleFactory.createBooleanRule(false));
-	static public final GameRules.Key<BooleanRule> REPLICA_RULE  = GameRuleRegistry.register("invarpaint.allowReplication", CATEGORY, GameRuleFactory.createBooleanRule(false));
+	static public final GameRules.Key<BooleanRule> CREATING_RULE  = GameRuleRegistry.register("invarpaint.allowCreation",      CATEGORY, GameRuleFactory.createBooleanRule(false));
+	static public final GameRules.Key<BooleanRule> DERIVATE_RULE  = GameRuleRegistry.register("invarpaint.allowDerivation",    CATEGORY, GameRuleFactory.createBooleanRule(false));
+	static public final GameRules.Key<BooleanRule> REPLICA_RULE   = GameRuleRegistry.register("invarpaint.allowReplication",   CATEGORY, GameRuleFactory.createBooleanRule(false));
+	static public final GameRules.Key<BooleanRule> OBFUSCATE_RULE = GameRuleRegistry.register("invarpaint.obfuscatedCrafting", CATEGORY, GameRuleFactory.createBooleanRule(true ));
 
 	static public boolean IsNokebabInstalled(){
 		return FabricLoader.getInstance().isModLoaded("no-kebab");

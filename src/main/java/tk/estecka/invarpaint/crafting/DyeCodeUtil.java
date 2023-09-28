@@ -1,6 +1,9 @@
 package tk.estecka.invarpaint.crafting;
 
+import java.util.Optional;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 
 /**
  * DyeMask: Unordered set of dyes stored in 16 bits (short). Every bit indicates
@@ -12,6 +15,22 @@ import net.minecraft.registry.Registries;
 public class DyeCodeUtil
 {
 	static public final int	COMBINATION_MAX = n_choose_k(16, 8);
+
+/******************************************************************************/
+/* Fast Lane                                                                  */
+/******************************************************************************/
+
+	static public Optional<? extends RegistryEntry<PaintingVariant>>	DyemaskToVariant(short mask){
+		return Registries.PAINTING_VARIANT.getEntry(RankToVariant(MaskToRank(mask)));
+	}
+
+	static public short	VariantToDyemask(PaintingVariant variant){
+		return RankToMask(VariantToRank(Registries.PAINTING_VARIANT.getRawId(variant)), 8);
+	}
+
+/******************************************************************************/
+/* Details                                                                    */
+/******************************************************************************/
 
 	static public long	MaskToCode(short mask){
 		long code = 0;
@@ -25,38 +44,44 @@ public class DyeCodeUtil
 		return code;
 	}
 
+	static public short	CodeToMask(long code, int setSize){
+		short mask = 0;
+		for (int i=0; i<setSize; ++i, code>>>=4)
+			mask |= (short)1 << (code & 0xf);
+
+		return mask;
+	}
+
 	/**
-	 * Converts any combination index to a variant's index.
+	 * Converts any combination rank to a variant's index.
 	 */
-	static public int	Comb2Var(int combId){
+	static public int	RankToVariant(int combId){
 		return combId * Registries.PAINTING_VARIANT.size() / COMBINATION_MAX;
 	}
 	/**
-	 * Converts a variant's index to the first corresponding combination index.
+	 * Converts a variant's index to the rank of the first corresponding combination.
 	 */
-	static public int	Var2Comb(int rawId){
+	static public int	VariantToRank(int rawId){
 		return rawId * COMBINATION_MAX / Registries.PAINTING_VARIANT.size();
 	}
 
 	/**
 	 * https://en.wikipedia.org/wiki/Combinatorial_number_system
-	 * @param code A dyeCode were dyes are ordered from smallest to largest.
 	 */
-	static public int	CombinationToIndex(long code, int setSize){
-		int result = 0;
+	static public int	MaskToRank(short mask){
+		int rank = 0;
 
-		for (int i=0; i<setSize; ++i) {
-			result += n_choose_k((int)(code>>(4*i)) & 0xf, i+1);
+		for (int n=0,k=0; mask!=0; ++n,mask>>>=1){
+			if ((mask & 1) != 0)
+				rank += n_choose_k(n, k++);
 		}
 
-		return result;
+		return rank;
 	}
 	/**
 	 * https://en.wikipedia.org/wiki/Combinatorial_number_system#Finding_the_k-combination_for_a_given_number
-	 * @param rawId
-	 * @return A dyeMask
 	 */
-	static public short	IndexToCombination(int rawId, int setSize){
+	static public short	RankToMask(int rank, int setSize){
 		short result = 0x0;
 
 		while (0 < setSize) {
@@ -65,14 +90,14 @@ public class DyeCodeUtil
 
 			for (int n=setSize-1; true; ++n){
 				int nCk = n_choose_k(n, setSize);
-				if (rawId < nCk)
+				if (rank < nCk)
 					break;
 				pos = nCk;
 				dye = n;
 			}
 
 			result |= 1 << dye;
-			rawId -= pos;
+			rank -= pos;
 			setSize--;
 		}
 

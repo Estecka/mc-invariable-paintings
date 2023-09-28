@@ -13,11 +13,9 @@ public class PaintStackUtil
 {
 	static public final String ENTITY_TAG = "EntityTag";
 	static public final String VARIANT_TAG = "variant";
+	static public final String DYES_TAG = "dyeCode";
 
 	static public ItemStack	SetVariant(ItemStack stack, String variantId){
-		if (!stack.isOf(Items.PAINTING))
-			InvariablePaintings.LOGGER.warn("Setting painting variant on non-painting item. (Type: {})", stack.getItem());
-		
 		NbtCompound nbt = stack.getOrCreateNbt();
 		NbtCompound entityTag;
 		byte entityTagType = nbt.getType(ENTITY_TAG);
@@ -34,6 +32,16 @@ public class PaintStackUtil
 		if (entityTag.contains(VARIANT_TAG))
 			InvariablePaintings.LOGGER.warn("Existing `EntityTag.variant` is being overwritten.");
 		entityTag.putString(VARIANT_TAG, variantId);
+
+		return stack;
+	}
+
+	static public ItemStack SetDyeCode(ItemStack stack, long dyeCode){
+		NbtCompound nbt = stack.getOrCreateNbt();
+
+		if (nbt.contains(VARIANT_TAG))
+			InvariablePaintings.LOGGER.warn("Existing `dyeCode` is being overwritten.");
+		nbt.putLong(DYES_TAG, dyeCode);
 
 		return stack;
 	}
@@ -56,6 +64,14 @@ public class PaintStackUtil
 		return SetVariant(new ItemStack(Items.PAINTING), variantId);
 	}
 
+	static public ItemStack	CreateDyeCode(long dyeCode){
+		return SetDyeCode(new ItemStack(Items.PAINTING), dyeCode);
+	}
+
+	static public boolean	IsBlank(ItemStack stack){
+		return !HasDyeCode(stack) && !HasVariantId(stack);
+	}
+
 	@Nullable
 	static public String	GetVariantId(ItemStack stack){
 		NbtCompound nbt = stack.getNbt();
@@ -75,6 +91,16 @@ public class PaintStackUtil
 		    && nbt.contains(ENTITY_TAG, NbtCompound.COMPOUND_TYPE)
 		    && nbt.getCompound(ENTITY_TAG).contains(VARIANT_TAG, NbtCompound.STRING_TYPE)
 		    ;
+	}
+
+	static public long	GetDyeCode(ItemStack stack){
+		NbtCompound nbt = stack.getNbt();
+		return (nbt != null) ? nbt.getLong(DYES_TAG) : 0L;
+	}
+
+	static public boolean	HasDyeCode(ItemStack stack){
+		NbtCompound nbt = stack.getNbt();
+		return (nbt != null) ? nbt.contains(DYES_TAG, NbtElement.LONG_TYPE) : false;
 	}
 
 }

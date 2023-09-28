@@ -8,5 +8,6 @@
 	"gamerule.invarpaint.allowReplication.description": "Existing paintings can be replicated using the crafting table.",
 	"painting.empty": "Blank",
 	"painting.invalid_space": "%s needs a %s space!",
+	"painting.obfuscated": "Unidentified",
 	"painting.unknown": "Unknown variant"
 }
