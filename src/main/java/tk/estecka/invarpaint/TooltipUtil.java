@@ -20,6 +20,7 @@ public class TooltipUtil
 	static private final Text UNKNOWN_TEXT = Text.translatable("painting.unknown").formatted(Formatting.GRAY);
 	static private final Text OBFUSCATED_NOTICE = Text.literal(" (").append(Text.translatable("painting.obfuscated")).append(")").formatted(Formatting.GRAY);
 	static private final Text EMPTY_NOTICE      = Text.literal(" (").append(Text.translatable("painting.empty"))     .append(")").formatted(Formatting.GRAY);
+	static private final DyeColor[]	colourWheel = { DyeColor.WHITE, DyeColor.LIGHT_GRAY, DyeColor.GRAY, DyeColor.BLACK, DyeColor.BROWN, DyeColor.RED, DyeColor.ORANGE, DyeColor.YELLOW, DyeColor.LIME, DyeColor.GREEN, DyeColor.CYAN, DyeColor.LIGHT_BLUE, DyeColor.BLUE, DyeColor.PURPLE, DyeColor.MAGENTA, DyeColor.PINK };
 
 	static public void	AppendPaintingName(MutableText text, ItemStack stack){
 		// I could just use translatable variables,
@@ -76,9 +77,12 @@ public class TooltipUtil
 	}
 
 	static public void	AddObfuscationTooltip(List<Text> tooltip, long dyeCode){
-		for (long dyes=dyeCode; dyes != 0; dyes>>>=4){
-			byte id = (byte)(dyes & 0xf);
-			String colorName = DyeColor.byId(id).getName();
+		short mask = DyeCodeUtil.CodeToMask(dyeCode, 8);
+		for (int i=0; i<colourWheel.length; ++i)
+		if  ((mask>>>colourWheel[i].getId() & 1) != 0)
+		{
+			int id = colourWheel[i].getId();
+			String colorName = colourWheel[i].getName();
 			var txt = Text.translatableWithFallback("color.minecraft."+colorName, colorName);
 			txt.setStyle(Style.EMPTY.withColor(IdToRgb(id)));
 			tooltip.add(txt);
@@ -89,7 +93,7 @@ public class TooltipUtil
 		MutableText text = Text.literal("#");
 
 		for (int i=15; 0<=i; --i)
-		if (((dyeMask>>>i) & 1) != 0)
+		if  (((dyeMask>>>i) & 1) != 0)
 		{
 			int dye = i;
 			int color = IdToRgb(dye);
@@ -114,15 +118,15 @@ public class TooltipUtil
 			case 0x4: return 0xe6e62e;
 			case 0x5: return 0x97ff32;
 			case 0x6: return 0xffa6fe;
-			case 0x7: return 0x717371;
-			case 0x8: return 0xc8ccc7;
+			case 0x7: return 0x777777;
+			case 0x8: return 0xcccccc;
 			case 0x9: return 0x00bfbc;
 			case 0xa: return 0x8a2ee6;
 			case 0xb: return 0x2e5bff;
 			case 0xc: return 0x7f4000;
 			case 0xd: return 0x00a601;
 			case 0xe: return 0xcc2929;
-			case 0xf: return 0x323331;
+			case 0xf: return 0x444444;
 		}
 	}
 
