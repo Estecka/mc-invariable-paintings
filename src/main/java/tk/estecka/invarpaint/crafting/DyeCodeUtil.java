@@ -55,14 +55,18 @@ public class DyeCodeUtil
 	/**
 	 * Converts any combination rank to a variant's index.
 	 */
-	static public int	RankToVariant(int combId){
-		return combId * Registries.PAINTING_VARIANT.size() / COMBINATION_MAX;
+	static public int	RankToVariant(int rank){
+		return rank * Registries.PAINTING_VARIANT.size() / COMBINATION_MAX;
 	}
 	/**
 	 * Converts a variant's index to the rank of the first corresponding combination.
 	 */
 	static public int	VariantToRank(int rawId){
-		return rawId * COMBINATION_MAX / Registries.PAINTING_VARIANT.size();
+		return CeilDivide(rawId * COMBINATION_MAX, Registries.PAINTING_VARIANT.size());
+	}
+
+	static int CeilDivide(int numerator, int denomitator){
+		return (numerator+denomitator-1) / denomitator;
 	}
 
 	/**
@@ -72,7 +76,7 @@ public class DyeCodeUtil
 	static public int	MaskToRank(short mask){
 		int rank = 0;
 
-		for (int n=0,k=0; n<16; ++n,mask>>>=1){
+		for (int n=0,k=1; n<16; ++n,mask>>>=1){
 			if ((mask & 1) != 0)
 				rank += n_choose_k(n, k++);
 		}

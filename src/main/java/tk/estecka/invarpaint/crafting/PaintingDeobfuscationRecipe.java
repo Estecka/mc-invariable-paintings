@@ -11,6 +11,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import tk.estecka.invarpaint.InvariablePaintings;
 import tk.estecka.invarpaint.PaintStackUtil;
 
 public class PaintingDeobfuscationRecipe 
@@ -47,9 +48,12 @@ extends SpecialCraftingRecipe
 	public ItemStack craft(CraftingInventory ingredients, DynamicRegistryManager manager){
 		for (int i=0; i<ingredients.size(); ++i){
 			if (ingredients.getStack(i).isOf(Items.PAINTING)){
-				var variant = DyeCodeUtil.DyemaskToVariant(DyeCodeUtil.CodeToMask(PaintStackUtil.GetDyeCode(ingredients.getStack(i)), 8));
+				long dyeCode = PaintStackUtil.GetDyeCode(ingredients.getStack(i));
+				var variant = DyeCodeUtil.DyemaskToVariant(DyeCodeUtil.CodeToMask(dyeCode, 8));
 				if (variant.isPresent())
 					return PaintStackUtil.CreateVariant(variant.get().getKey().get().getValue().toString());
+				else
+					InvariablePaintings.LOGGER.error("Unable to deobfuscate {}", String.format("0x%08X", dyeCode));
 			}
 		}
 
