@@ -16,6 +16,7 @@ import tk.estecka.invarpaint.PaintStackUtil;
 
 public class PaintingDeobfuscationRecipe 
 extends SpecialCraftingRecipe
+implements IUnsyncRecipe
 {
 	static public final Identifier ID = new Identifier("invarpaint", "crafting_special_painting_deobfuscation");
 	static public final SpecialRecipeSerializer<PaintingDeobfuscationRecipe> SERIALIZER = new SpecialRecipeSerializer<PaintingDeobfuscationRecipe>(PaintingDeobfuscationRecipe::new);
@@ -24,6 +25,9 @@ extends SpecialCraftingRecipe
 		Registry.register(Registries.RECIPE_SERIALIZER, PaintingDeobfuscationRecipe.ID, PaintingDeobfuscationRecipe.SERIALIZER);
 	}
 
+	public PaintingDeobfuscationRecipe(){
+		super(ID, CraftingRecipeCategory.MISC);
+	}
 	public PaintingDeobfuscationRecipe(Identifier id, CraftingRecipeCategory category){
 		super(id, category);
 	}

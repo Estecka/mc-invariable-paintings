@@ -17,6 +17,7 @@ import tk.estecka.invarpaint.PaintStackUtil;
 
 public class PaintingReplicationRecipe 
 extends SpecialCraftingRecipe
+implements IUnsyncRecipe
 {
 	static public final Identifier ID = new Identifier("invarpaint", "crafting_special_painting_replication");
 	static public final SpecialRecipeSerializer<PaintingReplicationRecipe> SERIALIZER = new SpecialRecipeSerializer<PaintingReplicationRecipe>(PaintingReplicationRecipe::new);
@@ -25,6 +26,9 @@ extends SpecialCraftingRecipe
 		Registry.register(Registries.RECIPE_SERIALIZER, PaintingReplicationRecipe.ID, PaintingReplicationRecipe.SERIALIZER);
 	}
 
+	public PaintingReplicationRecipe(){
+		super(ID, CraftingRecipeCategory.MISC);
+	}
 	public PaintingReplicationRecipe(Identifier id, CraftingRecipeCategory category){
 		super(id, category);
 	}
