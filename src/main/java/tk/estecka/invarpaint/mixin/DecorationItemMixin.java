@@ -1,13 +1,11 @@
 package tk.estecka.invarpaint.mixin;
 
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DecorationItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -20,14 +18,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import tk.estecka.invarpaint.InvariablePaintings;
 import tk.estecka.invarpaint.PaintEntityPlacer;
 import tk.estecka.invarpaint.PaintStackUtil;
-import tk.estecka.invarpaint.TooltipUtil;
-
-import java.util.List;
 import java.util.Optional;
 
 @Mixin(DecorationItem.class)
@@ -65,22 +59,6 @@ public abstract class DecorationItemMixin
 			return PaintingEntity.placePainting(world, pos, facing);
 		else
 			return Optional.empty();
-	}
-
-	@Inject( method="appendTooltip", at=@At("TAIL") )
-	public void condenseTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context, CallbackInfo ci) {
-		if (stack.isOf(Items.PAINTING)) {
-			String variantId = PaintStackUtil.GetVariantId(stack);
-			boolean isObfuscated = PaintStackUtil.HasDyeCode(stack);
-
-			if (isObfuscated || variantId != null || !context.isCreative())
-				TooltipUtil.RemoveOriginalTooltip(tooltip);
-
-			if (variantId != null)
-				TooltipUtil.AddVariantTooltip(tooltip, variantId, context.isAdvanced());
-			if (isObfuscated)
-				TooltipUtil.AddObfuscationTooltip(tooltip, PaintStackUtil.GetDyeCode(stack));
-		}
 	}
 
 }
