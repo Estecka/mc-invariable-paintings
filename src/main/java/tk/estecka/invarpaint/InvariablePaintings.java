@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 public class InvariablePaintings implements ModInitializer
 {
+	static public final String MODID = "invariablepaintings";
 	static public final Logger LOGGER = LoggerFactory.getLogger("Invar-Paint");
 
 	static public final Text CATEGORY_NAME = Text.translatable("gamerule.category.invarpaint").formatted(Formatting.BOLD, Formatting.YELLOW);
