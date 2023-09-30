@@ -1,12 +1,14 @@
 package tk.estecka.invarpaint;
 
 import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.random.Random;
 
 public class PaintStackUtil
@@ -109,9 +111,19 @@ public class PaintStackUtil
 		return (nbt != null) ? nbt.contains(OBFUSCATED_TAG) : false;
 	}
 
-	static public ItemStack	SetObfuscated(ItemStack stack){
-		NbtCompound nbt = stack.getOrCreateNbt();
+	static public ItemStack Obfuscate(ItemStack stack){
+		NbtList lore = new NbtList();
+		lore.add(NbtString.of(Text.Serializer.toJson(Text.translatable("painting.obfuscated"))));
+
+		NbtCompound display = new NbtCompound();
+		display.put(ItemStack.LORE_KEY, lore);
+		
+		NbtCompound nbt = new NbtCompound();
 		nbt.putBoolean(OBFUSCATED_TAG, true);
+		nbt.put(ItemStack.DISPLAY_KEY, display);
+
+		stack = stack.copy();
+		stack.setNbt(nbt);
 		return stack;
 	}
 

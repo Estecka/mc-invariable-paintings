@@ -36,11 +36,8 @@ public class CrafingScreenHandlerMixin
 
 	@ModifyArg( method="updateResult", index=3, at=@At(value="INVOKE", target="net/minecraft/network/packet/s2c/play/ScreenHandlerSlotUpdateS2CPacket.<init> (IIILnet/minecraft/item/ItemStack;)V") )
 	static private ItemStack ObfuscateResult(int syncId, int revision, int slot, ItemStack stack){
-		if (doObfuscate) {
-			stack = stack.copy();
-			stack.setNbt(null);
-			PaintStackUtil.SetObfuscated(stack);
-		}
+		if (doObfuscate)
+			stack = PaintStackUtil.Obfuscate(stack);
 		return stack;
 	}
 }
