@@ -35,7 +35,7 @@ public class TooltipUtil
 			);
 		else if (PaintStackUtil.HasDyeCode(stack))
 			text.append(OBFUSCATED_NOTICE);
-		else
+		else if	(!PaintStackUtil.IsObfuscated(stack))
 			text.append(EMPTY_NOTICE);
 
 	}

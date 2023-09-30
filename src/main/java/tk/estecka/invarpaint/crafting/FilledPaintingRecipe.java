@@ -77,8 +77,8 @@ implements IUnsyncRecipe
 		}
 
 		long dyeCode = DyeCodeUtil.MaskToCode(dyeMask);
-		if (world.getGameRules().getBoolean(InvariablePaintings.OBFUSCATE_RULE))
-			return PaintStackUtil.CreateDyeCode(dyeCode);
+		// if (world.getGameRules().getBoolean(InvariablePaintings.OBFUSCATE_RULE))
+		// 	return PaintStackUtil.CreateDyeCode(dyeCode);
 
 		var entry = DyeCodeUtil.DyemaskToVariant(dyeMask);
 		if (entry.isPresent()){

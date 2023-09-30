@@ -11,6 +11,7 @@ import net.minecraft.util.math.random.Random;
 
 public class PaintStackUtil
 {
+	static public final String OBFUSCATED_TAG = "obfuscated";
 	static public final String ENTITY_TAG = "EntityTag";
 	static public final String VARIANT_TAG = "variant";
 	static public final String DYES_TAG = "dyeCode";
@@ -101,6 +102,17 @@ public class PaintStackUtil
 	static public boolean	HasDyeCode(ItemStack stack){
 		NbtCompound nbt = stack.getNbt();
 		return (nbt != null) ? nbt.contains(DYES_TAG, NbtElement.LONG_TYPE) : false;
+	}
+
+	static public boolean	IsObfuscated(ItemStack stack){
+		NbtCompound nbt = stack.getNbt();
+		return (nbt != null) ? nbt.contains(OBFUSCATED_TAG) : false;
+	}
+
+	static public ItemStack	SetObfuscated(ItemStack stack){
+		NbtCompound nbt = stack.getOrCreateNbt();
+		nbt.putBoolean(OBFUSCATED_TAG, true);
+		return stack;
 	}
 
 }
