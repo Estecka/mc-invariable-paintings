@@ -21,36 +21,45 @@ This optional features requires **[Patched](https://modrinth.com/mod/patched)**.
 
 Filled paintings can be found while fishing, inside of most suspicious soils, and many naturally generated chests. The drop rate for these loots was chosen aphazardly, and is subject to be rebalanced.
 
-### Crafting
-Crafting of filled paintings is disabled by default, it is only available as an experiment. I don't necessarily recommend enabling it, and want to keep the "collectible" feel of the previous versions. This may trivialize obtaining new paintings.
+### Replication
+You can clone any filled painting, by placing it next to a blank one in a crafting grid.
+This is disabled by default, and controlled by the gamerule `invarpaint.allowReplication`.
 
-All filled painting recipes require 1 Blank Painting, which now costs **1 Phantom Membrane** instead of 1 wool.
+### Crafting (experimental)
+**Crafting of filled paintings is disabled by default,** it is only available as an experiment, and may receive significant changes. I don't necessarily recommend enabling it, especially if you  enjoy the "collectible" aspect of the mod's previous versions. This may trivialize obtaining new paintings. For this reason, crafting was intentionally designed to feel obscure and a bit expensive.
 
-Two gamerules control whether and how paintings can be crafted:
-- **`invarpaint.allowCreation`** and **`invarpaint.allowDerivation`** Allows you to craft any painting, at the cost of **any 8 different Dyes**, starting either from a blank painting, or an already filled one.
+The cost of crafting Blank paintings was increased to **1 Phantom Membrane**, instead of wool.
+
+Crafting a filled painting costs **any 8 different Dyes**.
+Two variants of this recipe exist, requiring either a Blank painting, or recycling a Filled painting. Those are respectively controlled by the gamerules `invarpaint.allowCreation` and `invarpaint.allowDerivation`.
+
 The colour of the dyes has no particular meaning. The correspondance between each combination and painting is random but deterministic; it will only vary depending on the set of paintings you have installed.  
-The number of possible combinations is 12,870. So long as you don't have this many paintings installed, all paintings variants can be crafted.  
-All combinations will yield a painting, thus many combinations will give the same result.
-- **`invarpaint.allowReplication`** Allows crafing replicas of already owned paintings, at the cost of **7 Glow Ink** instead of dyes.
+There are 12,870 possible combinations and all of them is guaranteed to yield a painting, thus many combinations will give the same result.
+
+By default, the result of such crafting is obfuscated. You won't be able to see the resulting variant until you take the result out of the crafting table, and consume the ingredients. This is controlled by the gamerule `invarpaint.obfuscatedCrafting`.
 
 ## Painting item textures
 This optional feature requires **[CIT Resewn](https://modrinth.com/mod/cit-resewn)**.
 
 Allows filled paintings to have unique textures in the inventory, depending on their variant.
 
-This is not strictly speaking a feature of InvarPaint. InvarPaint only provides resources used by CIT Resewn, but it does not add any of its own logic on top of it.
+This is strictly speaking not a feature of InvarPaint; it provides a built-in resource pack that is used by CIT-Resewn, but does not add any of its own code on top of it.
 
-InvarPaint provides the CITs and textures for every vanilla variant. For modded variants, more can be added using a resource pack. See the sources for examples on how to make one, and refer to CIT resewn for additional documentation.
+InvarPaint only provides the CITs for vanilla variant. For modded variants, CITs should be provided in an external resource pack. See the sources for examples on how to make one, and refer to CIT resewn for additional documentation.
+
+Having too many painting CITs (around hundreds of them) can put a toll on the game's performances, so the embedded vanilla CITs can be disabled in the resource-pack menu.
 
 
-## Miscellaneous
+
+## Miscellaneous tweaks
 ### Server-side
-- Placement of variant-locked paintings in tight spaces is more forgiving. (In vanilla, it would require targeting a very specific block.)
+- Placement of variant-locked paintings in tight spaces is more forgiving. (Vanilla would require targeting some specific block.)
 - Added a new loot function `lock_variant_randomly`, which can applied to painting items in loot tables.
 
 ### Client-side
-- Fixes a vanilla bug whereby using variant-locked items in too small a space would consume the item without placing the painting. A warning message is shown instead.
-- Makes the painting tooltip a bit more compact.
+- Fixes a vanilla bug whereby paiting items may sometimes appear to be consummed, without actually placing a painting.
+- Shows a warning when trying to place a painting in too small a space.
+- Slightly reworked the tooltip for painting items.
 
 
 ## Compatibility
