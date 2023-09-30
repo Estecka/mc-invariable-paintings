@@ -34,7 +34,6 @@ implements IUnsyncRecipe
 	}
 
 	public boolean matches(CraftingInventory ingredients, World world){
-		int dyeCount = 0;
 		boolean hasCanvas = false;
 		boolean hasTemplate = false;
 
@@ -43,8 +42,8 @@ implements IUnsyncRecipe
 
 		for (int i=0; i<ingredients.size(); ++i){
 			ItemStack stack = ingredients.getStack(i);
-			if (stack.isOf(Items.GLOW_INK_SAC))
-				dyeCount++;
+			if (stack.isEmpty())
+				continue;
 			else if (!stack.isOf(Items.PAINTING))
 				return false;
 			else if (!hasCanvas && !PaintStackUtil.HasVariantId(stack))
@@ -55,7 +54,7 @@ implements IUnsyncRecipe
 				return false;
 		}
 
-		return hasCanvas && hasTemplate && (dyeCount>=7);
+		return hasCanvas && hasTemplate;
 	}
 
 	public ItemStack craft(CraftingInventory ingredients, DynamicRegistryManager manager){
@@ -76,7 +75,7 @@ implements IUnsyncRecipe
 	}
 
 	public boolean fits(int width, int height){
-		return (width*height) >= 9;
+		return (width*height) >= 2;
 	}
 
 	public SpecialRecipeSerializer<PaintingReplicationRecipe> getSerializer(){
