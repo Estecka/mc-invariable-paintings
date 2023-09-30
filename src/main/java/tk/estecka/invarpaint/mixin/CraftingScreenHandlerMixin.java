@@ -1,7 +1,6 @@
 package tk.estecka.invarpaint.mixin;
 
 import java.util.Optional;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -19,7 +18,7 @@ import tk.estecka.invarpaint.PaintStackUtil;
 import tk.estecka.invarpaint.crafting.FilledPaintingRecipe;
 
 @Mixin(CraftingScreenHandler.class)
-public class CrafingScreenHandlerMixin 
+public class CraftingScreenHandlerMixin 
 {
 	static private boolean doObfuscate = false;
 

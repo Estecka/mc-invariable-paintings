@@ -13,7 +13,6 @@ import net.minecraft.world.GameRules.BooleanRule;
 import tk.estecka.invarpaint.crafting.FilledPaintingRecipe;
 import tk.estecka.invarpaint.crafting.PaintingDeobfuscationRecipe;
 import tk.estecka.invarpaint.crafting.PaintingReplicationRecipe;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
