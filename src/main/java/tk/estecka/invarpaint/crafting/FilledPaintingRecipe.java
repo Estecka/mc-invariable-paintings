@@ -23,15 +23,10 @@ implements IUnsyncRecipe
 	static public final Identifier ID = new Identifier("invarpaint", "crafting_special_painting_creation");
 	static public final SpecialRecipeSerializer<FilledPaintingRecipe> SERIALIZER = new SpecialRecipeSerializer<FilledPaintingRecipe>(FilledPaintingRecipe::new);
 
-	private World world;
-
 	static public void Register(){
 		Registry.register(Registries.RECIPE_SERIALIZER, FilledPaintingRecipe.ID, FilledPaintingRecipe.SERIALIZER);
 	}
 
-	public FilledPaintingRecipe(){
-		super(ID, CraftingRecipeCategory.MISC);
-	}
 	public FilledPaintingRecipe(Identifier id, CraftingRecipeCategory category){
 		super(id, category);
 	}
@@ -65,7 +60,6 @@ implements IUnsyncRecipe
 				return false;
 		}
 
-		this.world = world;
 		return hasPainting && (dyeSet.size() == 8);
 	}
 
@@ -77,12 +71,9 @@ implements IUnsyncRecipe
 		}
 
 		long dyeCode = DyeCodeUtil.MaskToCode(dyeMask);
-		// if (world.getGameRules().getBoolean(InvariablePaintings.OBFUSCATE_RULE))
-		// 	return PaintStackUtil.CreateDyeCode(dyeCode);
 
 		var entry = DyeCodeUtil.DyemaskToVariant(dyeMask);
 		if (entry.isPresent()){
-			// InvariablePaintings.LOGGER.info("Crafted {} from {}", index, String.format("0x%08X", dyeCode));
 			return PaintStackUtil.CreateVariant(entry.get().getKey().get().getValue().toString());
 		}
 		else {

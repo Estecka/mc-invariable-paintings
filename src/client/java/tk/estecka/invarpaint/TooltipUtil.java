@@ -10,7 +10,6 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextContent;
 import net.minecraft.text.TranslatableTextContent;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import tk.estecka.invarpaint.crafting.DyeCodeUtil;
@@ -18,9 +17,7 @@ import tk.estecka.invarpaint.crafting.DyeCodeUtil;
 public class TooltipUtil 
 {
 	static private final Text UNKNOWN_TEXT = Text.translatable("painting.unknown").formatted(Formatting.GRAY);
-	static private final Text OBFUSCATED_NOTICE = Text.literal(" (").append(Text.translatable("painting.obfuscated")).append(")").formatted(Formatting.GRAY);
-	static private final Text EMPTY_NOTICE      = Text.literal(" (").append(Text.translatable("painting.empty"))     .append(")").formatted(Formatting.GRAY);
-	static private final DyeColor[]	colourWheel = { DyeColor.WHITE, DyeColor.LIGHT_GRAY, DyeColor.GRAY, DyeColor.BLACK, DyeColor.BROWN, DyeColor.RED, DyeColor.ORANGE, DyeColor.YELLOW, DyeColor.LIME, DyeColor.GREEN, DyeColor.CYAN, DyeColor.LIGHT_BLUE, DyeColor.BLUE, DyeColor.PURPLE, DyeColor.MAGENTA, DyeColor.PINK };
+	static private final Text EMPTY_NOTICE = Text.literal(" (").append(Text.translatable("painting.empty")).append(")").formatted(Formatting.GRAY);
 
 	static public void	AppendPaintingName(MutableText text, ItemStack stack){
 		// I could just use translatable variables,
@@ -33,8 +30,6 @@ public class TooltipUtil
 					.append(")")
 					.formatted(Formatting.YELLOW)
 			);
-		else if (PaintStackUtil.HasDyeCode(stack))
-			text.append(OBFUSCATED_NOTICE);
 		else if	(!PaintStackUtil.IsObfuscated(stack))
 			text.append(EMPTY_NOTICE);
 
@@ -73,19 +68,6 @@ public class TooltipUtil
 			if (advanced){
 				tooltip.add(DyeCode(DyeCodeUtil.VariantToDyemask(variant.get())));
 			}
-		}
-	}
-
-	static public void	AddObfuscationTooltip(List<Text> tooltip, long dyeCode){
-		short mask = DyeCodeUtil.CodeToMask(dyeCode, 8);
-		for (int i=0; i<colourWheel.length; ++i)
-		if  ((mask>>>colourWheel[i].getId() & 1) != 0)
-		{
-			int id = colourWheel[i].getId();
-			String colorName = colourWheel[i].getName();
-			var txt = Text.translatableWithFallback("color.minecraft."+colorName, colorName);
-			txt.setStyle(Style.EMPTY.withColor(IdToRgb(id)));
-			tooltip.add(txt);
 		}
 	}
 

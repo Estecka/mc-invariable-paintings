@@ -26,9 +26,6 @@ implements IUnsyncRecipe
 		Registry.register(Registries.RECIPE_SERIALIZER, PaintingReplicationRecipe.ID, PaintingReplicationRecipe.SERIALIZER);
 	}
 
-	public PaintingReplicationRecipe(){
-		super(ID, CraftingRecipeCategory.MISC);
-	}
 	public PaintingReplicationRecipe(Identifier id, CraftingRecipeCategory category){
 		super(id, category);
 	}

@@ -22,15 +22,12 @@ public abstract class DecorationItemMixin
 	public void condenseTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context, CallbackInfo ci) {
 		if (stack.isOf(Items.PAINTING)) {
 			String variantId = PaintStackUtil.GetVariantId(stack);
-			boolean isObfuscated = PaintStackUtil.HasDyeCode(stack);
 
-			if (isObfuscated || variantId != null || !context.isCreative())
+			if (variantId != null || !context.isCreative())
 				TooltipUtil.RemoveOriginalTooltip(tooltip);
 
 			if (variantId != null)
 				TooltipUtil.AddVariantTooltip(tooltip, variantId, context.isAdvanced());
-			if (isObfuscated)
-				TooltipUtil.AddObfuscationTooltip(tooltip, PaintStackUtil.GetDyeCode(stack));
 		}
 	}
 

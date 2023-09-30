@@ -1,6 +1,7 @@
 {
 	"pack": {
 		"pack_format": 13,
+		"supported_formats": [13, 15, 18],
 		"description": "Requires CIT-resewn"
 	}
 }
