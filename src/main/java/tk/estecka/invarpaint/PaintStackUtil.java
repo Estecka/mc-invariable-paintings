@@ -10,26 +10,26 @@ import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.random.Random;
+import static net.minecraft.entity.EntityType.ENTITY_TAG_KEY;
 
 public class PaintStackUtil
 {
 	static public final String OBFUSCATED_TAG = "obfuscated";
-	static public final String ENTITY_TAG = "EntityTag";
 	static public final String VARIANT_TAG = "variant";
 	static public final String DYES_TAG = "dyeCode";
 
 	static public ItemStack	SetVariant(ItemStack stack, String variantId){
 		NbtCompound nbt = stack.getOrCreateNbt();
 		NbtCompound entityTag;
-		byte entityTagType = nbt.getType(ENTITY_TAG);
+		byte entityTagType = nbt.getType(ENTITY_TAG_KEY);
 
 		if (entityTagType == NbtElement.COMPOUND_TYPE)
-			entityTag = nbt.getCompound(ENTITY_TAG);
+			entityTag = nbt.getCompound(ENTITY_TAG_KEY);
 		else {
 			if (entityTagType != NbtElement.END_TYPE)
 				InvariablePaintings.LOGGER.warn("Existing `EntityTag` is is being overwritten.");
 			entityTag = new NbtCompound();
-			nbt.put(ENTITY_TAG, entityTag);
+			nbt.put(ENTITY_TAG_KEY, entityTag);
 		}
 
 		if (entityTag.contains(VARIANT_TAG))
@@ -78,10 +78,10 @@ public class PaintStackUtil
 	@Nullable
 	static public String	GetVariantId(ItemStack stack){
 		NbtCompound nbt = stack.getNbt();
-		if (nbt == null || !nbt.contains(ENTITY_TAG, NbtCompound.COMPOUND_TYPE))
+		if (nbt == null || !nbt.contains(ENTITY_TAG_KEY, NbtCompound.COMPOUND_TYPE))
 			return null;
 
-		NbtCompound entityTag = nbt.getCompound(ENTITY_TAG);
+		NbtCompound entityTag = nbt.getCompound(ENTITY_TAG_KEY);
 		if (!entityTag.contains(VARIANT_TAG, NbtCompound.STRING_TYPE))
 			return null;
 		
@@ -91,8 +91,8 @@ public class PaintStackUtil
 	static public boolean	HasVariantId(ItemStack stack){
 		NbtCompound nbt = stack.getNbt();
 		return nbt != null
-		    && nbt.contains(ENTITY_TAG, NbtCompound.COMPOUND_TYPE)
-		    && nbt.getCompound(ENTITY_TAG).contains(VARIANT_TAG, NbtCompound.STRING_TYPE)
+		    && nbt.contains(ENTITY_TAG_KEY, NbtCompound.COMPOUND_TYPE)
+		    && nbt.getCompound(ENTITY_TAG_KEY).contains(VARIANT_TAG, NbtCompound.STRING_TYPE)
 		    ;
 	}
 

@@ -17,8 +17,9 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import tk.estecka.invarpaint.InvariablePaintings;
 import tk.estecka.invarpaint.PaintEntityPlacer;
 import tk.estecka.invarpaint.PaintStackUtil;
@@ -36,8 +37,8 @@ public abstract class DecorationItemMixin
 		player = context.getPlayer();
 	}
 
-	@Redirect( method="useOnBlock", at=@At(value="INVOKE", target="Lnet/minecraft/entity/decoration/painting/PaintingEntity;placePainting(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Ljava/util/Optional;") )
-	private Optional<PaintingEntity> filterPlacedPainting(World world, BlockPos pos, Direction facing) {
+	@WrapOperation( method="useOnBlock", at=@At(value="INVOKE", target="Lnet/minecraft/entity/decoration/painting/PaintingEntity;placePainting(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Ljava/util/Optional;") )
+	private Optional<PaintingEntity> filterPlacedPainting(World world, BlockPos pos, Direction facing, Operation<Optional<PaintingEntity>> original) {
 		String variantId = PaintStackUtil.GetVariantId(this.itemStack);
 		Identifier id = (variantId==null) ? null : Identifier.tryParse(variantId);
 		Optional<PaintingVariant> itemVariant = Registries.PAINTING_VARIANT.getOrEmpty(id);
@@ -56,7 +57,7 @@ public abstract class DecorationItemMixin
 			return entity;
 		}
 		else if (player.isCreative() || (variantId!=null && InvariablePaintings.IsNokebabInstalled()))
-			return PaintingEntity.placePainting(world, pos, facing);
+			return original.call(world, pos, facing);
 		else
 			return Optional.empty();
 	}
