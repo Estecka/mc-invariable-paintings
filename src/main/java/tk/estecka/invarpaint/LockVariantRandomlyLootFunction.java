@@ -17,22 +17,17 @@ import net.minecraft.util.dynamic.Codecs;
 public class LockVariantRandomlyLootFunction 
 extends ConditionalLootFunction
 {
-	static public final Codec<LockVariantRandomlyLootFunction> CODEC;
+	static public final Codec<LockVariantRandomlyLootFunction> CODEC = RecordCodecBuilder.create(
+		instance -> instance.group(Codecs.createStrictOptionalFieldCodec(LootConditionTypes.CODEC.listOf(), "conditions", List.of())
+		                    .forGetter(conditionalLootFunction -> conditionalLootFunction.conditions))
+		                    .apply(instance, LockVariantRandomlyLootFunction::new)
+	);
 
-	static {
-		CODEC = RecordCodecBuilder.create(instance -> {
-			return instance.group(Codecs.createStrictOptionalFieldCodec(LootConditionTypes.CODEC.listOf(), "conditions", List.of()).forGetter(conditionalLootFunction -> conditionalLootFunction.conditions)).apply(instance, LockVariantRandomlyLootFunction::new);
-		});
-	}
+	static public final Identifier ID = new Identifier("lock_variant_randomly");
+	static public final LootFunctionType TYPE = new LootFunctionType(CODEC);
 
-	static public final LootFunctionType TYPE = Registry.register(
-			Registries.LOOT_FUNCTION_TYPE,
-			new Identifier("lock_variant_randomly"),
-			new LootFunctionType(CODEC)
-		);
-
-	static public void RegisterFunction(){
-		// Loads the class and initializes static variables
+	static public void Register(){
+		Registry.register(Registries.LOOT_FUNCTION_TYPE, ID, TYPE);
 	};
 
 	public	LockVariantRandomlyLootFunction(List<LootCondition> conditions){
@@ -44,6 +39,6 @@ extends ConditionalLootFunction
 	}
 
 	protected ItemStack	process(ItemStack stack, LootContext ctx){
-		return PaintStackCreator.SetRandomVariant(stack, ctx.getRandom());
+		return PaintStackUtil.SetRandomVariant(stack, ctx.getRandom());
 	}
 }
