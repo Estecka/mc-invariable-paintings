@@ -21,10 +21,14 @@
 	"entrypoints": {
 		"main": [
 			"tk.estecka.invarpaint.InvariablePaintings"
+		],
+		"client": [
+			"tk.estecka.invarpaint.InvariablePaintingsClient"
 		]
 	},
 	"mixins": [
-		"invarpaint.mixins.json"
+		"invarpaint.mixins.json",
+		{ "config": "invarpaint.client.mixins.json", "environment": "client" }
 	],
 
 	"depends": {

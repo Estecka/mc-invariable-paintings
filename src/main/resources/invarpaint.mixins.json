@@ -3,9 +3,12 @@
 	"minVersion": "0.8",
 	"package": "tk.estecka.invarpaint.mixin",
 	"compatibilityLevel": "JAVA_17",
+	"plugin": "tk.estecka.invarpaint.mixin.Config",
 	"mixins": [
+		"CraftingScreenHandlerMixin",
 		"DecorationItemMixin",
-		"PaintingDropLocker"
+		"PaintingEntityMixin",
+		"SynchronizeRecipesS2CPacketMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -1,4 +1,16 @@
 {
 	"replace": true,
-	"type":"crafting_special_repairitem"
+	"category": "misc",
+	"type": "minecraft:crafting_shaped",
+	"key": {
+		"/": { "item": "minecraft:stick" },
+		"#": { "item": "minecraft:phantom_membrane" }
+	},
+	"pattern": [
+		"///",
+		"/#/",
+		"///"
+	],
+	"result": { "item": "minecraft:painting" },
+	"show_notification": true
 }

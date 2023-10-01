@@ -20,7 +20,7 @@ public class SellPaintingFactory implements TradeOffers.Factory
 	public static final int	EXPERT_LVL = 4;
 	public static final int	MASTER_LVL = 5;
 
-	public static void	RegisterPaintings(){
+	public static void	Register(){
 		InvariablePaintings.LOGGER.info("Adding locked paintings to trade pools");
 		
 		//This assumes that variantless painting is the only master trade available to Shepherds, and overwrites it.
@@ -35,7 +35,7 @@ public class SellPaintingFactory implements TradeOffers.Factory
 	public TradeOffer	create(Entity entity, Random random){
 		return new TradeOffer(
 			new ItemStack(Items.EMERALD, 12),
-			PaintStackCreator.CreateRandomVariant(random),
+			PaintStackUtil.CreateRandomVariant(random),
 			12,
 			30,
 			0.05f
