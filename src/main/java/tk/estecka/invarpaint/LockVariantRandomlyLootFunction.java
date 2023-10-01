@@ -24,14 +24,11 @@ extends ConditionalLootFunction
 		}
 	}
 
-	static public final LootFunctionType TYPE = Registry.register(
-			Registries.LOOT_FUNCTION_TYPE,
-			new Identifier("lock_variant_randomly"),
-			new LootFunctionType(new LockVariantRandomlyLootFunction.Serializer())
-		);
+	static public final Identifier ID = new Identifier("lock_variant_randomly");
+	static public final LootFunctionType TYPE = new LootFunctionType(new LockVariantRandomlyLootFunction.Serializer());
 
-	static public void RegisterFunction(){
-		// Loads the class and initializes static variables
+	static public void Register(){
+		Registry.register(Registries.LOOT_FUNCTION_TYPE, ID, TYPE);
 	};
 
 	public	LockVariantRandomlyLootFunction(LootCondition[] conditions){
@@ -43,6 +40,6 @@ extends ConditionalLootFunction
 	}
 
 	protected ItemStack	process(ItemStack stack, LootContext ctx){
-		return PaintStackCreator.SetRandomVariant(stack, ctx.getRandom());
+		return PaintStackUtil.SetRandomVariant(stack, ctx.getRandom());
 	}
 }
