@@ -1,0 +1,13 @@
+[{
+	"op": "add",
+	"path": "/pools/0/entries/-",
+	"value":
+	{
+		"type": "item",
+		"name": "minecraft:painting",
+		"weight": 2,
+		"functions":[{
+			"function": "lock_variant_randomly"
+		}]
+	}
+}]

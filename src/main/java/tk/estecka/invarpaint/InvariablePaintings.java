@@ -4,6 +4,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.CustomGameRuleCategory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -38,6 +40,14 @@ public class InvariablePaintings implements ModInitializer
 		LockVariantRandomlyLootFunction.Register();
 		FilledPaintingRecipe.Register();
 		PaintingReplicationRecipe.Register();
+		
+		var mod = FabricLoader.getInstance().getModContainer(MODID).get();
+		ResourceManagerHelper.registerBuiltinResourcePack(
+			new Identifier(MODID, "looting"),
+			mod,
+			Text.literal("Painting Loot"),
+			ResourcePackActivationType.DEFAULT_ENABLED
+		);
 	}
 
 }
