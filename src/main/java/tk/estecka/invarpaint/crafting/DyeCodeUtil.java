@@ -7,30 +7,44 @@ import net.minecraft.registry.entry.RegistryEntry;
 
 /**
  * DyeMask: Unordered set of dyes stored in 16 bits (short). Every bit indicates
- * the absence or presence of the with the id corresponding to the bit index.
+ * the absence or presence of the dye with the id corresponding to its index.
  * 
  * DyeCode: Ordered list of dyes  where every 4-bits (0x0 to 0xf) indicates  the
  * id of a dye. int32 can store 8 dyes, int64 (long) can store 16.
  */
 public class DyeCodeUtil
 {
-	static public final int	COMBINATION_MAX = n_choose_k(16, 8);
+	static public final int[]	COMBINATION_MAX;
+
+	static {
+		COMBINATION_MAX = new int[9];
+		for (int i=0; i<COMBINATION_MAX.length; ++i)
+			COMBINATION_MAX[i] = n_choose_k(16, i);
+	}
 
 /******************************************************************************/
 /* Fast Lane                                                                  */
 /******************************************************************************/
 
 	static public Optional<? extends RegistryEntry<PaintingVariant>>	DyemaskToVariant(short mask){
-		return Registries.PAINTING_VARIANT.getEntry(RankToVariant(MaskToRank(mask)));
+		return Registries.PAINTING_VARIANT.getEntry(RankToVariant(MaskToRank(mask), MaskSize(mask)));
 	}
 
-	static public short	VariantToDyemask(PaintingVariant variant){
-		return RankToMask(VariantToRank(Registries.PAINTING_VARIANT.getRawId(variant)), 8);
+	static public short	VariantToDyemask(PaintingVariant variant, int setSize){
+		return RankToMask(VariantToRank(Registries.PAINTING_VARIANT.getRawId(variant), setSize), setSize);
 	}
 
 /******************************************************************************/
 /* Details                                                                    */
 /******************************************************************************/
+
+	static public int MaskSize(short mask){
+		int setSize = 0;
+		for (int i=0; i<16; ++i, mask>>>=1)
+			if ((mask & 1) != 0)
+				++setSize;
+		return setSize;
+	}
 
 	static public long	MaskToCode(short mask){
 		long code = 0;
@@ -55,14 +69,14 @@ public class DyeCodeUtil
 	/**
 	 * Converts any combination rank to a variant's index.
 	 */
-	static public int	RankToVariant(int rank){
-		return rank * Registries.PAINTING_VARIANT.size() / COMBINATION_MAX;
+	static public int	RankToVariant(int rank, int setSize){
+		return rank * Registries.PAINTING_VARIANT.size() / COMBINATION_MAX[setSize];
 	}
 	/**
 	 * Converts a variant's index to the rank of the first corresponding combination.
 	 */
-	static public int	VariantToRank(int rawId){
-		return CeilDivide(rawId * COMBINATION_MAX, Registries.PAINTING_VARIANT.size());
+	static public int	VariantToRank(int rawId, int setSize){
+		return CeilDivide(rawId * COMBINATION_MAX[setSize], Registries.PAINTING_VARIANT.size());
 	}
 
 	static int CeilDivide(int numerator, int denomitator){

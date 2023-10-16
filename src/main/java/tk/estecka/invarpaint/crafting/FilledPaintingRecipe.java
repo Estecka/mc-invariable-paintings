@@ -12,6 +12,7 @@ import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.dynamic.Range;
 import net.minecraft.world.World;
 import tk.estecka.invarpaint.InvariablePaintings;
 import tk.estecka.invarpaint.PaintStackUtil;
@@ -23,16 +24,19 @@ implements IUnsyncRecipe, IObfuscatedRecipe
 	static public final Identifier ID = new Identifier("invarpaint", "crafting_special_painting_creation");
 	static public final RecipeSerializer<FilledPaintingRecipe> SERIALIZER = new FilledPaintingRecipeSerializer();
 
-	public final boolean canCreate;
-	public final boolean canDerive;
+	public final int dyesMin, dyesMax;
+	public final boolean canCreate, canDerive;
 	public final boolean isObfuscated;
 
 	static public void Register(){
 		Registry.register(Registries.RECIPE_SERIALIZER, FilledPaintingRecipe.ID, FilledPaintingRecipe.SERIALIZER);
 	}
 
-	public FilledPaintingRecipe(Identifier id, CraftingRecipeCategory category, boolean canCreate, boolean canDerive, boolean isObfuscated){
+	public FilledPaintingRecipe(Identifier id, CraftingRecipeCategory category, Range<Integer> dyeCount, boolean canCreate, boolean canDerive, boolean isObfuscated){
 		super(id, category);
+
+		this.dyesMin = Math.max(1, dyeCount.minInclusive().intValue());
+		this.dyesMax = Math.min(8, dyeCount.maxInclusive().intValue());
 		this.canCreate = canCreate;
 		this.canDerive = canDerive;
 		this.isObfuscated = isObfuscated;
@@ -55,8 +59,7 @@ implements IUnsyncRecipe, IObfuscatedRecipe
 
 		for (int i=0; i<ingredients.size(); ++i){
 			ItemStack stack = ingredients.getStack(i);
-			if (stack.getItem() instanceof DyeItem){
-				DyeItem dye = (DyeItem)stack.getItem();
+			if (stack.getItem() instanceof DyeItem dye){
 				if(dyeSet.contains(dye))
 					return false;
 				dyeSet.add(dye);
@@ -70,30 +73,30 @@ implements IUnsyncRecipe, IObfuscatedRecipe
 				return false;
 		}
 
-		return hasPainting && (dyeSet.size() == 8);
+		return hasPainting && (dyesMin <= dyeSet.size()) && (dyeSet.size() <= dyesMax);
 	}
 
 	public ItemStack craft(CraftingInventory ingredients, DynamicRegistryManager manager){
 		short dyeMask = 0;
-		for (int i=0; i<ingredients.size(); ++i){
-			if (ingredients.getStack(i).getItem() instanceof DyeItem)
-				dyeMask |= 1 << ((DyeItem)ingredients.getStack(i).getItem()).getColor().getId();
+		for (int i=0; i<ingredients.size(); ++i)
+		if  (ingredients.getStack(i).getItem() instanceof DyeItem dye) {
+			dyeMask |= 1 << dye.getColor().getId();
 		}
-
-		long dyeCode = DyeCodeUtil.MaskToCode(dyeMask);
 
 		var entry = DyeCodeUtil.DyemaskToVariant(dyeMask);
 		if (entry.isPresent()){
 			return PaintStackUtil.CreateVariant(entry.get().getKey().get().getValue().toString());
 		}
 		else {
-			InvariablePaintings.LOGGER.error("Unable to find a valid painting: {}", String.format("0x%08X", dyeCode));
+			int dyeCount = DyeCodeUtil.MaskSize(dyeMask);
+			long dyeCode = DyeCodeUtil.MaskToCode(dyeMask);
+			InvariablePaintings.LOGGER.error("Unable to find a valid painting: [{}] 0x{}", dyeCount, String.format("%0"+dyeCount+"X", dyeCode));
 			return ItemStack.EMPTY;
 		}
 	}
 
 	public boolean fits(int width, int height){
-		return (width*height) >= 9;
+		return (width*height) > dyesMin;
 	}
 
 	@Override
