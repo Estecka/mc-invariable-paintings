@@ -42,10 +42,18 @@ public class InvariablePaintings implements ModInitializer
 		PaintingReplicationRecipe.Register();
 		
 		var mod = FabricLoader.getInstance().getModContainer(MODID).get();
+
 		ResourceManagerHelper.registerBuiltinResourcePack(
 			new Identifier(MODID, "looting"),
 			mod,
 			Text.literal("Painting Loot"),
+			ResourcePackActivationType.DEFAULT_ENABLED
+		);
+
+		ResourceManagerHelper.registerBuiltinResourcePack(
+			new Identifier(MODID, "crafting-experimental"),
+			mod,
+			Text.literal("Painting Recipes"),
 			ResourcePackActivationType.DEFAULT_ENABLED
 		);
 	}
