@@ -5,8 +5,8 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
-import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
@@ -21,18 +21,21 @@ extends SpecialCraftingRecipe
 implements IUnsyncRecipe, IObfuscatedRecipe
 {
 	static public final Identifier ID = new Identifier("invarpaint", "crafting_special_painting_creation");
-	static public final SpecialRecipeSerializer<FilledPaintingRecipe> SERIALIZER = new SpecialRecipeSerializer<FilledPaintingRecipe>(FilledPaintingRecipe::new);
+	static public final RecipeSerializer<FilledPaintingRecipe> SERIALIZER = new FilledPaintingRecipeSerializer();
 
-	private boolean canCreate = true;
-	private boolean canDerive = true;
-	private boolean isObfuscated = true;
+	public final boolean canCreate;
+	public final boolean canDerive;
+	public final boolean isObfuscated;
 
 	static public void Register(){
 		Registry.register(Registries.RECIPE_SERIALIZER, FilledPaintingRecipe.ID, FilledPaintingRecipe.SERIALIZER);
 	}
 
-	public FilledPaintingRecipe(Identifier id, CraftingRecipeCategory category){
+	public FilledPaintingRecipe(Identifier id, CraftingRecipeCategory category, boolean canCreate, boolean canDerive, boolean isObfuscated){
 		super(id, category);
+		this.canCreate = canCreate;
+		this.canDerive = canDerive;
+		this.isObfuscated = isObfuscated;
 	}
 
 	@Override
@@ -93,7 +96,8 @@ implements IUnsyncRecipe, IObfuscatedRecipe
 		return (width*height) >= 9;
 	}
 
-	public SpecialRecipeSerializer<FilledPaintingRecipe> getSerializer(){
+	@Override
+	public RecipeSerializer<FilledPaintingRecipe> getSerializer(){
 		return SERIALIZER;
 	}
 }
