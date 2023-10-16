@@ -18,10 +18,14 @@ import tk.estecka.invarpaint.PaintStackUtil;
 
 public class FilledPaintingRecipe 
 extends SpecialCraftingRecipe
-implements IUnsyncRecipe
+implements IUnsyncRecipe, IObfuscatedRecipe
 {
 	static public final Identifier ID = new Identifier("invarpaint", "crafting_special_painting_creation");
 	static public final SpecialRecipeSerializer<FilledPaintingRecipe> SERIALIZER = new SpecialRecipeSerializer<FilledPaintingRecipe>(FilledPaintingRecipe::new);
+
+	private boolean canCreate = true;
+	private boolean canDerive = true;
+	private boolean isObfuscated = true;
 
 	static public void Register(){
 		Registry.register(Registries.RECIPE_SERIALIZER, FilledPaintingRecipe.ID, FilledPaintingRecipe.SERIALIZER);
@@ -31,9 +35,12 @@ implements IUnsyncRecipe
 		super(id, category);
 	}
 
+	@Override
+	public boolean IsObfuscated(){
+		return this.isObfuscated;
+	}
+
 	private boolean ValidatePainting(ItemStack painting, World world){
-		boolean canCreate = world.getGameRules().getBoolean(InvariablePaintings.CREATING_RULE);
-		boolean canDerive = world.getGameRules().getBoolean(InvariablePaintings.DERIVATE_RULE);
 		boolean hasVariant = PaintStackUtil.HasVariantId(painting);
 
 		return (canCreate && !hasVariant) || (canDerive && hasVariant);

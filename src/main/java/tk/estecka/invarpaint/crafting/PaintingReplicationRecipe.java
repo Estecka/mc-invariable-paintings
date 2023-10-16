@@ -12,7 +12,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
-import tk.estecka.invarpaint.InvariablePaintings;
 import tk.estecka.invarpaint.PaintStackUtil;
 
 public class PaintingReplicationRecipe 
@@ -33,9 +32,6 @@ implements IUnsyncRecipe
 	public boolean matches(CraftingInventory ingredients, World world){
 		boolean hasCanvas = false;
 		boolean hasTemplate = false;
-
-		if (!world.getGameRules().getBoolean(InvariablePaintings.REPLICA_RULE))
-			return false;
 
 		for (int i=0; i<ingredients.size(); ++i){
 			ItemStack stack = ingredients.getStack(i);
