@@ -1,6 +1,9 @@
 package tk.estecka.invarpaint.crafting;
 
 import java.util.HashSet;
+import java.util.Optional;
+import org.jetbrains.annotations.Nullable;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
@@ -11,6 +14,7 @@ import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.dynamic.Range;
 import net.minecraft.world.World;
@@ -77,22 +81,33 @@ implements IUnsyncRecipe, IObfuscatedRecipe
 	}
 
 	public ItemStack craft(CraftingInventory ingredients, DynamicRegistryManager manager){
+		String canvasVariant = null;
 		short dyeMask = 0;
-		for (int i=0; i<ingredients.size(); ++i)
-		if  (ingredients.getStack(i).getItem() instanceof DyeItem dye) {
-			dyeMask |= 1 << dye.getColor().getId();
+		for (int i=0; i<ingredients.size(); ++i){
+			ItemStack item = ingredients.getStack(i);
+			if (item.isOf(Items.PAINTING))
+				canvasVariant = PaintStackUtil.GetVariantId(item);
+			if (item.getItem() instanceof DyeItem dye)
+				dyeMask |= 1 << dye.getColor().getId();
 		}
 
-		var entry = DyeCodeUtil.DyemaskToVariant(dyeMask);
+		int dyeCount = DyeCodeUtil.MaskSize(dyeMask);
+		var entry = CraftVariant(canvasVariant, dyeMask, dyeCount);
 		if (entry.isPresent()){
 			return PaintStackUtil.CreateVariant(entry.get().getKey().get().getValue().toString());
 		}
 		else {
-			int dyeCount = DyeCodeUtil.MaskSize(dyeMask);
 			long dyeCode = DyeCodeUtil.MaskToCode(dyeMask);
 			InvariablePaintings.LOGGER.error("Unable to find a valid painting: [{}] 0x{}", dyeCount, String.format("%0"+dyeCount+"X", dyeCode));
 			return ItemStack.EMPTY;
 		}
+	}
+
+	static public Optional<?extends RegistryEntry<PaintingVariant>>	CraftVariant(@Nullable String baseVariant, short dyeMask, int dyeCount){
+		if (Registries.PAINTING_VARIANT.size() <= DyeCodeUtil.COMBINATION_MAX[dyeCount])
+			return DyeCodeUtil.DyemaskToVariant(dyeMask);
+		else
+			return new Partition(baseVariant, DyeCodeUtil.COMBINATION_MAX[dyeCount]).Next().GetVariant(DyeCodeUtil.MaskToRank(dyeMask));
 	}
 
 	public boolean fits(int width, int height){
