@@ -26,21 +26,22 @@ public class InvariablePaintings implements ModInitializer
 		LockVariantRandomlyLootFunction.Register();
 		FilledPaintingRecipe.Register();
 		PaintingReplicationRecipe.Register();
-		
-		var mod = FabricLoader.getInstance().getModContainer(MODID).get();
 
-		ResourceManagerHelper.registerBuiltinResourcePack(
-			new Identifier(MODID, "looting"),
-			mod,
-			Text.literal("Painting Loot"),
-			ResourcePackActivationType.DEFAULT_ENABLED
-		);
+		RegisterPack("looting", "Painting Loot", true);
 
+		RegisterPack("crafting-unbound"  , "All Painting Recipes"      , false);
+		RegisterPack("crafting-cloning"  , "Painting Recipe: Cloning"  , false);
+		RegisterPack("crafting-expensive", "Painting Recipe: Expensive", false);
+		RegisterPack("crafting-iterative", "Painting Recipe: Iterative", false);
+		RegisterPack("crafting-recycling", "Painting Recipe: Recycling", false);
+	}
+
+	void RegisterPack(String id, String displayName, boolean defaultEnabled){
+		final var mod = FabricLoader.getInstance().getModContainer(MODID).get();
 		ResourceManagerHelper.registerBuiltinResourcePack(
-			new Identifier(MODID, "crafting-experimental"),
-			mod,
-			Text.literal("Painting Recipes"),
-			ResourcePackActivationType.DEFAULT_ENABLED
+			new Identifier(MODID, id), mod,
+			Text.literal(displayName),
+			defaultEnabled ? ResourcePackActivationType.DEFAULT_ENABLED : ResourcePackActivationType.NORMAL
 		);
 	}
 

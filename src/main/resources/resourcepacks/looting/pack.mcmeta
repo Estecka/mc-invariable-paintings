@@ -3,6 +3,6 @@
 		"pack_format": 12,
 		"supported_formats": [12, 18],
 		"patched:has_patches": true,
-		"description": "Requires Patched"
+		"description": "Requires the mod Patched"
 	}
 }
