@@ -39,8 +39,8 @@ implements IUnsyncRecipe, IObfuscatedRecipe
 	public FilledPaintingRecipe(Identifier id, CraftingRecipeCategory category, Range<Integer> dyeCount, boolean canCreate, boolean canDerive, boolean isObfuscated){
 		super(id, category);
 
-		this.dyesMin = Math.max(1, dyeCount.minInclusive().intValue());
-		this.dyesMax = Math.min(8, dyeCount.maxInclusive().intValue());
+		this.dyesMin = Math.min(8, Math.max(1, dyeCount.minInclusive().intValue()));
+		this.dyesMax = Math.min(8, Math.max(1, dyeCount.maxInclusive().intValue()));
 		this.canCreate = canCreate;
 		this.canDerive = canDerive;
 		this.isObfuscated = isObfuscated;

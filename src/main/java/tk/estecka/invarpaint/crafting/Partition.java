@@ -62,7 +62,8 @@ public class Partition
 	}
 
 	/**
-	 * @param rank	The rank of the dye combination used for crafting.
+	 * @param rank	The index of the variant within the partition. I.e, the rank
+	 * of the dye combination used for crafting.
 	 */
 	public Optional<? extends RegistryEntry<PaintingVariant>>	GetVariant(int rank){
 		int index = (this.index * this.size) + rank;
