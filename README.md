@@ -20,12 +20,13 @@ Filled paintings can be bought from **Master Shepherds** and **Wandering Traders
 ### Looting
 This features requires **[Patched](https://modrinth.com/mod/patched)**.
 
-Filled paintings may be found inside of many naturally generated chests, most suspicious soils, and while fishing.
-f
+Filled paintings may be found inside of many naturally generated chests, most suspicious soils, and while fishing.  
+The loot tables are provided as a built-in datapack, which can be disabled if you wish to.
+
 ### Crafting (experimental)
 **Crafting of filled paintings is disabled by default,** it is only available as an experiment, and may receive significant changes. **If you enjoy the idea of paintings being rare collectibles, I don't recommend enabling crafting at all,** because it may considerably trivialize the process of completing a collection. For this reason, crafting was intentionally designed to feel obscure and a bit expensive.
 
-There are several built-in datapacks that provide varying degrees of crafting freedom. More precise fine-tuning is possible by creating you own datapack.
+There are several built-in datapacks that provide varying degrees of crafting freedom. More precise fine-tuning is possible by creating you own datapack. See [the wiki](https://github.com/Estecka/mc-invariable-paintings/wiki/Painting-Creation-Recipe) on how the recipe files are formatted.
 
 #### Generalities
 The cost of crafting Blank paintings was increased to **1 Phantom Membrane**, instead of wool.
