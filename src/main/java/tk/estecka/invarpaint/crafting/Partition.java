@@ -6,43 +6,66 @@ import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
-import tk.estecka.invarpaint.InvariablePaintings;
 
 /**
- * Represents  a  group  of all variants  that can be  crafted  using a specific
- * number of dyes.
- * Partitions are only relevants when the number of possible dye combinations is
- * considerably smaller than the number of paintings; for example, if the number
- * of dyes required  for crafting is capped to 1. The resulting variant  will be
- * pulled from a different partition, depending on the input painting's variant,
- * allowing  all  variants  beyond  the  dyes' range  to  become  craftable,  by
- * reapplying to already crafted paintings.
+ * Represents a fraction of  the existing  painting variants, containing as many
+ * as the number of dye combinations.
+ * 
+ * Partitions are only relevants when the number of combinations is smaller than
+ * the number of existing paintings; for example, if the number of dyes required
+ * for crafting  is capped to 1. The input variant is then  used as a parameter,
+ * affecting which partition the crafting result will be pulled from.
  */
 public class Partition 
 {
-	private int offset;
+	private int index;
 	private int size;
 
 	public Partition(int size){
-		this.offset = 0;
+		this.index = 0;
 		this.size = size;
 	}
 
-	public Partition(@Nullable PaintingVariant variant, int size){
-		this(size);
-		this.FocusVariant(variant);
-	}
+	/**
+	 * @param inputVariant 
+	 * The variant  of the painting  placed into  the crafting,  or null  if the
+	 * painting is blank. Will fallback to null if the id is invalid or does not
+	 * exist.
+	 * 
+	 * @implNote
+	 * (index & 1) makes it so  one partition out of two  will have its crafting
+	 * direction flipped. This way, trying to iterate onto a painting  using the
+	 * same dye over and over will always yield the same two paintings.
+	 * 
+	 * (input <= output) makes it so  only a portion  of the partition  has  its
+	 * direction flipped. So it is always possible to progress in both direction
+	 * by alternating with the correct dyes.
+	 */
+	static public Partition FromIngredients(@Nullable String inputVariant, int combinationMax, int combinationRank){
+		Partition r = new Partition(combinationMax);
 
-	public Partition(@Nullable String variantId, int size){
-		this(size);
-		this.FocusVariant(variantId);
+		Identifier id;
+		if ((null!=inputVariant) && (null!=(id=Identifier.tryParse(inputVariant))) && Registries.PAINTING_VARIANT.containsId(id)) {
+			int rawId = Registries.PAINTING_VARIANT.getRawId(Registries.PAINTING_VARIANT.get(id));
+			int inputRank = rawId % r.size;
+			r.index = rawId / r.size;
+
+			boolean forward = ((r.index & 1) != 0) ^ (inputRank <= combinationRank);
+			if (forward) 
+				r.Next();
+			else
+				r.Previous();
+
+		}
+
+		return r;
 	}
 
 	/**
 	 * @param rank	The rank of the dye combination used for crafting.
 	 */
 	public Optional<? extends RegistryEntry<PaintingVariant>>	GetVariant(int rank){
-		int index = this.offset + rank;
+		int index = (this.index * this.size) + rank;
 
 		if (index >= Registries.PAINTING_VARIANT.size())
 			index = rank;
@@ -50,29 +73,17 @@ public class Partition
 		return Registries.PAINTING_VARIANT.getEntry(index);
 	}
 
-
 	public Partition Next(){
-		this.offset += this.size;
-		if (this.offset >= Registries.PAINTING_VARIANT.size())
-			this.offset = 0;
+		++this.index;
+		if (Registries.PAINTING_VARIANT.size() <= (this.index * this.size))
+			this.index = 0;
 		return this;
 	}
 
-	public Partition FocusVariant(@Nullable String variantId){
-		if (variantId != null)
-			this.FocusVariant(Registries.PAINTING_VARIANT.get(Identifier.tryParse(variantId)));
-		else
-			this.offset = 0;
-		return this;
-	}
-
-	public Partition FocusVariant(@Nullable PaintingVariant variant){
-		if (variant != null){
-			this.offset = Registries.PAINTING_VARIANT.getRawId(variant);
-			this.offset -= (offset % size);
-		}
-		else
-			this.offset = 0;
+	public Partition Previous(){
+		--this.index;
+		if (this.index < 0)
+			this.index = Registries.PAINTING_VARIANT.size() / this.size;
 		return this;
 	}
 

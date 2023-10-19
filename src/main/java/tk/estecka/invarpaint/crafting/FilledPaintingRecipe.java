@@ -103,11 +103,13 @@ implements IUnsyncRecipe, IObfuscatedRecipe
 		}
 	}
 
-	static public Optional<?extends RegistryEntry<PaintingVariant>>	CraftVariant(@Nullable String baseVariant, short dyeMask, int dyeCount){
+	static public Optional<?extends RegistryEntry<PaintingVariant>>	CraftVariant(@Nullable String inputVariant, short dyeMask, int dyeCount){
 		if (Registries.PAINTING_VARIANT.size() <= DyeCodeUtil.COMBINATION_MAX[dyeCount])
 			return DyeCodeUtil.DyemaskToVariant(dyeMask);
-		else
-			return new Partition(baseVariant, DyeCodeUtil.COMBINATION_MAX[dyeCount]).Next().GetVariant(DyeCodeUtil.MaskToRank(dyeMask));
+		else {
+			int rank = DyeCodeUtil.MaskToRank(dyeMask);
+			return Partition.FromIngredients(inputVariant, DyeCodeUtil.COMBINATION_MAX[dyeCount], rank).GetVariant(rank);
+		}
 	}
 
 	public boolean fits(int width, int height){
