@@ -21,43 +21,37 @@ Filled paintings can be bought from **Master Shepherds** and **Wandering Traders
 This features requires **[Patched](https://modrinth.com/mod/patched)**.
 
 Filled paintings may be found inside of many naturally generated chests, most suspicious soils, and while fishing.  
-The loot tables are provided as a built-in datapack, which can be disabled if you wish to.
+The loot tables are provided as a built-in datapack which can be disabled.
 
 ### Crafting (experimental)
-**Crafting of filled paintings is disabled by default,** it is only available as an experiment, and may receive significant changes. **If you enjoy the idea of paintings being rare collectibles, I don't recommend enabling crafting at all,** because it may considerably trivialize the process of completing a collection. For this reason, crafting was intentionally designed to feel obscure and a bit expensive.
+**Crafting of filled paintings is disabled by default,** it is only available as an experiment, and may receive significant changes. **If you enjoy paintings being rare collectibles, I don't recommend enabling crafting at all,** because it may considerably trivialize the process of completing a collection. For this reason, crafting was intentionally designed to feel obscure and a bit expensive.
 
-There are several built-in datapacks that provide varying degrees of crafting freedom. More precise fine-tuning is possible by creating you own datapack. See [the wiki](https://github.com/Estecka/mc-invariable-paintings/wiki/Painting-Creation-Recipe) on how the recipe files are formatted.
+There are several built-in datapacks that provide varying degrees of crafting freedom. More precise fine-tuning is possible by creating you own datapack. 
 
-#### Generalities
-The cost of crafting Blank paintings was increased to **1 Phantom Membrane**, instead of wool.
+See [the wiki](https://github.com/Estecka/mc-invariable-paintings/wiki/Painting-Creation-Recipe) for the specifics on how crafting works, and how it can be configured.
 
-Cloning is done by combining a blank painting to an already filled one; similarly to banner cloning or book cloning.
-
-Crafting is done by applying one or several different dyes to a painting, either blank or filled. The recipe can be configured to use a specific amount of dyes, or a specific type of canvas. Results can be obfuscated, meaning you won't be able to see the resulting variant until you take it out of the crafting table and consume the ingredients.
-
-The colour of the dyes has no particular meaning. The correspondance between each combination and each variant is random, but deterministic; it will only vary depending on the set of paintings you have installed.
-
-Crafting will behave differently depending on how many dyes the recipe is configured to use:
-- If the amount of possible dye combinations exceeds the amount of painting variants, (e.g, using 8 dyes), then multiple similar combinations will result in the same variant.
-- If the amount painting variants exceeds the amount of possible dye combinations (e.g, using only 1 dye at once), then the variant of the ingredient painting will also affect the result. Only a limited set of paintings can be crafted from a blank canvas, but more can be crafted from different filled paintings.
-
+#### General rules
+- The cost of crafting blank paintings was increased to **1 Phantom Membrane** instead of 1 wool.
+- Cloning is done by combining a blank painting with an already filled one; similarly to how banner cloning and book cloning works.
+- Filling a painting is done by combining it with dyes. The colour of the dyes has no particular meaning. The correspondance between each combination and each variant is semi-randomly determined, based on set of paintings you have installed.
+- The resulting painting is usually obfuscated until you take it out of the crafting table.
 
 #### Datapack Presets:
-
 None of the packs are enabled by default.
 You can manage them in the datapack menu when creating a new world, or using the `/datapack` command in already created worlds.
 
 These presets may receive significant changes in the future.
 
-Except for "Cloning", you should only need enable one if these at a time.
+Except for Cloning, you should only need to enable one of these packs at a time.
 
 - **Unbound:** The least restrictive crafting pack. Paintings can be crafted using any amount of dyes, using either a blank painting or an already filled one. This is the only pack were crafting results are not obfuscated. This already includes the cloning recipe.
-- **Expensive:** Crafting costs 8 different dies, and only accept Blank paintings as ingredients.
+- **Expensive:** Crafting costs 8 different dies, and only accept Blank paintings as ingredients.  
 This pack can be used together with the cloning one.
-- **Iterative:** Crafting only requires a single dye, thus only 16 different variants can be crafted from a blank canvas. More variants can be crafted by reusing filled paintings as ingredients. This will work even better if you have about a dozen of modded variants installed.
+- **Iterative:** Crafting only requires a single dye, thus only 16 different variants can be crafted from a blank canvas. More variants can be crafted by reusing filled paintings as ingredients. This will work better with more painting variants installed into the game.  
 This pack can be used together with the cloning one.
-- **Recycling:** The most restrictive crafting pack. Blank paintings cannot be crafted nor used as ingredients, making it impossible to create anything solely out of raw materials. Your only option for crafting one painting is to sacrifice another existing one; **this will work better with cloning disabled.** Crafting requires 8 different dyes.
-- **Cloning:** Contains nothing but the cloning recipe, which is not included in most other presets. Using this pack alone own will make paintings will closer to banner templates or trimming templates: You can only find new paintings by exploring, but once you find one, you can reuse it indefinitely.
+- **Recycling:** The most restrictive crafting pack. Blank paintings cannot be crafted nor used as ingredients, making it impossible to create anything solely out of raw materials. Your only option for crafting one painting is to sacrifice another existing one. This will work better with cloning disabled. Crafting requires 8 different dyes.
+- **Cloning:** Contains nothing but the cloning recipe, which is not included in most other presets. Using this pack alone will make paintings closer to banner templates or trimming templates: You can only find new paintings by exploring, but once you find one, you can reuse it indefinitely.
+
 
 ## Inventory painting textures
 This feature requires **[CIT Resewn](https://modrinth.com/mod/cit-resewn)**.
