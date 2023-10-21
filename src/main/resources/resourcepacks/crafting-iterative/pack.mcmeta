@@ -1,0 +1,7 @@
+{
+	"pack": {
+		"pack_format": 12,
+		"supported_formats": [12, 18],
+		"description": "Requires only 1 dye. The input variant alters the result."
+	}
+}

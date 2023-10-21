@@ -1,0 +1,13 @@
+{
+	"type": "invarpaint:crafting_special_painting_creation",
+	"category": "misc",
+	"obfuscated": true,
+	"ingredients": {
+		"acceptsBlank": true,
+		"acceptsFilled": true,
+		"dyeCount": {
+			"min_inclusive": 1,
+			"max_inclusive": 1
+		}
+	}
+}

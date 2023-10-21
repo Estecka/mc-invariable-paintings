@@ -1,13 +1,4 @@
 {
-	"gamerule.category.invarpaint": "Invariable Paintings",
-	"gamerule.invarpaint.allowCreation": "Allow painting creation",
-	"gamerule.invarpaint.allowCreation.description": "Blank paintings can be crafted into filled paintings.",
-	"gamerule.invarpaint.allowDerivation": "Allow painting derivation",
-	"gamerule.invarpaint.allowDerivation.description": "Filled paintings can be recycled into a different variant.",
-	"gamerule.invarpaint.allowReplication": "Allow painting replication",
-	"gamerule.invarpaint.allowReplication.description": "Easily make clones of existing paintings.",
-	"gamerule.invarpaint.obfuscatedCrafting": "Obfuscated Crafting",
-	"gamerule.invarpaint.obfuscatedCrafting.description": "The result of creation and derivation will be hidden until the crafting materials are consummed.",
 	"painting.empty": "Blank",
 	"painting.invalid_space": "%s needs a %s space!",
 	"painting.obfuscated": "Unidentified",
