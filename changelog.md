@@ -27,3 +27,5 @@
 - Added partitioned crafting logic, allowing the crafting of any variant, even using short combinations of dyes.
 - Added several recipe preset datapacks.
 - Moved the loot tables to a datapack, which can be disabled.
+### 1.3.2
+- Updated version dependencies
