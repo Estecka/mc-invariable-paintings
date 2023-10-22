@@ -14,9 +14,8 @@ import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.CraftingScreenHandler;
 import net.minecraft.world.World;
-import tk.estecka.invarpaint.InvariablePaintings;
 import tk.estecka.invarpaint.PaintStackUtil;
-import tk.estecka.invarpaint.crafting.FilledPaintingRecipe;
+import tk.estecka.invarpaint.crafting.IObfuscatedRecipe;
 
 @Mixin(CraftingScreenHandler.class)
 public class CraftingScreenHandlerMixin 
@@ -27,8 +26,8 @@ public class CraftingScreenHandlerMixin
 	static private Optional<RecipeEntry<CraftingRecipe>>	GetObfuscationMode(RecipeManager instance, RecipeType<?> type, Inventory ingredients, World world, Operation<Optional<RecipeEntry<CraftingRecipe>>> operation){
 		var recipe = operation.call(instance, type, ingredients, world);
 		doObfuscate = recipe.isPresent()
-		           && recipe.get().value() instanceof FilledPaintingRecipe 
-		           && world.getGameRules().getBoolean(InvariablePaintings.OBFUSCATE_RULE)
+		           && recipe.get().value() instanceof IObfuscatedRecipe obfRecipe
+		           && obfRecipe.IsObfuscated()
 		           ;
 		return recipe;
 	}

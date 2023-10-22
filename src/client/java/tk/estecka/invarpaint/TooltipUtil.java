@@ -66,7 +66,7 @@ public class TooltipUtil
 			);
 
 			if (advanced){
-				tooltip.add(DyeCode(DyeCodeUtil.VariantToDyemask(variant.get())));
+				tooltip.add(DyeCode(DyeCodeUtil.VariantToDyemask(variant.get(), 8)));
 			}
 		}
 	}
