@@ -1,16 +1,10 @@
 package tk.estecka.invarpaint.crafting;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.Dynamic;
-import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.util.dynamic.Range;
 
 public class FilledPaintingRecipeSerializer 
@@ -51,20 +45,6 @@ implements RecipeSerializer<FilledPaintingRecipe>
 		return CODEC;
 	}
 
-	public FilledPaintingRecipe read(JsonObject json){
-		JsonObject ingredients = JsonHelper.getObject(json, "ingredients");
-		JsonObject dyeCount = JsonHelper.getObject(ingredients, "dyeCount");
-		Range<Integer> range =  Range.CODEC.decode(new Dynamic<JsonElement>(JsonOps.INSTANCE, dyeCount)).getOrThrow(false, JsonParseException::new).getFirst();
-
-		return new FilledPaintingRecipe(
-			CraftingRecipeCategory.CODEC.byId(JsonHelper.getString(json, "category", null), CraftingRecipeCategory.MISC),
-			range,
-			JsonHelper.getBoolean(ingredients, "acceptsBlank" , true ),
-			JsonHelper.getBoolean(ingredients, "acceptsFilled", false),
-			JsonHelper.getBoolean(json, "obfuscated", false)
-		);
-	}
-
 	@Override
 	public FilledPaintingRecipe read(PacketByteBuf packet){
 		Range<Integer> range = new Range<Integer>(
@@ -72,7 +52,7 @@ implements RecipeSerializer<FilledPaintingRecipe>
 			packet.getInt(1)
 		);
 		return new FilledPaintingRecipe(
-			CraftingRecipeCategory.CODEC.byId(packet.readString(), CraftingRecipeCategory.MISC),
+			packet.readEnumConstant(CraftingRecipeCategory.class),
 			range,
 			packet.getBoolean(0),
 			packet.getBoolean(1),

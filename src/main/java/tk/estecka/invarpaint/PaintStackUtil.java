@@ -113,7 +113,7 @@ public class PaintStackUtil
 
 	static public ItemStack Obfuscate(ItemStack stack){
 		NbtList lore = new NbtList();
-		lore.add(NbtString.of(Text.Serializer.toJson(Text.translatable("painting.obfuscated"))));
+		lore.add(NbtString.of(Text.Serialization.toJsonString(Text.translatable("painting.obfuscated"))));
 
 		NbtCompound display = new NbtCompound();
 		display.put(ItemStack.LORE_KEY, lore);
