@@ -15,7 +15,7 @@
 ### 1.2.2
 - Added paintings to the loot table of most Suspicious soils.
 
-## 1.3
+## 1.3 (beta)
 ### 1.3.0
 - Added some experimental crafting recipe for paintings.
 - Added a default CIT for filled paintings.
@@ -29,3 +29,7 @@
 - Moved the loot tables to a datapack, which can be disabled.
 ### 1.3.2
 - Updated version dependencies
+
+## 1.4
+- Removed crafting recipes.
+- Added custom CIT logic
