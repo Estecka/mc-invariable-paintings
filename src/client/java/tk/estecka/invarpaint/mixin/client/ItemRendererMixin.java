@@ -11,26 +11,34 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import tk.estecka.invarpaint.InvariablePaintingsClient;
+import tk.estecka.invarpaint.PaintStackUtil;
 
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin
 {
 	@Shadow private @Final ItemModels models;
 
-	Identifier test = new Identifier("invarpaint", "item/missing_painting");
-
 	@WrapOperation( method="getModel", at=@At( value="INVOKE", target="net/minecraft/client/render/item/ItemModels.getModel (Lnet/minecraft/item/ItemStack;)Lnet/minecraft/client/render/model/BakedModel;") )
 	private BakedModel	GetPaintingModel(ItemModels instance, ItemStack stack, Operation<BakedModel> original)
 	{
-		BakedModel model = null;
+		if (stack.isOf(Items.PAINTING))
+		{
+			if (PaintStackUtil.IsObfuscated(stack))
+				return models.getModelManager().getModel(InvariablePaintingsClient.CIT_RANDOM);
 
-		if (stack.isOf(Items.PAINTING)){
-			model = models.getModelManager().getModel(test);
+			String variant = PaintStackUtil.GetVariantId(stack);
+			if (variant != null)
+			{
+				Identifier variantId = Identifier.tryParse(variant);
+				if (variantId != null && Registries.PAINTING_VARIANT.containsId(variantId))
+					return models.getModelManager().getModel(InvariablePaintingsClient.CIT_FILLED);
+				else
+					return models.getModelManager().getModel(InvariablePaintingsClient.CIT_MISSING);
+			}
 		}
-
-		if (model != null)
-			return model;
 
 		return original.call(instance, stack);
 	}

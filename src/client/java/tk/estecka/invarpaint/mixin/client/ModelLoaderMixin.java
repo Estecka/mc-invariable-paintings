@@ -1,7 +1,6 @@
 package tk.estecka.invarpaint.mixin.client;
 
 import java.util.Map;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,6 +15,7 @@ import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
+import tk.estecka.invarpaint.InvariablePaintingsClient;
 
 @Mixin(ModelLoader.class)
 public abstract class ModelLoaderMixin
@@ -34,16 +34,17 @@ public abstract class ModelLoaderMixin
 	@Shadow private @Final Map<Identifier, JsonUnbakedModel> jsonUnbakedModels;
 
 	@Unique
-	private JsonUnbakedModel FromTexture(Identifier id){
-		return JsonUnbakedModel.deserialize(ARBITRARY_MODEL.formatted(id.toString()));
+	private void FromTexture(Identifier id){
+		var model = JsonUnbakedModel.deserialize(ARBITRARY_MODEL.formatted(id.toString()));
+		this.unbakedModels.put(id, model);
+		this.modelsToBake.put(id, model);
 	}
 
 	@Inject( method="<init>", at=@At(value="INVOKE", shift=Shift.BEFORE, target="java/util/Map.values ()Ljava/util/Collection;") )
 	private void	AddVariantModels(BlockColors _0, Profiler profiler, Map<?,?> _2, Map<?,?> _3, CallbackInfo ci)
 	{
-		Identifier id = new Identifier("invarpaint", "item/missing_painting");
-		var model = FromTexture(id);
-		this.unbakedModels.put(id, model);
-		this.modelsToBake.put(id, model);
+		this.FromTexture(InvariablePaintingsClient.CIT_FILLED);
+		this.FromTexture(InvariablePaintingsClient.CIT_RANDOM);
+		this.FromTexture(InvariablePaintingsClient.CIT_MISSING);
 	}
 }
