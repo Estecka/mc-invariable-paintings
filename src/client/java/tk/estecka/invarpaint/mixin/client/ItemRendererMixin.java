@@ -9,6 +9,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.render.item.ItemModels;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.render.model.BakedModelManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -24,19 +25,26 @@ public class ItemRendererMixin
 	@WrapOperation( method="getModel", at=@At( value="INVOKE", target="net/minecraft/client/render/item/ItemModels.getModel (Lnet/minecraft/item/ItemStack;)Lnet/minecraft/client/render/model/BakedModel;") )
 	private BakedModel	GetPaintingModel(ItemModels instance, ItemStack stack, Operation<BakedModel> original)
 	{
+		final BakedModelManager modelManager = this.models.getModelManager();
+
 		if (stack.isOf(Items.PAINTING))
 		{
 			if (PaintStackUtil.IsObfuscated(stack))
-				return models.getModelManager().getModel(InvariablePaintingsClient.CIT_RANDOM);
+				return modelManager.getModel(InvariablePaintingsClient.CIT_RANDOM);
 
 			String variant = PaintStackUtil.GetVariantId(stack);
 			if (variant != null)
 			{
 				Identifier variantId = Identifier.tryParse(variant);
-				if (variantId != null && Registries.PAINTING_VARIANT.containsId(variantId))
-					return models.getModelManager().getModel(InvariablePaintingsClient.CIT_FILLED);
-				else
-					return models.getModelManager().getModel(InvariablePaintingsClient.CIT_MISSING);
+				if (variantId == null || !Registries.PAINTING_VARIANT.containsId(variantId))
+					return modelManager.getModel(InvariablePaintingsClient.CIT_MISSING);
+				else {
+					var model = modelManager.getModel(variantId.withPrefixedPath("item/paintings/"));
+					if (model != null && model != modelManager.getMissingModel())
+						return model;
+					else
+						return modelManager.getModel(InvariablePaintingsClient.CIT_FILLED);
+				}
 			}
 		}
 
