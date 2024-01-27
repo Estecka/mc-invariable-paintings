@@ -52,7 +52,7 @@ public abstract class ModelLoaderMixin
 		TextureManager texManager = MinecraftClient.getInstance().getTextureManager();
 		for (Identifier painting : Registries.PAINTING_VARIANT.getIds())
 		{
-			Identifier texture = painting.withPrefixedPath("item/paintings/");
+			Identifier texture = painting.withPrefixedPath(InvariablePaintingsClient.CIT_PREFIX);
 			// if (texManager.getOrDefault(texture, null) != null)
 				this.FromTexture(texture);
 		}

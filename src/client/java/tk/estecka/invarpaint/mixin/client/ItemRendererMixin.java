@@ -39,7 +39,7 @@ public class ItemRendererMixin
 				if (variantId == null || !Registries.PAINTING_VARIANT.containsId(variantId))
 					return modelManager.getModel(InvariablePaintingsClient.CIT_MISSING);
 				else {
-					var model = modelManager.getModel(variantId.withPrefixedPath("item/paintings/"));
+					var model = modelManager.getModel(variantId.withPrefixedPath(InvariablePaintingsClient.CIT_PREFIX));
 					if (model != null && model != modelManager.getMissingModel())
 						return model;
 					else
