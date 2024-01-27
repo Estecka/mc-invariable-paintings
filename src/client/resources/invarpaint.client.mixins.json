@@ -7,7 +7,8 @@
 		"DecorationItemMixin",
 		"ItemMixin",
 		"ItemRendererMixin",
-		"ModelLoaderMixin"
+		"ModelLoaderMixin",
+		"ModelLoaderBakerImplMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

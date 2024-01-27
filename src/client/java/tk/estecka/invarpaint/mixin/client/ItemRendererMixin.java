@@ -40,7 +40,7 @@ public class ItemRendererMixin
 					return modelManager.getModel(InvariablePaintingsClient.CIT_MISSING);
 				else {
 					var model = modelManager.getModel(variantId.withPrefixedPath(InvariablePaintingsClient.CIT_PREFIX));
-					if (model != null && model != modelManager.getMissingModel())
+					if (model != null)
 						return model;
 					else
 						return modelManager.getModel(InvariablePaintingsClient.CIT_FILLED);
