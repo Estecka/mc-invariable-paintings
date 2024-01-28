@@ -15,7 +15,7 @@
 ### 1.2.2
 - Added paintings to the loot table of most Suspicious soils.
 
-## 1.3 (beta)
+## 1.3
 ### 1.3.0
 - Added some experimental crafting recipe for paintings.
 - Added a default CIT for filled paintings.
@@ -31,5 +31,4 @@
 - Updated version dependencies
 
 ## 1.4
-- Removed crafting recipes.
-- Added custom CIT logic
+- Added a specialized and more performant CIT logic for painting items. CIT-Resewn is no longer a dependency.
