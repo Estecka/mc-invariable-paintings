@@ -73,6 +73,7 @@ Older versions of the mods relied on CIT-resewn, but this is no longer necessary
 - Fixes a vanilla bug whereby paiting items may sometimes appear to be consumed, without actually placing the painting.
 - Shows a warning when trying to place a painting in too small a space.
 - Slightly reworked the tooltip for painting items.
+- Creative players can pick a painting's variant by holding Ctrl.
 
 
 ## Compatibility
