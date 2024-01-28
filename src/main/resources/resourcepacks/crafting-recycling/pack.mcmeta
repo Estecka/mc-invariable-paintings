@@ -3,10 +3,5 @@
 		"pack_format": 12,
 		"supported_formats": [12, 18],
 		"description": "Paintings cannot be created from raw materials."
-	},
-	"filter": {
-		"block": [
-			{ "namespace": "minecraft", "path":"recipes/painting.json" }
-		]
 	}
 }

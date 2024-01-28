@@ -32,3 +32,5 @@
 
 ## 1.4
 - Added a specialized and more performant CIT logic for painting items. CIT-Resewn is no longer a dependency.
+- Increased the price of paintings trades.
+- "Recycling" preset no longer forbids blank canvas creation.
