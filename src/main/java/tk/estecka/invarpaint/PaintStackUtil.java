@@ -80,7 +80,7 @@ public class PaintStackUtil
 
 	static public boolean	IsObfuscated(ItemStack stack){
 		NbtCompound nbt = stack.getNbt();
-		return (nbt != null) ? nbt.contains(OBFUSCATED_TAG) : false;
+		return nbt != null && nbt.contains(OBFUSCATED_TAG);
 	}
 
 	static public ItemStack Obfuscate(ItemStack stack){
