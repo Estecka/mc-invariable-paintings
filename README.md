@@ -11,7 +11,7 @@ Blank paintings can no longer be placed in survival, but can be used as crafting
 ### Dependencies
 **[Patched](https://modrinth.com/mod/patched)** (server-side) is required in order to add items to some loot tables. However Invarpaint can still safely run without it.
 
-Invarpaint is mostly optional on client. The worst a client without the mod may experience is a desyncing issue when trying to place a blank painting, or when trying to place a filled painting in space too that is too small.
+Invarpaint is mostly optional on client. The worst a client without the mod may experience is a desyncing issue when trying to place a blank painting, or when trying to place a filled painting in a space that is too small.
 
 ## Obtaining paintings
 ### Trading
@@ -59,7 +59,7 @@ Paintings in the inventory can have unique textures depending on their variant.
 
 Invarpaint provides icons for vanilla paintings, but it does not currently generate icons for modded paintings. Those should be provided via resource packs.
 
-Custom icons are located at `/textures/<namespace>/item/painting/<variant>.png`, and matched to the variant with the corresponding id. Variants that lack a custom icon will fallback to a generic built-in one.
+Custom icons are located at `/textures/<namespace>/item/painting/<variant>.png`, and matched to the variant with the corresponding id. Variants that lack a custom icon will fall back to a generic built-in one.
 
 Older versions of the mods relied on CIT-resewn, but this is no longer necessary. CIT-resewn is still compatible, and old texture packs should still be able to override Invarpaint's textures. However, switching to Invarpaint's specialized cit logic should be preferred to improve performances.
 
