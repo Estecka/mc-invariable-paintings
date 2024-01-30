@@ -16,4 +16,5 @@ Current master
 
 ### 1.20.3
 - ~~Text serialization method moved elsewhere~~ (Yarn mapping change)
-- Crafting category deserialization method was removed (Change can be avoided by using other methods)
+- Crafting category deserialization method was removed (Avoidable by using other methods)
+- The field `CraftingRecipeCategory::CODEC` had its signature changed (Avoidable by getting it from elsewhere)
