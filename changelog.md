@@ -29,3 +29,10 @@
 - Moved the loot tables to a datapack, which can be disabled.
 ### 1.3.2
 - Updated version dependencies
+
+## 1.4
+- Added a specialized and more performant CIT logic for painting items. CIT-Resewn is no longer a dependency.
+- Painting variants can be picked with Ctrl
+- Increased the price of paintings trades.
+- "Recycling" preset no longer forbids blank canvas crafting.
+- Copied the lootfunction to invarpaint's own namespace. Marked the old one as deprecated.
