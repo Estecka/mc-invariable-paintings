@@ -35,3 +35,4 @@
 - Painting variants can be picked with Ctrl
 - Increased the price of paintings trades.
 - "Recycling" preset no longer forbids blank canvas crafting.
+- Copied the lootfunction to invarpaint's own namespace. Marked the old one as deprecated.

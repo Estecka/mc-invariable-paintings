@@ -67,7 +67,7 @@ Older versions of the mods relied on CIT-resewn, but this is no longer necessary
 ## Miscellaneous tweaks
 ### Server-side
 - Placement of variant-locked paintings in tight spaces is more forgiving. (Vanilla would require targeting some specific block.)
-- Added a new loot function `lock_variant_randomly`, which can applied to painting items in loot tables.
+- Added a new loot function `invarpaint:lock_variant_randomly`, which can applied to painting items in loot tables.
 
 ### Client-side
 - Fixes a vanilla bug whereby paiting items may sometimes appear to be consumed, without actually placing the painting.

@@ -23,11 +23,15 @@ extends ConditionalLootFunction
 		}
 	}
 
-	static public final Identifier ID = new Identifier("lock_variant_randomly");
+	@Deprecated static public final Identifier OLD_ID = new Identifier("lock_variant_randomly");
+	@Deprecated static public final LootFunctionType OLD_TYPE = new LootFunctionType(new LockVariantRandomlyLootFunction.Serializer());
+
+	static public final Identifier ID = new Identifier("invarpaint", "lock_variant_randomly");
 	static public final LootFunctionType TYPE = new LootFunctionType(new LockVariantRandomlyLootFunction.Serializer());
 
 	static public void Register(){
 		Registry.register(Registries.LOOT_FUNCTION_TYPE, ID, TYPE);
+		Registry.register(Registries.LOOT_FUNCTION_TYPE, OLD_ID, OLD_TYPE);
 	};
 
 	public	LockVariantRandomlyLootFunction(LootCondition[] conditions){
