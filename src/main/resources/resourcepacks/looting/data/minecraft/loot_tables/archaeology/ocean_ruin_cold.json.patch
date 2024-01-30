@@ -7,7 +7,7 @@
 		"name": "minecraft:painting",
 		"weight": 2,
 		"functions":[{
-			"function": "lock_variant_randomly"
+			"function": "invarpaint:lock_variant_randomly"
 		}]
 	}
 }]

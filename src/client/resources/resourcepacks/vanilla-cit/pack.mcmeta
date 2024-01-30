@@ -1,7 +1,7 @@
 {
 	"pack": {
 		"pack_format": 13,
-		"supported_formats": [13, 18],
-		"description": "Requires CIT-resewn"
+		"supported_formats": [13, 22],
+		"description": "Inventory icons for filled paintings"
 	}
 }

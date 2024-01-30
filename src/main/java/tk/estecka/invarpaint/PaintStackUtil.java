@@ -1,6 +1,7 @@
 package tk.estecka.invarpaint;
 
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -15,8 +16,7 @@ import static net.minecraft.entity.EntityType.ENTITY_TAG_KEY;
 public class PaintStackUtil
 {
 	static public final String OBFUSCATED_TAG = "obfuscated";
-	static public final String VARIANT_TAG = "variant";
-	static public final String DYES_TAG = "dyeCode";
+	static public final String VARIANT_TAG = PaintingEntity.VARIANT_NBT_KEY;
 
 	static public ItemStack	SetVariant(ItemStack stack, String variantId){
 		NbtCompound nbt = stack.getOrCreateNbt();
@@ -39,16 +39,6 @@ public class PaintStackUtil
 		return stack;
 	}
 
-	static public ItemStack SetDyeCode(ItemStack stack, long dyeCode){
-		NbtCompound nbt = stack.getOrCreateNbt();
-
-		if (nbt.contains(VARIANT_TAG))
-			InvariablePaintings.LOGGER.warn("Existing `dyeCode` is being overwritten.");
-		nbt.putLong(DYES_TAG, dyeCode);
-
-		return stack;
-	}
-
 	static public ItemStack	SetRandomVariant(ItemStack stack, Random random){
 		var variant = Registries.PAINTING_VARIANT.getRandom(random);
 		if (variant.isPresent())
@@ -65,14 +55,6 @@ public class PaintStackUtil
 
 	static public ItemStack	CreateVariant(String variantId){
 		return SetVariant(new ItemStack(Items.PAINTING), variantId);
-	}
-
-	static public ItemStack	CreateDyeCode(long dyeCode){
-		return SetDyeCode(new ItemStack(Items.PAINTING), dyeCode);
-	}
-
-	static public boolean	IsBlank(ItemStack stack){
-		return !HasDyeCode(stack) && !HasVariantId(stack);
 	}
 
 	@Nullable
@@ -96,19 +78,9 @@ public class PaintStackUtil
 		    ;
 	}
 
-	static public long	GetDyeCode(ItemStack stack){
-		NbtCompound nbt = stack.getNbt();
-		return (nbt != null) ? nbt.getLong(DYES_TAG) : 0L;
-	}
-
-	static public boolean	HasDyeCode(ItemStack stack){
-		NbtCompound nbt = stack.getNbt();
-		return (nbt != null) ? nbt.contains(DYES_TAG, NbtElement.LONG_TYPE) : false;
-	}
-
 	static public boolean	IsObfuscated(ItemStack stack){
 		NbtCompound nbt = stack.getNbt();
-		return (nbt != null) ? nbt.contains(OBFUSCATED_TAG) : false;
+		return nbt != null && nbt.contains(OBFUSCATED_TAG);
 	}
 
 	static public ItemStack Obfuscate(ItemStack stack){

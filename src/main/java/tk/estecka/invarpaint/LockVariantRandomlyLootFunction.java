@@ -2,7 +2,6 @@ package tk.estecka.invarpaint;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.context.LootContext;
@@ -24,11 +23,17 @@ extends ConditionalLootFunction
 		}
 	}
 
-	static public final Identifier ID = new Identifier("lock_variant_randomly");
-	static public final LootFunctionType TYPE = new LootFunctionType(new LockVariantRandomlyLootFunction.Serializer());
+	static public final Serializer CODEC = new LockVariantRandomlyLootFunction.Serializer();
+
+	@Deprecated static public final Identifier OLD_ID = new Identifier("lock_variant_randomly");
+	@Deprecated static public final LootFunctionType OLD_TYPE = new LootFunctionType(CODEC);
+
+	static public final Identifier ID = new Identifier("invarpaint", "lock_variant_randomly");
+	static public final LootFunctionType TYPE = new LootFunctionType(CODEC);
 
 	static public void Register(){
 		Registry.register(Registries.LOOT_FUNCTION_TYPE, ID, TYPE);
+		Registry.register(Registries.LOOT_FUNCTION_TYPE, OLD_ID, OLD_TYPE);
 	};
 
 	public	LockVariantRandomlyLootFunction(LootCondition[] conditions){

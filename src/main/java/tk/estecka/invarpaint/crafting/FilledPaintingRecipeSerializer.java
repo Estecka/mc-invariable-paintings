@@ -40,7 +40,7 @@ implements RecipeSerializer<FilledPaintingRecipe>
 		);
 		return new FilledPaintingRecipe(
 			id,
-			CraftingRecipeCategory.CODEC.byId(packet.readString(), CraftingRecipeCategory.MISC),
+			packet.readEnumConstant(CraftingRecipeCategory.class),
 			range,
 			packet.getBoolean(0),
 			packet.getBoolean(1),
@@ -50,7 +50,7 @@ implements RecipeSerializer<FilledPaintingRecipe>
 
 	@Override
 	public void	write(PacketByteBuf packet, FilledPaintingRecipe recipe){
-		packet.writeString(recipe.getCategory().asString());
+		packet.writeEnumConstant(recipe.getCategory());
 		packet.setInt(0, recipe.dyesMin);
 		packet.setInt(1, recipe.dyesMax);
 		packet.setBoolean(0, recipe.canCreate);

@@ -5,7 +5,7 @@
 	{
 		"type": "item", "name": "minecraft:painting",
 		"functions":[{
-			"function": "lock_variant_randomly"
+			"function": "invarpaint:lock_variant_randomly"
 		}]
 	}
 }]
