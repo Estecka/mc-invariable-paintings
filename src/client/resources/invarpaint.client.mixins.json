@@ -5,7 +5,11 @@
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
 		"DecorationItemMixin",
-		"ItemMixin"
+		"ItemMixin",
+		"ItemRendererMixin",
+		"MinecraftClientMixin",
+		"ModelLoaderMixin",
+		"ModelLoaderBakerImplMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

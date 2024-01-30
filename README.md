@@ -9,13 +9,13 @@ When a painting is broken, it will drop the variant-locked item instead of the b
 Blank paintings can no longer be placed in survival, but can be used as crafting ingredients.
 
 ### Dependencies
-Some specific features depend on **[Patched](https://modrinth.com/mod/patched)** (server-side) and **[CIT Resewn](https://modrinth.com/mod/cit-resewn)** (client-side), but both are completely optional.
+**[Patched](https://modrinth.com/mod/patched)** (server-side) is required in order to add items to some loot tables. However Invarpaint can still safely run without it.
 
-The mod is mostly optional on client. The worst a client without the mod may experience is a desyncing issue when trying to place a blank painting, or when trying to place a filled painting in too small a space.
+Invarpaint is mostly optional on client. The worst a client without the mod may experience is a desyncing issue when trying to place a blank painting, or when trying to place a filled painting in a space that is too small.
 
 ## Obtaining paintings
 ### Trading
-Filled paintings can be bought from **Master Shepherds** and **Wandering Traders**. Shepherds no longer sell variantless paintings, this will not retroactively apply to existing shepherds.
+Filled paintings can be bought from **Master Shepherds** and **Wandering Traders**. Shepherds no longer sell variantless paintings. (This will not retroactively apply to existing shepherds).
 
 ### Looting
 This features requires **[Patched](https://modrinth.com/mod/patched)**.
@@ -53,32 +53,32 @@ This pack can be used together with the cloning one.
 - **Cloning:** Contains nothing but the cloning recipe, which is not included in most other presets. Using this pack alone will make paintings closer to banner templates or trimming templates: You can only find new paintings by exploring, but once you find one, you can reuse it indefinitely.
 
 
-## Inventory painting textures
-This feature requires **[CIT Resewn](https://modrinth.com/mod/cit-resewn)**.
+## Inventory Icons
 
-Allows filled paintings to have unique textures in the inventory, depending on their variant.
+Paintings in the inventory can have unique textures depending on their variant. 
 
-This is, strictly speaking, not a feature of Invariable-Paintings. It provides a built-in resource pack that is then used by CIT-Resewn, but does not add any of its own code on top of it.
+Invarpaint provides icons for vanilla paintings, but it does not currently generate icons for modded paintings. Those should be provided via resource packs.
 
-Invariable-Paintings only provides the CITs for the vanilla variants. For modded variants, CITs should be provided in an external resource pack. See [the sources](https://github.com/Estecka/mc-invariable-paintings/tree/HEAD/src/client/resources/resourcepacks/vanilla-cit) for an example on how to make one, and refer to [CIT resewn's documentation](https://citresewn.shcm.io/) for additional information.
+Custom icons are located at `/textures/<namespace>/item/painting/<variant>.png`, and matched to the variant with the corresponding id. Variants that lack a custom icon will fall back to a generic built-in one.
 
-Having too many painting CITs (around hundreds of them) can put a toll on the game's performances, so the embedded vanilla CITs can be disabled in the resource-pack menu.
+Older versions of the mods relied on CIT-resewn, but this is no longer necessary. CIT-resewn is still compatible, and old texture packs should still be able to override Invarpaint's textures. However, switching to Invarpaint's specialized cit logic should be preferred to improve performances.
 
 
 ## Miscellaneous tweaks
 ### Server-side
 - Placement of variant-locked paintings in tight spaces is more forgiving. (Vanilla would require targeting some specific block.)
-- Added a new loot function `lock_variant_randomly`, which can applied to painting items in loot tables.
+- Added a new loot function `invarpaint:lock_variant_randomly`, which can applied to painting items in loot tables.
 
 ### Client-side
-- Fixes a vanilla bug whereby paiting items may sometimes appear to be consummed, without actually placing a painting.
+- Fixes a vanilla bug whereby paiting items may sometimes appear to be consumed, without actually placing the painting.
 - Shows a warning when trying to place a painting in too small a space.
 - Slightly reworked the tooltip for painting items.
+- Creative players can pick a painting's variant by holding Ctrl.
 
 
 ## Compatibility
 Any mod that adds new paintings based on the vanilla system will be compatible, and their paintings will be obtainable through all existing  means.
 
-Mods that bypass the vanilla system and implement their own, like _Custom Paintings_ or _Client Paintings_, are not compatible. Amongst the user-defined painting mods I know of, [More Canvases v2](https://modrinth.com/mod/more-canvases) is the one that is compatible with Invariable Paintings.
+Mods that bypass the vanilla system and implement their own, like _Custom Paintings_ or _Client Paintings_, are not compatible. Amongst user-defined painting mods, [More Canvases](https://modrinth.com/mod/more-canvases) was made to be compatible with Invariable Paintings.
 
 Mods that give you a Painting selection GUI, or that lets you edit already placed paintings, are not necessarily incompatible on a technical level, but are conceptually incompatible with the idea of collectible paintings.

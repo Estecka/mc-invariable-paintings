@@ -1,41 +1,34 @@
 package tk.estecka.invarpaint.mixin;
 
-import java.util.Optional;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.CraftingRecipe;
-import net.minecraft.recipe.RecipeEntry;
-import net.minecraft.recipe.RecipeManager;
-import net.minecraft.recipe.RecipeType;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.screen.CraftingScreenHandler;
-import net.minecraft.world.World;
 import tk.estecka.invarpaint.PaintStackUtil;
 import tk.estecka.invarpaint.crafting.IObfuscatedRecipe;
 
 @Mixin(CraftingScreenHandler.class)
 public class CraftingScreenHandlerMixin 
 {
-	static private boolean doObfuscate = false;
-
-	@WrapOperation( method="updateResult", at=@At( value="INVOKE", target="net/minecraft/recipe/RecipeManager.getFirstMatch (Lnet/minecraft/recipe/RecipeType;Lnet/minecraft/inventory/Inventory;Lnet/minecraft/world/World;)Ljava/util/Optional;") )
-	static private Optional<RecipeEntry<CraftingRecipe>>	GetObfuscationMode(RecipeManager instance, RecipeType<?> type, Inventory ingredients, World world, Operation<Optional<RecipeEntry<CraftingRecipe>>> operation){
-		var recipe = operation.call(instance, type, ingredients, world);
-		doObfuscate = recipe.isPresent()
-		           && recipe.get().value() instanceof IObfuscatedRecipe obfRecipe
-		           && obfRecipe.IsObfuscated()
-		           ;
-		return recipe;
+	@WrapOperation( method="updateResult", at=@At( value="INVOKE", target="net/minecraft/recipe/CraftingRecipe.craft (Lnet/minecraft/inventory/Inventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;") )
+	static private ItemStack	ShouldObfuscate(CraftingRecipe recipe, Inventory input, DynamicRegistryManager manager, Operation<ItemStack> original, @Share("obf") LocalBooleanRef doObfuscate){
+		if (recipe instanceof IObfuscatedRecipe obfRecipe && obfRecipe.IsObfuscated())
+			doObfuscate.set(true);
+		return original.call(recipe, input, manager);
 	}
 
 
 	@ModifyArg( method="updateResult", index=3, at=@At(value="INVOKE", target="net/minecraft/network/packet/s2c/play/ScreenHandlerSlotUpdateS2CPacket.<init> (IIILnet/minecraft/item/ItemStack;)V") )
-	static private ItemStack ObfuscateResult(int syncId, int revision, int slot, ItemStack stack){
-		if (doObfuscate)
+	static private ItemStack ObfuscateResult(int syncId, int revision, int slot, ItemStack stack, @Share("obf") LocalBooleanRef doObfuscate){
+		if (doObfuscate.get())
 			stack = PaintStackUtil.Obfuscate(stack);
 		return stack;
 	}

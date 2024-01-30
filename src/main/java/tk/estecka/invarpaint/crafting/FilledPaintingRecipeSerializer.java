@@ -11,6 +11,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.dynamic.Range;
 
 public class FilledPaintingRecipeSerializer 
@@ -35,7 +36,7 @@ implements RecipeSerializer<FilledPaintingRecipe>
 
 	static private final Codec<FilledPaintingRecipe> CODEC = RecordCodecBuilder.create(builder ->
 		builder.group(
-			CraftingRecipeCategory.CODEC.fieldOf("category").orElse(CraftingRecipeCategory.MISC).forGetter(FilledPaintingRecipe::getCategory),
+			StringIdentifiable.createCodec(CraftingRecipeCategory::values).fieldOf("category").orElse(CraftingRecipeCategory.MISC).forGetter(FilledPaintingRecipe::getCategory),
 			Codec.BOOL.fieldOf("obfuscated").orElse(false).forGetter(FilledPaintingRecipe::IsObfuscated),
 			Ingredients.CODEC.fieldOf("ingredients").<FilledPaintingRecipe>forGetter(Ingredients::ofRecipe)
 		).apply(
@@ -51,20 +52,6 @@ implements RecipeSerializer<FilledPaintingRecipe>
 		return CODEC;
 	}
 
-	public FilledPaintingRecipe read(JsonObject json){
-		JsonObject ingredients = JsonHelper.getObject(json, "ingredients");
-		JsonObject dyeCount = JsonHelper.getObject(ingredients, "dyeCount");
-		Range<Integer> range =  Range.CODEC.decode(new Dynamic<JsonElement>(JsonOps.INSTANCE, dyeCount)).getOrThrow(false, JsonParseException::new).getFirst();
-
-		return new FilledPaintingRecipe(
-			CraftingRecipeCategory.CODEC.byId(JsonHelper.getString(json, "category", null), CraftingRecipeCategory.MISC),
-			range,
-			JsonHelper.getBoolean(ingredients, "acceptsBlank" , true ),
-			JsonHelper.getBoolean(ingredients, "acceptsFilled", false),
-			JsonHelper.getBoolean(json, "obfuscated", false)
-		);
-	}
-
 	@Override
 	public FilledPaintingRecipe read(PacketByteBuf packet){
 		Range<Integer> range = new Range<Integer>(
@@ -72,7 +59,7 @@ implements RecipeSerializer<FilledPaintingRecipe>
 			packet.getInt(1)
 		);
 		return new FilledPaintingRecipe(
-			CraftingRecipeCategory.CODEC.byId(packet.readString(), CraftingRecipeCategory.MISC),
+			packet.readEnumConstant(CraftingRecipeCategory.class),
 			range,
 			packet.getBoolean(0),
 			packet.getBoolean(1),
@@ -82,7 +69,7 @@ implements RecipeSerializer<FilledPaintingRecipe>
 
 	@Override
 	public void	write(PacketByteBuf packet, FilledPaintingRecipe recipe){
-		packet.writeString(recipe.getCategory().asString());
+		packet.writeEnumConstant(recipe.getCategory());
 		packet.setInt(0, recipe.dyesMin);
 		packet.setInt(1, recipe.dyesMax);
 		packet.setBoolean(0, recipe.canCreate);
