@@ -21,9 +21,6 @@
 	"entrypoints": {
 		"main": [
 			"tk.estecka.invarpaint.InvariablePaintings"
-		],
-		"client": [
-			"tk.estecka.invarpaint.InvariablePaintingsClient"
 		]
 	},
 	"mixins": [
