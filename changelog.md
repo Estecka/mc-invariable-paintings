@@ -39,4 +39,5 @@
 
 # v2
 - Removed crafting
-- Removed the deprecated name `minecraft:lock_variant_randomly`
+- Removed the deprecated name of `lock_variant_randomly`.
+- Vanilla-CIT are now back into the core; no longer an optional resource pack.
