@@ -1,14 +1,16 @@
 package tk.estecka.invarpaint;
 
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
+import net.minecraft.village.TradedItem;
 import net.minecraft.village.TradeOffers.Factory;
 import net.minecraft.village.VillagerProfession;
 
@@ -20,12 +22,13 @@ public class SellPaintingFactory implements TradeOffers.Factory
 	static public final int	EXPERT_LVL = 4;
 	static public final int	MASTER_LVL = 5;
 
-	static private final SellPaintingFactory SHEPHERD_TRADE = new SellPaintingFactory(new ItemStack(Items.EMERALD, 24), new ItemStack(Items.PAINTING));
-	static private final SellPaintingFactory WANDERER_TRADE = new SellPaintingFactory(new ItemStack(Items.EMERALD, 24), null);
+	static private final SellPaintingFactory SHEPHERD_TRADE = new SellPaintingFactory(new TradedItem(Items.EMERALD, 24), new TradedItem(Items.PAINTING));
+	static private final SellPaintingFactory WANDERER_TRADE = new SellPaintingFactory(new TradedItem(Items.EMERALD, 24), null);
 	static private final int MAX_USE = 3;
 	static private final int XP_GAIN = 30;
 
-	private final ItemStack priceLeft, priceRight;
+	private final TradedItem priceLeft;
+	private final Optional<TradedItem> priceRight;
 
 	public static void	Register(){
 		InvariablePaintings.LOGGER.info("Adding locked paintings to trade pools");
@@ -38,16 +41,16 @@ public class SellPaintingFactory implements TradeOffers.Factory
 		TradeOfferHelper.registerRebalancedWanderingTraderOffers(builder->builder.addOffersToPool(TradeOfferHelper.WanderingTraderOffersBuilder.SELL_SPECIAL_ITEMS_POOL, WANDERER_TRADE));
 	}
 
-	public SellPaintingFactory(@Nullable ItemStack price1, @Nullable ItemStack price2){
-		this.priceLeft  = (price1 == null) ? ItemStack.EMPTY : price1;
-		this.priceRight = (price2 == null) ? ItemStack.EMPTY : price2;
+	public SellPaintingFactory(@NotNull TradedItem price1, @Nullable TradedItem price2){
+		this.priceLeft  = price1;
+		this.priceRight = (price2 == null) ? Optional.empty() : Optional.of(price2);
 	}
 
 	@Override
 	public TradeOffer	create(Entity entity, Random random){
 		return new TradeOffer(
-			this.priceLeft.copy(),
-			this.priceRight.copy(),
+			this.priceLeft,
+			this.priceRight,
 			PaintStackUtil.CreateRandomVariant(random),
 			MAX_USE,
 			XP_GAIN,
