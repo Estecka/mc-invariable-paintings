@@ -11,6 +11,6 @@
 		"/#/",
 		"///"
 	],
-	"result": { "item": "minecraft:painting" },
+	"result": { "id": "minecraft:painting" },
 	"show_notification": true
 }
