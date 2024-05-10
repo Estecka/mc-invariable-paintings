@@ -29,9 +29,6 @@ public class ItemRendererMixin
 
 		if (stack.isOf(Items.PAINTING))
 		{
-			if (PaintStackUtil.IsObfuscated(stack))
-				return modelManager.getModel(InvariablePaintingsClient.CIT_RANDOM);
-
 			String variant = PaintStackUtil.GetVariantId(stack);
 			if (variant != null)
 			{

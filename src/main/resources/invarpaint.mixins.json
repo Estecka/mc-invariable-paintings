@@ -3,10 +3,8 @@
 	"package": "tk.estecka.invarpaint.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"CraftingScreenHandlerMixin",
 		"DecorationItemMixin",
-		"PaintingEntityMixin",
-		"SynchronizeRecipesS2CPacketMixin"
+		"PaintingEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

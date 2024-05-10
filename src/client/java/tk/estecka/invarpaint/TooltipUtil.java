@@ -6,15 +6,13 @@ import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextContent;
 import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import tk.estecka.invarpaint.crafting.DyeCodeUtil;
 
-public class TooltipUtil 
+public class TooltipUtil
 {
 	static private final Text UNKNOWN_TEXT = Text.translatable("painting.unknown").formatted(Formatting.GRAY);
 	static private final Text EMPTY_NOTICE = Text.literal(" (").append(Text.translatable("painting.empty")).append(")").formatted(Formatting.GRAY);
@@ -30,7 +28,7 @@ public class TooltipUtil
 					.append(")")
 					.formatted(Formatting.YELLOW)
 			);
-		else if	(!PaintStackUtil.IsObfuscated(stack))
+		else
 			text.append(EMPTY_NOTICE);
 
 	}
@@ -64,51 +62,6 @@ public class TooltipUtil
 					.append(Text.translatableWithFallback(id.toTranslationKey("painting", "author"), "")
 					.formatted(Formatting.GRAY))
 			);
-
-			if (advanced){
-				tooltip.add(DyeCode(DyeCodeUtil.VariantToDyemask(variant.get(), 8)));
-			}
-		}
-	}
-
-	static public Text DyeCode(short dyeMask){
-		MutableText text = Text.literal("#");
-
-		for (int i=15; 0<=i; --i)
-		if  (((dyeMask>>>i) & 1) != 0)
-		{
-			int dye = i;
-			int color = IdToRgb(dye);
-			text.append(
-				Text.literal(String.format("%X", dye)).setStyle(Style.EMPTY.withColor(color))
-			);
-		}
-
-		return text;
-	}
-
-	/**
-	 * Fine-tuned colours for display on the tooltip.
-	 */
-	static public int IdToRgb(int id){
-		switch (id){
-			default:
-			case 0x0: return 0xffffff;
-			case 0x1: return 0xff8d19;
-			case 0x2: return 0xf23df2;
-			case 0x3: return 0x80d9ff;
-			case 0x4: return 0xe6e62e;
-			case 0x5: return 0x97ff32;
-			case 0x6: return 0xffa6fe;
-			case 0x7: return 0x777777;
-			case 0x8: return 0xcccccc;
-			case 0x9: return 0x00bfbc;
-			case 0xa: return 0x8a2ee6;
-			case 0xb: return 0x2e5bff;
-			case 0xc: return 0x7f4000;
-			case 0xd: return 0x00a601;
-			case 0xe: return 0xcc2929;
-			case 0xf: return 0x444444;
 		}
 	}
 

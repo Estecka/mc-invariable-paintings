@@ -25,6 +25,8 @@ Current master
 ### 1.20.5
 - **Item componentization fundamentally changes the structure of variant-locked paintings.**
 - `PaintingEntity::VARIANT_NBT_KEY` was removed. Use literal instead.
-- `Codecs.createStrictOptionalFieldCodec` was removed.
+- `Codecs.createStrictOptionalFieldCodec` was removed; use `ConditionalLootFunction::addConditionsField` instead. (Formerly known as `method_53344`)
 - `LootFunctionType` now has a type parameter.
 - The constructor of `LootFunctionType` now takes a `MapCodec`.
+- `DecorationItem::appendTooltip` now takes a `Item$TooltipContext` argument instead of a world.
+- The old `TooltipContext` was renamed to `TooltipType`. (Yarn Mapping only ?)
