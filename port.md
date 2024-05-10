@@ -23,6 +23,8 @@ Current master
 - The field `CraftingRecipeCategory::CODEC` had its signature changed; obtain it via `StringIdentifiable::createCodec` instead.
 
 ### 1.20.5
-#### No Workaround :
 - **Item componentization fundamentally changes the structure of variant-locked paintings.**
 - `PaintingEntity::VARIANT_NBT_KEY` was removed. Use literal instead.
+- `Codecs.createStrictOptionalFieldCodec` was removed.
+- `LootFunctionType` now has a type parameter.
+- The constructor of `LootFunctionType` now takes a `MapCodec`.

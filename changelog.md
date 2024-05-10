@@ -35,4 +35,8 @@
 - Painting variants can be picked with Ctrl
 - Increased the price of paintings trades.
 - "Recycling" preset no longer forbids blank canvas crafting.
-- Copied the lootfunction to invarpaint's own namespace. Marked the old one as deprecated.
+- `lock_variant_randomly` is now also available under the `invarpaint`. Marked the old id as deprecated.
+
+# v2
+- Removed crafting
+- Removed the deprecated name `minecraft:lock_variant_randomly`
