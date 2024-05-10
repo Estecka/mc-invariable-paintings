@@ -59,7 +59,7 @@ public class PaintStackUtil
 
 	static public @Nullable String	GetVariantId(ItemStack stack){
 		NbtComponent entitydata = stack.get(ENTITY_DATA);
-		if (entitydata == null || entitydata.contains(VARIANT_TAG))
+		if (entitydata == null || !entitydata.contains(VARIANT_TAG))
 			return null;
 
 		return entitydata.copyNbt().getString(VARIANT_TAG);
