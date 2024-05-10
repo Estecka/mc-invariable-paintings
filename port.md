@@ -3,10 +3,12 @@
 Current master
 
 ### 1.20.0
+#### No Workaround :
 - Crafting recipes and CrafitnScreenHandler receive a `RecipeInputInventory` instead of a `CraftingInventory`.
 - Data pack format changed to 15. (Format range not supported in this version.) (Not really a breaking change.)
 
 ### 1.20.2
+#### No Workaround :
 - Recipe constructors no longer take an ID
 - Recipe `Serializer` must be backed up by a `Codec`
 - Loot functions require a `Codec` instead of a `Serializer`
@@ -15,6 +17,12 @@ Current master
 - CraftingScreenHandler receives recipes wrapped inside a `RecipeEntry`
 
 ### 1.20.3
-- ~~Text serialization method moved elsewhere~~ (Yarn mapping change)
-- Crafting category deserialization method was removed (Avoidable by using other methods)
-- The field `CraftingRecipeCategory::CODEC` had its signature changed (Avoidable by getting it from elsewhere)
+#### Worked Around :
+- `Text.Serializer::toJson` was renamed to `Text.Serialization::toJsonString`. (Yarn Mapping change)
+- `CraftingRecipeCategory::CODEC::byId` was removed. In packets, use `readEnumConstant` instead.
+- The field `CraftingRecipeCategory::CODEC` had its signature changed; obtain it via `StringIdentifiable::createCodec` instead.
+
+### 1.20.5
+#### No Workaround :
+- **Item componentization fundamentally changes the structure of variant-locked paintings.**
+- `PaintingEntity::VARIANT_NBT_KEY` was removed. Use literal instead.

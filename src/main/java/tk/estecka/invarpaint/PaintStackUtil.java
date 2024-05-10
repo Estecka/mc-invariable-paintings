@@ -1,41 +1,41 @@
 package tk.estecka.invarpaint;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import net.minecraft.entity.decoration.painting.PaintingEntity;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.random.Random;
-import static net.minecraft.entity.EntityType.ENTITY_TAG_KEY;
+import static net.minecraft.component.DataComponentTypes.ENTITY_DATA;
 
 public class PaintStackUtil
 {
 	static public final String OBFUSCATED_TAG = "obfuscated";
-	static public final String VARIANT_TAG = PaintingEntity.VARIANT_NBT_KEY;
+	static public final String VARIANT_TAG = "variant";
+	static public final String ENTITY_TYPE_TAG = "id";
 
-	static public ItemStack	SetVariant(ItemStack stack, String variantId){
-		NbtCompound nbt = stack.getOrCreateNbt();
+	static public ItemStack	SetVariant(ItemStack stack, @NotNull String variantId){
 		NbtCompound entityTag;
-		byte entityTagType = nbt.getType(ENTITY_TAG_KEY);
 
-		if (entityTagType == NbtElement.COMPOUND_TYPE)
-			entityTag = nbt.getCompound(ENTITY_TAG_KEY);
-		else {
-			if (entityTagType != NbtElement.END_TYPE)
-				InvariablePaintings.LOGGER.warn("Existing `EntityTag` is is being overwritten.");
+		NbtComponent component = stack.get(ENTITY_DATA);
+		if (component == null) 
 			entityTag = new NbtCompound();
-			nbt.put(ENTITY_TAG_KEY, entityTag);
+		else {
+			InvariablePaintings.LOGGER.warn("Existing `EntityData` is is being overwritten.");
+			entityTag = component.copyNbt();
 		}
 
+		if (entityTag.contains(ENTITY_TYPE_TAG))
+			InvariablePaintings.LOGGER.warn("Existing `EntityData.id` is being overwritten.");
+		entityTag.putString(ENTITY_TYPE_TAG, "minecraft:painting");
+
 		if (entityTag.contains(VARIANT_TAG))
-			InvariablePaintings.LOGGER.warn("Existing `EntityTag.variant` is being overwritten.");
+			InvariablePaintings.LOGGER.warn("Existing `EntityData.variant` is being overwritten.");
 		entityTag.putString(VARIANT_TAG, variantId);
 
+		stack.set(ENTITY_DATA, NbtComponent.of(entityTag));
 		return stack;
 	}
 
@@ -57,46 +57,19 @@ public class PaintStackUtil
 		return SetVariant(new ItemStack(Items.PAINTING), variantId);
 	}
 
-	@Nullable
-	static public String	GetVariantId(ItemStack stack){
-		NbtCompound nbt = stack.getNbt();
-		if (nbt == null || !nbt.contains(ENTITY_TAG_KEY, NbtCompound.COMPOUND_TYPE))
+	static public @Nullable String	GetVariantId(ItemStack stack){
+		NbtComponent entitydata = stack.get(ENTITY_DATA);
+		if (entitydata == null || entitydata.contains(VARIANT_TAG))
 			return null;
 
-		NbtCompound entityTag = nbt.getCompound(ENTITY_TAG_KEY);
-		if (!entityTag.contains(VARIANT_TAG, NbtCompound.STRING_TYPE))
-			return null;
-		
-		return entityTag.getString(VARIANT_TAG);
+		return entitydata.copyNbt().getString(VARIANT_TAG);
 	}
 
 	static public boolean	HasVariantId(ItemStack stack){
-		NbtCompound nbt = stack.getNbt();
+		NbtComponent nbt = stack.get(ENTITY_DATA);
 		return nbt != null
-		    && nbt.contains(ENTITY_TAG_KEY, NbtCompound.COMPOUND_TYPE)
-		    && nbt.getCompound(ENTITY_TAG_KEY).contains(VARIANT_TAG, NbtCompound.STRING_TYPE)
+		    && nbt.contains(VARIANT_TAG)
 		    ;
-	}
-
-	static public boolean	IsObfuscated(ItemStack stack){
-		NbtCompound nbt = stack.getNbt();
-		return nbt != null && nbt.contains(OBFUSCATED_TAG);
-	}
-
-	static public ItemStack Obfuscate(ItemStack stack){
-		NbtList lore = new NbtList();
-		lore.add(NbtString.of(Text.Serializer.toJson(Text.translatable("painting.obfuscated"))));
-
-		NbtCompound display = new NbtCompound();
-		display.put(ItemStack.LORE_KEY, lore);
-		
-		NbtCompound nbt = new NbtCompound();
-		nbt.putBoolean(OBFUSCATED_TAG, true);
-		nbt.put(ItemStack.DISPLAY_KEY, display);
-
-		stack = stack.copy();
-		stack.setNbt(nbt);
-		return stack;
 	}
 
 }
