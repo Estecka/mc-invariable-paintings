@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint;
+package tk.estecka.invarpaint.loot;
 
 import java.util.List;
 import com.mojang.serialization.MapCodec;
@@ -11,6 +11,7 @@ import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import tk.estecka.invarpaint.core.PaintStackUtil;
 
 public class LockVariantRandomlyLootFunction 
 extends ConditionalLootFunction

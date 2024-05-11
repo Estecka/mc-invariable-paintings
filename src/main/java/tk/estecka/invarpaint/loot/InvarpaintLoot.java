@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint;
+package tk.estecka.invarpaint.loot;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -6,24 +6,15 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static tk.estecka.invarpaint.InvarpaintMod.MODID;
 
-public class InvariablePaintings
+public class InvarpaintLoot
 implements ModInitializer
 {
-	static public final String MODID = "invariablepaintings";
-	static public final Logger LOGGER = LoggerFactory.getLogger("Invar-Paint");
-
-	static public boolean IsNokebabInstalled(){
-		return FabricLoader.getInstance().isModLoaded("no-kebab");
-	}
-
 	@Override
 	public void onInitialize() {
 		SellPaintingFactory.Register();
 		LockVariantRandomlyLootFunction.Register();
-
 		RegisterPack("looting", "Painting Loot", true);
 	}
 

@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint;
+package tk.estecka.invarpaint.loot;
 
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +12,8 @@ import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.TradedItem;
 import net.minecraft.village.TradeOffers.Factory;
+import tk.estecka.invarpaint.InvarpaintMod;
+import tk.estecka.invarpaint.core.PaintStackUtil;
 import net.minecraft.village.VillagerProfession;
 
 public class SellPaintingFactory implements TradeOffers.Factory
@@ -31,7 +33,7 @@ public class SellPaintingFactory implements TradeOffers.Factory
 	private final Optional<TradedItem> priceRight;
 
 	public static void	Register(){
-		InvariablePaintings.LOGGER.info("Adding locked paintings to trade pools");
+		InvarpaintMod.LOGGER.info("Adding locked paintings to trade pools");
 		
 		//This assumes that variantless painting is the only master trade available to Shepherds, and overwrites it.
 		Int2ObjectMap<Factory[]> shepherd = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.SHEPHERD);

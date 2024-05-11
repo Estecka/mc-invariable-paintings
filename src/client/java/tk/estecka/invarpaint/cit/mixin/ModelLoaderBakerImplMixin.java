@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint.mixin.client;
+package tk.estecka.invarpaint.cit.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -6,7 +6,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.render.model.ModelBakeSettings;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.util.Identifier;
-import tk.estecka.invarpaint.UnbakedPaintingItem;
+import tk.estecka.invarpaint.cit.UnbakedPaintingItem;
 
 @Mixin(targets="net.minecraft.client.render.model.ModelLoader$BakerImpl")
 public class ModelLoaderBakerImplMixin 

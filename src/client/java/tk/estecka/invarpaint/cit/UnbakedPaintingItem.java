@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint;
+package tk.estecka.invarpaint.cit;
 
 import java.util.Collection;
 import java.util.List;

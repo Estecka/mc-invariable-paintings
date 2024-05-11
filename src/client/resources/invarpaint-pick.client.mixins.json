@@ -1,10 +1,9 @@
 {
 	"required": true,
-	"package": "tk.estecka.invarpaint.mixin",
+	"package": "tk.estecka.invarpaint.pick.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"DecorationItemMixin",
-		"PaintingEntityMixin"
+		"MinecraftClientMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

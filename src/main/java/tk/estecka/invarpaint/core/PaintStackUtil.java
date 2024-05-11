@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint;
+package tk.estecka.invarpaint.core;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -8,13 +8,14 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.math.random.Random;
+import static tk.estecka.invarpaint.InvarpaintMod.LOGGER;
+
 import static net.minecraft.component.DataComponentTypes.ENTITY_DATA;
 
 public class PaintStackUtil
 {
-	static public final String OBFUSCATED_TAG = "obfuscated";
-	static public final String VARIANT_TAG = "variant";
-	static public final String ENTITY_TYPE_TAG = "id";
+	static private final String VARIANT_TAG = "variant";
+	static private final String ENTITY_TYPE_TAG = "id";
 
 	static public ItemStack	SetVariant(ItemStack stack, @NotNull String variantId){
 		NbtCompound entityTag;
@@ -23,16 +24,16 @@ public class PaintStackUtil
 		if (component == null) 
 			entityTag = new NbtCompound();
 		else {
-			InvariablePaintings.LOGGER.warn("Existing `EntityData` is is being overwritten.");
+			LOGGER.warn("Existing `EntityData` is is being overwritten.");
 			entityTag = component.copyNbt();
 		}
 
 		if (entityTag.contains(ENTITY_TYPE_TAG))
-			InvariablePaintings.LOGGER.warn("Existing `EntityData.id` is being overwritten.");
+			LOGGER.warn("Existing `EntityData.id` is being overwritten.");
 		entityTag.putString(ENTITY_TYPE_TAG, "minecraft:painting");
 
 		if (entityTag.contains(VARIANT_TAG))
-			InvariablePaintings.LOGGER.warn("Existing `EntityData.variant` is being overwritten.");
+			LOGGER.warn("Existing `EntityData.variant` is being overwritten.");
 		entityTag.putString(VARIANT_TAG, variantId);
 
 		stack.set(ENTITY_DATA, NbtComponent.of(entityTag));
@@ -44,7 +45,7 @@ public class PaintStackUtil
 		if (variant.isPresent())
 			return SetVariant( stack, Registries.PAINTING_VARIANT.getId(variant.get().value()).toString() );
 		else {
-			InvariablePaintings.LOGGER.error("Unable to pull a random variant from the registry.");
+			LOGGER.error("Unable to pull a random variant from the registry.");
 			return stack;
 		}
 	}

@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint.mixin.client;
+package tk.estecka.invarpaint.cit.mixin;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,8 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import tk.estecka.invarpaint.InvariablePaintingsClient;
-import tk.estecka.invarpaint.PaintStackUtil;
+import tk.estecka.invarpaint.cit.Cits;
+import tk.estecka.invarpaint.core.PaintStackUtil;
 
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin
@@ -34,13 +34,13 @@ public class ItemRendererMixin
 			{
 				Identifier variantId = Identifier.tryParse(variant);
 				if (variantId == null || !Registries.PAINTING_VARIANT.containsId(variantId))
-					return modelManager.getModel(InvariablePaintingsClient.CIT_MISSING);
+					return modelManager.getModel(Cits.CIT_MISSING);
 				else {
-					var model = modelManager.getModel(variantId.withPrefixedPath(InvariablePaintingsClient.CIT_PREFIX));
+					var model = modelManager.getModel(variantId.withPrefixedPath(Cits.CIT_PREFIX));
 					if (model != null)
 						return model;
 					else
-						return modelManager.getModel(InvariablePaintingsClient.CIT_FILLED);
+						return modelManager.getModel(Cits.CIT_FILLED);
 				}
 			}
 		}

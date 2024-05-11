@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint.mixin.client;
+package tk.estecka.invarpaint.pick.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,7 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import tk.estecka.invarpaint.PaintStackUtil;
+import tk.estecka.invarpaint.core.PaintStackUtil;
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin

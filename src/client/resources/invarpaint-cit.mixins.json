@@ -1,12 +1,9 @@
 {
 	"required": true,
-	"package": "tk.estecka.invarpaint.mixin.client",
+	"package": "tk.estecka.invarpaint.cit.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"DecorationItemMixin",
-		"ItemMixin",
 		"ItemRendererMixin",
-		"MinecraftClientMixin",
 		"ModelLoaderMixin",
 		"ModelLoaderBakerImplMixin"
 	],

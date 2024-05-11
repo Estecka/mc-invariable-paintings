@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "tk.estecka.invarpaint.core.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"DecorationItemMixin",
+		"PaintingEntityMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

@@ -1,7 +1,6 @@
-package tk.estecka.invarpaint.mixin.client;
+package tk.estecka.invarpaint.cit.mixin;
 
 import java.util.Map;
-
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,8 +15,8 @@ import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
-import tk.estecka.invarpaint.InvariablePaintingsClient;
-import tk.estecka.invarpaint.UnbakedPaintingItem;
+import tk.estecka.invarpaint.cit.Cits;
+import tk.estecka.invarpaint.cit.UnbakedPaintingItem;
 
 @Mixin(ModelLoader.class)
 public abstract class ModelLoaderMixin
@@ -36,14 +35,14 @@ public abstract class ModelLoaderMixin
 	private void	AddVariantModels(BlockColors _0, Profiler profiler, Map<?,?> _2, Map<?,?> _3, CallbackInfo ci)
 	{
 		profiler.swap("painting_items");
-		this.AddUnsourced(InvariablePaintingsClient.CIT_FILLED, null);
-		this.AddUnsourced(InvariablePaintingsClient.CIT_RANDOM, null);
-		this.AddUnsourced(InvariablePaintingsClient.CIT_MISSING, null);
+		this.AddUnsourced(Cits.CIT_FILLED, null);
+		this.AddUnsourced(Cits.CIT_RANDOM, null);
+		this.AddUnsourced(Cits.CIT_MISSING, null);
 
 		for (Identifier painting : Registries.PAINTING_VARIANT.getIds())
 		{
-			Identifier texture = painting.withPrefixedPath(InvariablePaintingsClient.CIT_PREFIX);
-			this.AddUnsourced(texture, InvariablePaintingsClient.CIT_FILLED);
+			Identifier texture = painting.withPrefixedPath(Cits.CIT_PREFIX);
+			this.AddUnsourced(texture, Cits.CIT_FILLED);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint;
+package tk.estecka.invarpaint.tooltip;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +11,7 @@ import net.minecraft.text.TextContent;
 import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import tk.estecka.invarpaint.core.PaintStackUtil;
 
 public class TooltipUtil
 {

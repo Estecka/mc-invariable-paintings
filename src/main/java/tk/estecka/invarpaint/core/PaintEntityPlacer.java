@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint;
+package tk.estecka.invarpaint.core;
 
 import java.util.Iterator;
 import java.util.LinkedList;

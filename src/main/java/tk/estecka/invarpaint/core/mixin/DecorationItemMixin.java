@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint.mixin;
+package tk.estecka.invarpaint.core.mixin;
 
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
@@ -20,9 +20,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import tk.estecka.invarpaint.InvariablePaintings;
-import tk.estecka.invarpaint.PaintEntityPlacer;
-import tk.estecka.invarpaint.PaintStackUtil;
+import tk.estecka.invarpaint.InvarpaintMod;
+import tk.estecka.invarpaint.core.PaintEntityPlacer;
+import tk.estecka.invarpaint.core.PaintStackUtil;
+
 import java.util.Optional;
 
 @Mixin(DecorationItem.class)
@@ -56,7 +57,7 @@ public abstract class DecorationItemMixin
 			}
 			return entity;
 		}
-		else if (player.isCreative() || (variantId!=null && InvariablePaintings.IsNokebabInstalled()))
+		else if (player.isCreative() || (variantId!=null && InvarpaintMod.IsNokebabInstalled()))
 			return original.call(world, pos, facing);
 		else
 			return Optional.empty();

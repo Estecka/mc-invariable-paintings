@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint.mixin.client;
+package tk.estecka.invarpaint.tooltip.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import tk.estecka.invarpaint.TooltipUtil;
+import tk.estecka.invarpaint.tooltip.TooltipUtil;
 
 @Mixin(Item.class)
 public abstract class ItemMixin 

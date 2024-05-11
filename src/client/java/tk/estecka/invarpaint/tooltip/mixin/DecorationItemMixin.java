@@ -1,5 +1,6 @@
-package tk.estecka.invarpaint.mixin.client;
+package tk.estecka.invarpaint.tooltip.mixin;
 
+import java.util.List;
 import net.minecraft.client.item.TooltipType;
 import net.minecraft.item.DecorationItem;
 import net.minecraft.item.Item;
@@ -10,9 +11,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import tk.estecka.invarpaint.PaintStackUtil;
-import tk.estecka.invarpaint.TooltipUtil;
-import java.util.List;
+import tk.estecka.invarpaint.core.PaintStackUtil;
+import tk.estecka.invarpaint.tooltip.TooltipUtil;
 
 @Mixin(DecorationItem.class)
 public abstract class DecorationItemMixin 
