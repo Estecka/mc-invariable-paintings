@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 public class InvarpaintMod
 {
 	static public final String MODID = "invariablepaintings";
-	static public final Logger LOGGER = LoggerFactory.getLogger("Invar-Paint");
+	static public final Logger LOGGER = LoggerFactory.getLogger("Invarpaint");
 
 	static public boolean IsNokebabInstalled(){
 		return FabricLoader.getInstance().isModLoaded("no-kebab");

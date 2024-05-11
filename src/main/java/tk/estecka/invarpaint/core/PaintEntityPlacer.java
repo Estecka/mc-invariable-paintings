@@ -49,7 +49,7 @@ public class PaintEntityPlacer
 
 			boolean evenW = (variantWidth %2) == 0;
 			boolean evenH = (variantHeight%2) == 0;
-			
+
 			queue.add(new Vector2i(targetBlock));
 			if (evenW)
 				queue.add(new Vector2i(targetBlock).add(-1,  0));

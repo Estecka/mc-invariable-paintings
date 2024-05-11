@@ -15,7 +15,7 @@ import tk.estecka.invarpaint.core.PaintStackUtil;
 
 public class TooltipUtil
 {
-	static private final Text UNKNOWN_TEXT = Text.translatable("painting.unknown").formatted(Formatting.GRAY);
+	static private final Text INVALID_TEXT = Text.translatable("painting.invalid").formatted(Formatting.GRAY);
 	static private final Text EMPTY_NOTICE = Text.literal(" (").append(Text.translatable("painting.empty")).append(")").formatted(Formatting.GRAY);
 
 	static public void	AppendPaintingName(MutableText text, ItemStack stack){
@@ -37,8 +37,8 @@ public class TooltipUtil
 	static public void	RemoveOriginalTooltip(List<Text> tooltip){
 		tooltip.removeIf(text -> {
 			TextContent textContent = text.getContent();
-			if (textContent instanceof TranslatableTextContent) {
-				String key = ((TranslatableTextContent) textContent).getKey();
+			if (textContent instanceof TranslatableTextContent translatable) {
+				String key = translatable.getKey();
 				return key.startsWith("painting.") 
 					&& ( key.equals("painting.random") 
 						|| key.equals("painting.dimensions") 
@@ -55,7 +55,7 @@ public class TooltipUtil
 		Identifier id = Identifier.tryParse(variantId);
 		Optional<PaintingVariant> variant = Registries.PAINTING_VARIANT.getOrEmpty(id);
 		if (variant.isEmpty())
-			tooltip.add(UNKNOWN_TEXT);
+			tooltip.add(INVALID_TEXT);
 		else {
 			tooltip.add(
 				Text.translatable("painting.dimensions", variant.get().getWidth()/16, variant.get().getHeight()/16)

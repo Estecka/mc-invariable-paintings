@@ -11,9 +11,10 @@
 	],
 	"contact": {
 		"homepage": "https://modrinth.com/mod/invariable-paintings",
+		"issues":  "https://github.com/Estecka/mc-invariable-paintings/issues",
 		"sources": "https://github.com/Estecka/mc-invariable-paintings"
 	},
-	"license":"GNU AGPLv3",
+	"license": "GNU AGPLv3",
 
 	"icon": "assets/invarpaint/icon.png",
 

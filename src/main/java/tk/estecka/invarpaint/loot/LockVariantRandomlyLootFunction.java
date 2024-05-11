@@ -13,7 +13,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import tk.estecka.invarpaint.core.PaintStackUtil;
 
-public class LockVariantRandomlyLootFunction 
+public class LockVariantRandomlyLootFunction
 extends ConditionalLootFunction
 {
 	static public final MapCodec<LockVariantRandomlyLootFunction> CODEC = RecordCodecBuilder.mapCodec(

@@ -12,11 +12,12 @@ import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.TradedItem;
 import net.minecraft.village.TradeOffers.Factory;
+import net.minecraft.village.VillagerProfession;
 import tk.estecka.invarpaint.InvarpaintMod;
 import tk.estecka.invarpaint.core.PaintStackUtil;
-import net.minecraft.village.VillagerProfession;
 
-public class SellPaintingFactory implements TradeOffers.Factory
+public class SellPaintingFactory
+implements TradeOffers.Factory
 {
 	static public final int	NOVICE_LVL = 1;
 	static public final int	APPRENTICE_LVL = 2;

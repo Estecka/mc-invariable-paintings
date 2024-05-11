@@ -17,8 +17,8 @@ public abstract class ItemMixin
 
 	@Inject( method="getName(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/text/Text;", at=@At("RETURN") )
 	void	GetNameWithVariant(ItemStack stack, CallbackInfoReturnable<Text> info){
-		if (stack.isOf(Items.PAINTING) && (info.getReturnValue() instanceof MutableText))
-			TooltipUtil.AppendPaintingName((MutableText)info.getReturnValue(), stack);
+		if (stack.isOf(Items.PAINTING) && (info.getReturnValue() instanceof MutableText name))
+			TooltipUtil.AppendPaintingName(name, stack);
 	}
 
 }

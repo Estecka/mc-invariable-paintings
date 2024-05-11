@@ -8,9 +8,8 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.math.random.Random;
-import static tk.estecka.invarpaint.InvarpaintMod.LOGGER;
-
 import static net.minecraft.component.DataComponentTypes.ENTITY_DATA;
+import static tk.estecka.invarpaint.InvarpaintMod.LOGGER;
 
 public class PaintStackUtil
 {
