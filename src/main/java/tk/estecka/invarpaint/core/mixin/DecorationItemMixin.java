@@ -36,9 +36,9 @@ public abstract class DecorationItemMixin
 			Optional<PaintingEntity> entity = PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant.get());
 			if (entity.isEmpty() && player != null) {
 				player.sendMessage(
-					Text.translatable("painting.invalid_space",
-						Text.translatableWithFallback(id.toTranslationKey("painting", "title"), variantId).formatted(Formatting.YELLOW),
-						Text.translatable("painting.dimensions", itemVariant.get().getWidth()/16, itemVariant.get().getHeight()/16).formatted(Formatting.WHITE)
+					InvarpaintMod.ServersideTranslatable("painting.invalid_space",
+						PaintStackUtil.TranslatableVariantName(variantId).formatted(Formatting.YELLOW),
+						Text.translatable("painting.dimensions", itemVariant.get().getWidth()/16, itemVariant.get().getHeight()/16)
 					),
 					true
 				);

@@ -7,6 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.random.Random;
 import static net.minecraft.component.DataComponentTypes.ENTITY_DATA;
 import static tk.estecka.invarpaint.InvarpaintMod.LOGGER;
@@ -70,6 +72,10 @@ public class PaintStackUtil
 		return nbt != null
 		    && nbt.contains(VARIANT_TAG)
 		    ;
+	}
+
+	static public MutableText TranslatableVariantName(String variantId){
+		return Text.translatableWithFallback("painting."+variantId.replace(":",".")+".title", variantId);
 	}
 
 }

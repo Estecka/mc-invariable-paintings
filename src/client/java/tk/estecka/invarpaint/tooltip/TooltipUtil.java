@@ -25,7 +25,7 @@ public class TooltipUtil
 		if (variantId != null)
 			text.append(
 				Text.literal(" (")
-					.append(Text.translatableWithFallback("painting."+variantId.replace(":",".")+".title", variantId))
+					.append(PaintStackUtil.TranslatableVariantName(variantId))
 					.append(")")
 					.formatted(Formatting.YELLOW)
 			);

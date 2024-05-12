@@ -41,3 +41,4 @@
 - Removed crafting
 - Removed the deprecated name of `lock_variant_randomly`.
 - Vanilla-CIT are now back into the core; no longer an optional resource pack.
+- The warning for placing a painting in a smaller space is now translated server-side.
