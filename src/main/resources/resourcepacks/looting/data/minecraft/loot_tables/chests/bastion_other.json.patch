@@ -6,7 +6,8 @@
 		"type": "item", "name": "minecraft:painting",
 		"functions":[{
 			"function": "invarpaint:lock_variant_randomly",
-			"exclusive": "#invarpaint:wanderer_exclusive"
+			"include":   "#invarpaint:nether_exclusive",
+			"exclusive": "#invarpaint:nether_exclusive"
 		}]
 	}
 }]
