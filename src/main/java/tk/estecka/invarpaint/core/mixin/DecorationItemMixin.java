@@ -27,14 +27,15 @@ public abstract class DecorationItemMixin
 {
 	@WrapOperation( method="useOnBlock", at=@At(value="INVOKE", target="Lnet/minecraft/entity/decoration/painting/PaintingEntity;placePainting(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Ljava/util/Optional;") )
 	private Optional<PaintingEntity> filterPlacedPainting(World world, BlockPos pos, Direction facing, Operation<Optional<PaintingEntity>> original, ItemUsageContext context) {
+		Optional<PaintingEntity> result;
 		String variantId = PaintStackUtil.GetVariantId(context.getStack());
 		Identifier id = (variantId==null) ? null : Identifier.tryParse(variantId);
 		Optional<PaintingVariant> itemVariant = Registries.PAINTING_VARIANT.getOrEmpty(id);
 		PlayerEntity player = context.getPlayer();
 
 		if (itemVariant.isPresent()) {
-			Optional<PaintingEntity> entity = PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant.get());
-			if (entity.isEmpty() && player != null) {
+			result = PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant.get());
+			if (result.isEmpty() && player != null) {
 				player.sendMessage(
 					InvarpaintMod.ServersideTranslatable("painting.invalid_space",
 						PaintStackUtil.TranslatableVariantName(variantId).formatted(Formatting.YELLOW),
@@ -43,12 +44,17 @@ public abstract class DecorationItemMixin
 					true
 				);
 			}
-			return entity;
 		}
 		else if (player.isCreative() || (variantId!=null && InvarpaintMod.IsNokebabInstalled()))
-			return original.call(world, pos, facing);
+			result = original.call(world, pos, facing);
 		else
-			return Optional.empty();
+			result = Optional.empty();
+
+		// Fix for vanilla clients consuming unplaced paintings
+		if (result.isEmpty() && !world.isClient() && !player.isCreative())
+			player.currentScreenHandler.updateToClient();
+
+		return result;
 	}
 
 }
