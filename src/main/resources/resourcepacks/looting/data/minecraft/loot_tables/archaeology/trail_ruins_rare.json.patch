@@ -8,7 +8,7 @@
 		"weight": 3,
 		"functions":[{
 			"function": "invarpaint:lock_variant_randomly",
-			"exclusive": "#invarpaint:wanderer_exclusive"
+			"exclusive": "#invarpaint:exclusive/wanderer"
 		}]
 	}
 }]

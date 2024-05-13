@@ -11,7 +11,7 @@
 			"type": "item", "name": "minecraft:painting",
 			"functions":[{
 				"function": "invarpaint:lock_variant_randomly",
-				"exclusive": "#invarpaint:villager_exclusive"
+				"exclusive": "#invarpaint:exclusive/villager"
 			}]
 		}]
 	}

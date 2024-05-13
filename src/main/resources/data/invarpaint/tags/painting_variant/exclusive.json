@@ -1,6 +1,6 @@
 {
 	"values":[
-		"#invarpaint:villager_exclusive",
-		"#invarpaint:wanderer_exclusive"
+		"#invarpaint:exclusive/villager",
+		"#invarpaint:exclusive/wanderer"
 	]
 }

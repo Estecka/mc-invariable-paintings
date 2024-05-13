@@ -1,7 +1,7 @@
 {
 	"values":[
-		"#invarpaint:end_exclusive",
-		"#invarpaint:nether_exclusive",
-		"#invarpaint:pillager_exclusive"
+		"#invarpaint:exclusive/end",
+		"#invarpaint:exclusive/nether",
+		"#invarpaint:exclusive/pillager"
 	]
 }

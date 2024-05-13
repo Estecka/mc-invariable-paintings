@@ -22,7 +22,7 @@
 				"weight": 1,
 				"functions":[{
 					"function": "invarpaint:lock_variant_randomly",
-					"exclusive": "#invarpaint:end_exclusive"
+					"exclusive": "#invarpaint:exclusive/end"
 				}]
 			}
 		]
