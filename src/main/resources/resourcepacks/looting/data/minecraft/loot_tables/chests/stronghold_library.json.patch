@@ -7,11 +7,24 @@
 			"n": 6,
 			"p": 0.2
 		},
-		"entries":[{
-			"type": "item", "name": "minecraft:painting",
-			"functions":[{
-				"function": "invarpaint:lock_variant_randomly"
-			}]
-		}]
+		"entries":[
+			{
+				"type": "item",
+				"name": "minecraft:painting",
+				"weight": 1,
+				"functions":[{
+					"function": "invarpaint:lock_variant_randomly"
+				}]
+			},
+			{
+				"type": "item",
+				"name": "minecraft:painting",
+				"weight": 1,
+				"functions":[{
+					"function": "invarpaint:lock_variant_randomly",
+					"exclusive": "#invarpaint:end_exclusive"
+				}]
+			}
+		]
 	}
 }]

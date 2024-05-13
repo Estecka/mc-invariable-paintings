@@ -1,6 +1,7 @@
 {
 	"values":[
+		"#invarpaint:end_exclusive",
 		"#invarpaint:nether_exclusive",
-		"#invarpaint:wanderer_exclusive"
+		"#invarpaint:pillager_exclusive"
 	]
 }

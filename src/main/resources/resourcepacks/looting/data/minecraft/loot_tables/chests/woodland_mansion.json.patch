@@ -10,7 +10,8 @@
 		"entries":[{
 			"type": "item", "name": "minecraft:painting",
 			"functions":[{
-				"function": "invarpaint:lock_variant_randomly"
+				"function": "invarpaint:lock_variant_randomly",
+				"exclusive": "#invarpaint:pillager_exclusive"
 			}]
 		}]
 	}
