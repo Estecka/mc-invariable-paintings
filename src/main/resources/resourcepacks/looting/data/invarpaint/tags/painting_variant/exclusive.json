@@ -2,6 +2,7 @@
 	"values":[
 		"#invarpaint:exclusive/end",
 		"#invarpaint:exclusive/nether",
-		"#invarpaint:exclusive/pillager"
+		"#invarpaint:exclusive/pillager",
+		"#invarpaint:exclusive/villager"
 	]
 }

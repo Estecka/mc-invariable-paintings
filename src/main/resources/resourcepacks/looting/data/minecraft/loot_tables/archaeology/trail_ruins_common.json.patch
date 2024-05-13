@@ -3,12 +3,10 @@
 	"path": "/pools/0/entries/-",
 	"value":
 	{
-		"type": "item",
-		"name": "minecraft:painting",
-		"weight": 2,
+		"type": "item", "name": "minecraft:painting",
 		"functions":[{
 			"function": "invarpaint:lock_variant_randomly",
-			"exclusive": "#invarpaint:exclusive/wanderer"
+			"exclusive": "#invarpaint:exclusive/ruins"
 		}]
 	}
 }]

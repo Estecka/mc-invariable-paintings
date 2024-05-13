@@ -5,7 +5,7 @@
 		"rolls": {
 			"type": "minecraft:binomial",
 			"n": 3,
-			"p": 0.25
+			"p": 0.2
 		},
 		"entries":[{
 			"type": "item", "name": "minecraft:painting",
