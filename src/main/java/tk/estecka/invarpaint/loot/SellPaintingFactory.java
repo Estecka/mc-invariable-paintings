@@ -35,21 +35,29 @@ implements TradeOffers.Factory
 		final PoolIdentifier VILLAGER_EXCLUSIVES = PoolIdentifier.Parse("#invarpaint:exclusive/villager").getOrThrow();
 		final PoolIdentifier WANDERER_EXCLUSIVES = PoolIdentifier.Parse("#invarpaint:exclusive/wanderer").getOrThrow();
 
-		final SellPaintingFactory SHEPHERD_TRADE = new SellPaintingFactory(24, true,  List.of(COMMON, VILLAGER_EXCLUSIVES));
-		final SellPaintingFactory WANDERER_TRADE = new SellPaintingFactory(24, false, List.of(COMMON, WANDERER_EXCLUSIVES));
+		final SellPaintingFactory SHEPHERD_TRADE  = new SellPaintingFactory(24, true,  List.of(COMMON, VILLAGER_EXCLUSIVES));
+		final SellPaintingFactory WANDERER_TRADE1 = new SellPaintingFactory(24, false, List.of(COMMON));
+		final SellPaintingFactory WANDERER_TRADE2 = new SellPaintingFactory(24, false, List.of(WANDERER_EXCLUSIVES));
 
 		//This assumes that variantless painting is the only master trade available to Shepherds, and overwrites it.
 		Int2ObjectMap<Factory[]> shepherd = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.SHEPHERD);
 		shepherd.get(MASTER_LVL)[0] = SHEPHERD_TRADE;
 
-		TradeOfferHelper.registerWanderingTraderOffers(APPRENTICE_LVL, list->list.add(WANDERER_TRADE));
-		TradeOfferHelper.registerRebalancedWanderingTraderOffers(builder->builder.addOffersToPool(TradeOfferHelper.WanderingTraderOffersBuilder.SELL_SPECIAL_ITEMS_POOL, WANDERER_TRADE));
+		TradeOfferHelper.registerWanderingTraderOffers(APPRENTICE_LVL, list->{
+			list.add(WANDERER_TRADE1);
+			list.add(WANDERER_TRADE2);
+		});
+		TradeOfferHelper.registerRebalancedWanderingTraderOffers(builder->builder.addOffersToPool(
+			TradeOfferHelper.WanderingTraderOffersBuilder.SELL_SPECIAL_ITEMS_POOL,
+			WANDERER_TRADE1,
+			WANDERER_TRADE2
+		));
 	}
 
 
-	private final List<PoolIdentifier> pool;
 	private final TradedItem priceLeft;
 	private final Optional<TradedItem> priceRight;
+	private final List<PoolIdentifier> pool;
 
 	public SellPaintingFactory(TradedItem price1, Optional<TradedItem> price2, List<PoolIdentifier> pool){
 		this.priceLeft  = price1;
@@ -57,10 +65,10 @@ implements TradeOffers.Factory
 		this.pool = pool;
 	}
 
-	public SellPaintingFactory(int price, boolean withCanvas, List<PoolIdentifier> pool){
+	public SellPaintingFactory(int emeralds, boolean canvas, List<PoolIdentifier> pool){
 		this(
-			new TradedItem(Items.EMERALD, 24),
-			Optional.ofNullable(withCanvas ? new TradedItem(Items.PAINTING) : null),
+			new TradedItem(Items.EMERALD, emeralds),
+			Optional.ofNullable(canvas ? new TradedItem(Items.PAINTING) : null),
 			pool
 		);
 	}
