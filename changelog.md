@@ -37,9 +37,12 @@
 - "Recycling" preset no longer forbids blank canvas crafting.
 - `lock_variant_randomly` is now also available under the `invarpaint`. Marked the old id as deprecated.
 
+
 # v2
-- Removed crafting
-- Removed the deprecated name of `lock_variant_randomly`.
-- Vanilla-CIT are now back into the core; no longer an optional resource pack.
-- The warning for placing a painting in a smaller space is now translated server-side.
+- Some vanilla variants are now exclusive to specific sources.
+- `lock_variant_randomly` may now specify a pool of variant to pull from.
 - The inventory-desync fix is now fully server-side.
+- The warning for placing a painting in a smaller space is now translated server-side.
+- Vanilla-CIT are now back into the core; no longer an optional resource pack.
+- Removed crafting
+- Removed the deprecated name `minecraft:lock_variant_randomly`.
