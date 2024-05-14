@@ -8,7 +8,7 @@
 		"weight": 5,
 		"functions":[{
 			"function": "invarpaint:lock_variant_randomly",
-			"exclusive": "#invarpaint:exclusive/nether"
+			"variants": ["#invarpaint:exclusive/nether"]
 		}]
 	}
 }]

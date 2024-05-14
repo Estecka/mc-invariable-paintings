@@ -6,8 +6,7 @@
 		"type": "item", "name": "minecraft:painting",
 		"functions":[{
 			"function": "invarpaint:lock_variant_randomly",
-			"include":   "#invarpaint:exclusive/ruins",
-			"exclusive": "#invarpaint:exclusive/ruins"
+			"variants":["#invarpaint:exclusive/ruins"]
 		}]
 	}
 }]
