@@ -1,11 +1,7 @@
 package tk.estecka.invarpaint.loot;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.function.Consumer;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
@@ -17,7 +13,6 @@ import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.PaintingVariantTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import tk.estecka.invarpaint.core.PaintStackUtil;
@@ -31,16 +26,21 @@ extends ConditionalLootFunction
 		instance -> ConditionalLootFunction.addConditionsField(instance)
 			.and(TagKey.codec(RegistryKeys.PAINTING_VARIANT).optionalFieldOf("exclude", EXCLUSIVE_TAG).forGetter(f->f.exclude))
 			.and(TagKey.codec(RegistryKeys.PAINTING_VARIANT).optionalFieldOf("include").forGetter(f->f.include))
-			.and(TagKey.codec(RegistryKeys.PAINTING_VARIANT).optionalFieldOf("exclusive").forGetter(a->Optional.empty()))
+			.and(TagKey.codec(RegistryKeys.PAINTING_VARIANT).optionalFieldOf("exclusive").forGetter(f->f.exclusive))
 			.apply(instance, LockVariantRandomlyLootFunction::new)
 	);
 
 	static public final Identifier ID = new Identifier("invarpaint", "lock_variant_randomly");
 	static public final LootFunctionType<LockVariantRandomlyLootFunction> TYPE = new LootFunctionType<LockVariantRandomlyLootFunction>(CODEC);
 
-	public final TagKey<PaintingVariant> exclude;
-	public final Optional<TagKey<PaintingVariant>> include;
-	public final Optional<TagKey<PaintingVariant>> exclusive;
+	static public void Register(){
+		Registry.register(Registries.LOOT_FUNCTION_TYPE, ID, TYPE);
+	};
+
+
+	private final TagKey<PaintingVariant> exclude;
+	private final Optional<TagKey<PaintingVariant>> include;
+	private final Optional<TagKey<PaintingVariant>> exclusive;
 
 	private LockVariantRandomlyLootFunction(
 		List<LootCondition> conditions,
@@ -54,10 +54,6 @@ extends ConditionalLootFunction
 		this.exclusive = exclusive;
 	}
 
-	static public void Register(){
-		Registry.register(Registries.LOOT_FUNCTION_TYPE, ID, TYPE);
-	};
-
 	@Override
 	public LootFunctionType<LockVariantRandomlyLootFunction>	getType(){
 		return TYPE;
@@ -65,31 +61,22 @@ extends ConditionalLootFunction
 
 	@Override
 	public ItemStack	process(ItemStack stack, LootContext ctx){
-		Set<Identifier> pool = new LinkedHashSet<>();
-		Set<Identifier> inelligible = new HashSet<>();
+		VariantPool pool  = new VariantPool();
+		pool.Add(this.exclude);
 
-		Visit(this.exclude, inelligible::add);
-		if (this.exclusive.isPresent())
-			Visit(exclusive.get(), inelligible::remove);
+		if (include.isPresent())
+			pool.RemoveFrom(include.get());
+		else
+			pool.Invert();
 
-		Consumer<Identifier> doInclude = id -> {if(!inelligible.contains(id)) pool.add(id);};
-		if (this.include.isPresent())
-			Visit(this.include.get(), doInclude);
-		else for (Identifier id : Registries.PAINTING_VARIANT.getIds())
-			doInclude.accept(id);
+		if (exclusive.isPresent())
+			pool.Add(exclusive.get());
 
-		if (pool.size() < 0)
-			return stack;
-
-		int roll = ctx.getRandom().nextInt(pool.size());
-		Identifier id = pool.toArray(new Identifier[0])[roll];
-		PaintStackUtil.SetVariant(stack, id.toString());
+		Identifier variant = pool.GetRandom(ctx.getRandom());
+		if (variant != null)
+			PaintStackUtil.SetVariant(stack, variant.toString());
 
 		return stack;
 	}
 
-	static private void	Visit(TagKey<PaintingVariant> tag, Consumer<Identifier> consumer){
-		for (var entry : Registries.PAINTING_VARIANT.iterateEntries(tag))
-			consumer.accept(entry.getKey().get().getValue());
-	}
 }
