@@ -8,7 +8,6 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import tk.estecka.invarpaint.InvarpaintMod;
 import tk.estecka.invarpaint.core.PaintStackUtil;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;

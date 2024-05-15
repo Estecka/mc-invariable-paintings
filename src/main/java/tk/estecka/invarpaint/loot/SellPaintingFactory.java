@@ -75,7 +75,7 @@ implements TradeOffers.Factory
 
 	@Override
 	public TradeOffer	create(Entity entity, Random random){
-		Identifier variant = PoolIdentifier.GetRandom(PoolIdentifier.Combine(this.pool), random);
+		Identifier variant = PoolIdentifier.GetRandom(this.pool, random);
 
 		if (variant == null)
 			return null;

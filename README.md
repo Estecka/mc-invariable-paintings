@@ -56,6 +56,6 @@ Variants that lack a custom icon will fall back to a generic built-in one.
 
 
 ## Compatibility
-Any mod that adds new paintings based on the vanilla system will be compatible, and their paintings will be obtainable through all existing  means.
+Any mod that adds new paintings based on the vanilla system will be compatible, and their paintings will be obtainable through all existing means.
 
 Mods that implement their own variant system are not compatible. Amongst user-defined painting mods, [More Canvases](https://modrinth.com/mod/more-canvases) was made to be compatible with Invariable Paintings.

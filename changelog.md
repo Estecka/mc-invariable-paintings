@@ -40,12 +40,12 @@
 
 # v2
 Additions:
-- Some vanilla variants are now exclusive to specific sources.
-- `lock_variant_randomly` may now specify a pool of variant to pull from.
+- Some vanilla variants are now exclusive to specific sources. Added paintings to a few more locations.
+- `lock_variant_randomly` may now specify a pool of variants to pull from.
 - The inventory-desync fix is now fully server-side.
 - The warning for placing a painting in a smaller space is now translated server-side.
 
 Removals:
-- Vanilla-CIT are no longer an optional resource pack. (Now back into the core assets.)
+- Vanilla CITs are no longer an optional resource pack. (They are back into the core assets.)
 - Removed the deprecated name `minecraft:lock_variant_randomly`.
 - Removed crafting

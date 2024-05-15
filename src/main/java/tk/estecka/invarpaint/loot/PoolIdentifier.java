@@ -1,7 +1,7 @@
 package tk.estecka.invarpaint.loot;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.jetbrains.annotations.Nullable;
 import com.mojang.serialization.Codec;
@@ -66,14 +66,11 @@ public record PoolIdentifier(boolean isNegative, boolean isTag, Identifier id)
 		return pool;
 	}
 
-	static public Set<Identifier> Combine(List<PoolIdentifier> list){
+	static public @Nullable Identifier GetRandom(Collection<PoolIdentifier> list, Random random){
 		Set<Identifier> pool = new HashSet<>();
 		for (PoolIdentifier poolId : list)
 			pool.addAll(poolId.GetPool());
-		return pool;
-	}
 
-	static public @Nullable Identifier GetRandom(Set<Identifier> pool, Random random){
 		Identifier[] array = pool.toArray(new Identifier[0]);
 		if (array.length < 1)
 			return null;
