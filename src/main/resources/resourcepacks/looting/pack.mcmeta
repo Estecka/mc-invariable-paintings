@@ -4,5 +4,8 @@
 		"supported_formats": [12, 41],
 		"patched:has_patches": true,
 		"description": ["Requires the mod ", {"text":"Patched","color":"aqua"}]
+	},
+	"patched": {
+		"format_version": 1
 	}
 }

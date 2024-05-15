@@ -38,6 +38,6 @@
 		"java": ">=21"
 	},
 	"recommends": {
-		"patched": "*"
+		"patched": ">=6"
 	}
 }
