@@ -29,7 +29,7 @@ public class TooltipUtil
 					.append(")")
 					.formatted(Formatting.YELLOW)
 			);
-		else
+		else if (!PaintStackUtil.IsObfuscated(stack))
 			text.append(EMPTY_NOTICE);
 
 	}

@@ -10,6 +10,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.random.Random;
+import static net.minecraft.component.DataComponentTypes.CUSTOM_DATA;
 import static net.minecraft.component.DataComponentTypes.ENTITY_DATA;
 import static tk.estecka.invarpaint.InvarpaintMod.LOGGER;
 
@@ -76,6 +77,17 @@ public class PaintStackUtil
 
 	static public MutableText TranslatableVariantName(String variantId){
 		return Text.translatableWithFallback("painting."+variantId.replace(":",".")+".title", variantId);
+	}
+
+	/**
+	 * @deprecated Only used by the crafting addon.
+	 */
+	@Deprecated
+	static public boolean IsObfuscated(ItemStack stack){
+		NbtComponent nbt = stack.get(CUSTOM_DATA);
+		return nbt != null
+		    && nbt.contains("invarpaint:obfuscated")
+		    ;
 	}
 
 }
