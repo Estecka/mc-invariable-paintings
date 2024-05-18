@@ -1,0 +1,12 @@
+{
+	"required": true,
+	"package": "tk.estecka.invarpaint.tooltip.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"DecorationItemMixin",
+		"ItemMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

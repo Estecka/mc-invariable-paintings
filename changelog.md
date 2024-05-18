@@ -35,4 +35,17 @@
 - Painting variants can be picked with Ctrl
 - Increased the price of paintings trades.
 - "Recycling" preset no longer forbids blank canvas crafting.
-- Copied the lootfunction to invarpaint's own namespace. Marked the old one as deprecated.
+- `lock_variant_randomly` is now also available under the `invarpaint` namespace. Marked the old id as deprecated.
+
+
+# v2
+Additions:
+- Some vanilla variants are now exclusive to specific sources. Added paintings to a few more locations.
+- `lock_variant_randomly` may now specify a pool of variants to pull from.
+- The inventory-desync fix is now fully server-side.
+- The warning for placing a painting in a smaller space is now translated server-side.
+
+Removals:
+- Vanilla CITs are no longer an optional resource pack. (They are back into the core assets.)
+- Removed the deprecated name `minecraft:lock_variant_randomly`.
+- Removed crafting

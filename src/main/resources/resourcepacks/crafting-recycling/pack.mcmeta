@@ -1,7 +1,0 @@
-{
-	"pack": {
-		"pack_format": 15,
-		"supported_formats": [12, 26],
-		"description": "Paintings cannot be created from raw materials."
-	}
-}

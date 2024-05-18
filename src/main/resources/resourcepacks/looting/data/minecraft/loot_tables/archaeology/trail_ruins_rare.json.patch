@@ -5,9 +5,10 @@
 	{
 		"type": "item",
 		"name": "minecraft:painting",
-		"weight": 3,
+		"weight": 4,
 		"functions":[{
-			"function": "invarpaint:lock_variant_randomly"
+			"function": "invarpaint:lock_variant_randomly",
+			"variants":["#invarpaint:exclusive/ruins"]
 		}]
 	}
 }]

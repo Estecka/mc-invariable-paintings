@@ -5,12 +5,13 @@
 		"rolls": {
 			"type": "minecraft:binomial",
 			"n": 3,
-			"p": 0.25
+			"p": 0.2
 		},
 		"entries":[{
 			"type": "item", "name": "minecraft:painting",
 			"functions":[{
-				"function": "invarpaint:lock_variant_randomly"
+				"function": "invarpaint:lock_variant_randomly",
+				"variants": ["!#invarpaint:exclusive"]
 			}]
 		}]
 	}

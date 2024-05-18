@@ -1,8 +1,11 @@
 {
 	"pack": {
 		"pack_format": 15,
-		"supported_formats": [12, 26],
+		"supported_formats": [12, 41],
 		"patched:has_patches": true,
-		"description": "Requires the mod Patched"
+		"description": ["Requires the mod ", {"text":"Patched","color":"aqua"}]
+	},
+	"patched": {
+		"format_version": 1
 	}
 }

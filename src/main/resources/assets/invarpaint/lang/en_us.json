@@ -1,0 +1,6 @@
+{
+	"painting.empty": "Blank",
+	"painting.invalid_space": "%s needs a %s space!",
+	"painting.obfuscated": "Unidentified",
+	"painting.invalid": "Invalid variant"
+}

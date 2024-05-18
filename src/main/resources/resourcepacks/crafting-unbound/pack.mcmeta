@@ -1,7 +1,0 @@
-{
-	"pack": {
-		"pack_format": 15,
-		"supported_formats": [12, 26],
-		"description": "Unobuscated crafting using any canvas, and any amount of dye."
-	}
-}

@@ -1,0 +1,13 @@
+{
+	"required": true,
+	"package": "tk.estecka.invarpaint.cit.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+		"ItemRendererMixin",
+		"ModelLoaderMixin",
+		"ModelLoaderBakerImplMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
