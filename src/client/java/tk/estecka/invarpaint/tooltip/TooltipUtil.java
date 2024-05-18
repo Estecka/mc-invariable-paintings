@@ -15,7 +15,7 @@ import tk.estecka.invarpaint.core.PaintStackUtil;
 
 public class TooltipUtil
 {
-	static private final Text INVALID_TEXT = Text.translatable("painting.invalid").formatted(Formatting.GRAY);
+	static private final Text INVALID_TEXT = Text.translatable("painting.invalid").formatted(Formatting.RED);
 	static private final Text EMPTY_NOTICE = Text.literal(" (").append(Text.translatable("painting.empty")).append(")").formatted(Formatting.GRAY);
 
 	static public void	AppendPaintingName(MutableText text, ItemStack stack){
