@@ -31,7 +31,7 @@ Modded paintings will be available in most locations by default.
 The loot tables are provided as a built-in datapack which can be disabled. Without the datapack, all exclusive paintings will instead be available via trading.
 
 ### Crafting (deprecated)
-Experimental crafting recipes were removed as of v2.0.
+Experimental crafting recipes were removed as of v2.0. They were re-released as a separate addon, but will not be as actively maintained.
 See [the old Readme](https://github.com/Estecka/mc-invariable-paintings/blob/1.4.0+1.20.2/README.md#crafting-experimental) for older versions of the mod.
 
 ## Inventory Icons
