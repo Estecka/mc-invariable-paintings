@@ -39,9 +39,9 @@ public abstract class ModelLoaderMixin
 	private void	AddVariantModels(BlockColors _0, Profiler profiler, Map<?,?> _2, Map<?,?> _3, CallbackInfo ci)
 	{
 		profiler.swap("painting_items");
-		this.loadInventoryVariantItemModel(Cits.CIT_FILLED);
-		this.loadInventoryVariantItemModel(Cits.CIT_RANDOM);
-		this.loadInventoryVariantItemModel(Cits.CIT_MISSING);
+		this.loadInventoryVariantItemModel(Cits.CIT_FILLED .id());
+		this.loadInventoryVariantItemModel(Cits.CIT_RANDOM .id());
+		this.loadInventoryVariantItemModel(Cits.CIT_MISSING.id());
 
 		var registry = RegistryUtil.GetPaintingRegitry();
 		if (!registry.isPresent())
@@ -49,7 +49,7 @@ public abstract class ModelLoaderMixin
 		else for (Identifier painting : registry.get().getIds())
 		{
 			Identifier texture = painting.withPrefixedPath(Cits.CIT_PREFIX);
-			this.AddUnsourced(texture, Cits.CIT_FILLED);
+			this.AddUnsourced(texture, Cits.CIT_FILLED.id());
 		}
 	}
 }
