@@ -1,12 +1,19 @@
 {
 	"values": [
 		"minecraft:alban",
-		"minecraft:courbet",
+		"minecraft:backyard",
+		"minecraft:baroque",
+		"minecraft:humble",
 		"minecraft:kebab",
+		"minecraft:meditative",
+		"minecraft:orb",
 		"minecraft:plant",
+		"minecraft:prairie_ride",
 		"minecraft:pool",
 		"minecraft:sea",
 		"minecraft:skeleton",
+		"minecraft:sunflowers",
+		"minecraft:unpacked",
 		"minecraft:wasteland"
 	]
 }
