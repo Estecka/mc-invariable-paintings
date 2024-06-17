@@ -12,8 +12,8 @@ import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedModelManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import tk.estecka.invarpaint.RegistryUtil;
 import tk.estecka.invarpaint.cit.Cits;
 import tk.estecka.invarpaint.core.PaintStackUtil;
 
@@ -32,11 +32,12 @@ public class ItemRendererMixin
 			if (PaintStackUtil.IsObfuscated(stack))
 				return modelManager.getModel(Cits.CIT_RANDOM);
 
-			String variant = PaintStackUtil.GetVariantId(stack);
-			if (variant != null)
+			String variantName = PaintStackUtil.GetVariantId(stack);
+			if (variantName != null)
 			{
-				Identifier variantId = Identifier.tryParse(variant);
-				if (variantId == null || !Registries.PAINTING_VARIANT.containsId(variantId))
+				Identifier variantId = Identifier.tryParse(variantName);
+				var registry = RegistryUtil.GetPaintingRegitry();
+				if (variantId == null || (registry.isPresent() && !registry.get().containsId(variantId)))
 					return modelManager.getModel(Cits.CIT_MISSING);
 				else {
 					var model = modelManager.getModel(variantId.withPrefixedPath(Cits.CIT_PREFIX));

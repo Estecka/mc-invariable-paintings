@@ -11,12 +11,10 @@ import net.minecraft.world.World;
 public class RegistryUtil
 {
 	static public Optional<Registry<PaintingVariant>> GetPaintingRegitry(){
-		Registry<PaintingVariant> result = null;
-
 		World world = MinecraftClient.getInstance().world;
 		if (world != null)
-			result = world.getRegistryManager().get(RegistryKeys.PAINTING_VARIANT);
-
-		return Optional.ofNullable(result);
+			return world.getRegistryManager().getOptional(RegistryKeys.PAINTING_VARIANT);
+		else
+			return Optional.empty();
 	}
 }

@@ -35,3 +35,4 @@ Current master
 - The painting registry is no longer static and must be accessed from the world.
 - `PaintingVariants` now measure their width and height in blocks.
 - `TooltipType` was moved to a different package
+- `ModelLoader::modelsToBake` now takes `ModelIdentifer`s as key

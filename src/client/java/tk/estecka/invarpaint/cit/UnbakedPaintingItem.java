@@ -57,7 +57,7 @@ implements UnbakedModel
 	 * implementation of `ModelLoader$BakerImpl`.
 	 */
 	@Override 
-	public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> spriteGetter, ModelBakeSettings settings, Identifier id){
+	public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> spriteGetter, ModelBakeSettings settings){
 		return baker.bake(fallback, settings);
 	}
 
