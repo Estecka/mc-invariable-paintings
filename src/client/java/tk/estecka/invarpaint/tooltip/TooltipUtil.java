@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Optional;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextContent;
 import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import tk.estecka.invarpaint.RegistryUtil;
 import tk.estecka.invarpaint.core.PaintStackUtil;
 
 public class TooltipUtil
@@ -53,16 +54,20 @@ public class TooltipUtil
 
 	static public void AddVariantTooltip(List<Text> tooltip, String variantId, boolean advanced){
 		Identifier id = Identifier.tryParse(variantId);
-		Optional<PaintingVariant> variant = Registries.PAINTING_VARIANT.getOrEmpty(id);
-		if (variant.isEmpty())
+		Optional<Registry<PaintingVariant>> registry = RegistryUtil.GetPaintingRegitry();
+		Optional<PaintingVariant> variant = registry.flatMap(r -> r.getOrEmpty(id));
+
+		// In the event the registry would be absent, consider everything as valid, and print what can be known.
+		if (registry.isPresent() && variant.isEmpty())
 			tooltip.add(INVALID_TEXT);
-		else {
-			tooltip.add(
-				Text.translatable("painting.dimensions", variant.get().getWidth()/16, variant.get().getHeight()/16)
-					.append(" ")
-					.append(Text.translatableWithFallback(id.toTranslationKey("painting", "author"), "")
-					.formatted(Formatting.GRAY))
-			);
+		else if (id != null){
+			MutableText authorLine = Text.translatableWithFallback(id.toTranslationKey("painting", "author"), "").formatted(Formatting.GRAY);
+			if (variant.isPresent())
+				authorLine = Text.translatable("painting.dimensions", variant.get().width(), variant.get().height())
+					.append(authorLine)
+					;
+
+			tooltip.add(authorLine);
 		}
 	}
 

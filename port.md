@@ -30,3 +30,8 @@ Current master
 - The constructor of `LootFunctionType` now takes a `MapCodec`.
 - `DecorationItem::appendTooltip` now takes a `Item$TooltipContext` argument instead of a world.
 - The old `TooltipContext` was renamed to `TooltipType`. (Yarn Mapping only ?)
+
+### 1.21.0
+- The painting registry is no longer static and must be accessed from the world.
+- `PaintingVariants` now measure their width and height in blocks.
+- `TooltipType` was moved to a different package
