@@ -11,6 +11,7 @@ import net.minecraft.loot.function.ConditionalLootFunction;
 import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import tk.estecka.invarpaint.core.PaintStackUtil;
@@ -46,12 +47,13 @@ extends ConditionalLootFunction
 
 	@Override
 	public ItemStack	process(ItemStack stack, LootContext ctx){
+		var registry  = ctx.getWorld().getRegistryManager().get(RegistryKeys.PAINTING_VARIANT);
 		Random random = ctx.getRandom();
 		
 		if (this.variants.isEmpty())
 			return PaintStackUtil.SetRandomVariant(stack, random);
 		
-		Identifier variant = PoolIdentifier.GetRandom(this.variants.get(), random);
+		Identifier variant = PoolIdentifier.GetRandom(this.variants.get(), random, registry);
 		if (variant != null)
 			PaintStackUtil.SetVariant(stack, variant.toString());
 

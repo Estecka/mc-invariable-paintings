@@ -6,11 +6,12 @@ import java.util.Set;
 import org.jetbrains.annotations.Nullable;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
-import static net.minecraft.registry.Registries.PAINTING_VARIANT;
 
 public record PoolIdentifier(boolean isNegative, boolean isTag, Identifier id)
 {
@@ -38,26 +39,26 @@ public record PoolIdentifier(boolean isNegative, boolean isTag, Identifier id)
 		return DataResult.success(new PoolIdentifier(neg, tag, id));
 	}
 
-	public boolean Exists(){
+	public boolean Exists(Registry<PaintingVariant> registry){
 		if (id == null)
 			return false;
 		if (this.isTag)
-			return PAINTING_VARIANT.streamTags().anyMatch(tag -> tag.id().equals(this.id));
+			return registry.streamTags().anyMatch(tag -> tag.id().equals(this.id));
 		else
-			return PAINTING_VARIANT.containsId(this.id);
+			return registry.containsId(this.id);
 	}
 
-	public Set<Identifier> GetPool(){
+	public Set<Identifier> GetPool(Registry<PaintingVariant> registry){
 		Set<Identifier> pool = new HashSet<>();
 
 		if (!this.isTag)
 			pool.add(this.id);
-		else for (var e : PAINTING_VARIANT.iterateEntries(TagKey.of(RegistryKeys.PAINTING_VARIANT, this.id)))
+		else for (var e : registry.iterateEntries(TagKey.of(RegistryKeys.PAINTING_VARIANT, this.id)))
 			pool.add(e.getKey().get().getValue());
 
 		if (this.isNegative){
 			Set<Identifier> inverse = new HashSet<>();
-			for (Identifier id : PAINTING_VARIANT.getIds())
+			for (Identifier id : registry.getIds())
 			if  (!pool.contains(id))
 					inverse.add(id);
 			pool = inverse;
@@ -66,10 +67,10 @@ public record PoolIdentifier(boolean isNegative, boolean isTag, Identifier id)
 		return pool;
 	}
 
-	static public @Nullable Identifier GetRandom(Collection<PoolIdentifier> list, Random random){
+	static public @Nullable Identifier GetRandom(Collection<PoolIdentifier> list, Random random, Registry<PaintingVariant> registry){
 		Set<Identifier> pool = new HashSet<>();
 		for (PoolIdentifier poolId : list)
-			pool.addAll(poolId.GetPool());
+			pool.addAll(poolId.GetPool(registry));
 
 		Identifier[] array = pool.toArray(new Identifier[0]);
 		if (array.length < 1)
