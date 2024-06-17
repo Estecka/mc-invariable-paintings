@@ -64,6 +64,7 @@ public class TooltipUtil
 			MutableText authorLine = Text.translatableWithFallback(id.toTranslationKey("painting", "author"), "").formatted(Formatting.GRAY);
 			if (variant.isPresent())
 				authorLine = Text.translatable("painting.dimensions", variant.get().width(), variant.get().height())
+					.append(" ")
 					.append(authorLine)
 					;
 
