@@ -7,7 +7,7 @@ import java.util.Queue;
 import org.joml.Vector2i;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
-import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
@@ -113,15 +113,15 @@ public class PaintEntityPlacer
 
 	}
 
-	static public Optional<PaintingEntity>	PlaceLockedPainting(World world, BlockPos targetPos, Direction facing, PaintingVariant variant){
-		PaintingEntity entity = new PaintingEntity(world, targetPos, facing, Registries.PAINTING_VARIANT.getEntry(variant));
+	static public Optional<PaintingEntity>	PlaceLockedPainting(World world, BlockPos targetPos, Direction facing, RegistryEntry<PaintingVariant> variant){
+		PaintingEntity entity = new PaintingEntity(world, targetPos, facing, variant);
 		if (entity.canStayAttached())
 			return Optional.of(entity);
 
 		// The direction of the horizontal axis of the wall
 		Vec3i right = facing.rotateYCounterclockwise().getVector();
 
-		SurfaceIterator surface = new SurfaceIterator(variant.getWidth()/16, variant.getHeight()/16);
+		SurfaceIterator surface = new SurfaceIterator(variant.value().width(), variant.value().height());
 		surface.next(); // Skip the targeted position, which was already tested.
 		while (surface.hasNext()) {
 			Vector2i planeOffset = surface.next();

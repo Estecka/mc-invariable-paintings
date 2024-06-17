@@ -6,7 +6,8 @@ import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DecorationItem;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -27,19 +28,20 @@ public abstract class DecorationItemMixin
 {
 	@WrapOperation( method="useOnBlock", at=@At(value="INVOKE", target="Lnet/minecraft/entity/decoration/painting/PaintingEntity;placePainting(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Ljava/util/Optional;") )
 	private Optional<PaintingEntity> filterPlacedPainting(World world, BlockPos pos, Direction facing, Operation<Optional<PaintingEntity>> original, ItemUsageContext context) {
+		final var registry = world.getRegistryManager().get(RegistryKeys.PAINTING_VARIANT);
 		Optional<PaintingEntity> result;
 		String variantId = PaintStackUtil.GetVariantId(context.getStack());
 		Identifier id = (variantId==null) ? null : Identifier.tryParse(variantId);
-		Optional<PaintingVariant> itemVariant = Registries.PAINTING_VARIANT.getOrEmpty(id);
+		RegistryEntry<PaintingVariant> itemVariant = registry.getEntry(id).orElse(null);
 		PlayerEntity player = context.getPlayer();
 
-		if (itemVariant.isPresent()) {
-			result = PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant.get());
+		if (itemVariant != null) {
+			result = PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant);
 			if (result.isEmpty() && player != null) {
 				player.sendMessage(
 					InvarpaintMod.ServersideTranslatable("painting.invalid_space",
 						PaintStackUtil.TranslatableVariantName(variantId).formatted(Formatting.YELLOW),
-						Text.translatable("painting.dimensions", itemVariant.get().getWidth()/16, itemVariant.get().getHeight()/16)
+						Text.translatable("painting.dimensions", itemVariant.value().width(), itemVariant.value().height())
 					),
 					true
 				);

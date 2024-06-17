@@ -3,10 +3,11 @@ package tk.estecka.invarpaint.core;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.component.type.NbtComponent;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.random.Random;
@@ -42,18 +43,20 @@ public class PaintStackUtil
 		return stack;
 	}
 
-	static public ItemStack	SetRandomVariant(ItemStack stack, Random random){
-		var variant = Registries.PAINTING_VARIANT.getRandom(random);
+	@Deprecated
+	static public ItemStack	SetRandomVariant(ItemStack stack, Random random, Registry<PaintingVariant> registry){
+		var variant = registry.getRandom(random);
 		if (variant.isPresent())
-			return SetVariant( stack, Registries.PAINTING_VARIANT.getId(variant.get().value()).toString() );
+			return SetVariant( stack, variant.get().getKey().get().getValue().toString() );
 		else {
 			LOGGER.error("Unable to pull a random variant from the registry.");
 			return stack;
 		}
 	}
 
-	static public ItemStack	CreateRandomVariant(Random random){
-		return SetRandomVariant(new ItemStack(Items.PAINTING), random);
+	@Deprecated
+	static public ItemStack	CreateRandomVariant(Random random, Registry<PaintingVariant> registry){
+		return SetRandomVariant(new ItemStack(Items.PAINTING), random, registry);
 	}
 
 	static public ItemStack	CreateVariant(String variantId){

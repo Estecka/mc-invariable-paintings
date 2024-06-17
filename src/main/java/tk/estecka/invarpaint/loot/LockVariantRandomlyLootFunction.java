@@ -49,11 +49,16 @@ extends ConditionalLootFunction
 	public ItemStack	process(ItemStack stack, LootContext ctx){
 		var registry  = ctx.getWorld().getRegistryManager().get(RegistryKeys.PAINTING_VARIANT);
 		Random random = ctx.getRandom();
-		
-		if (this.variants.isEmpty())
-			return PaintStackUtil.SetRandomVariant(stack, random);
-		
-		Identifier variant = PoolIdentifier.GetRandom(this.variants.get(), random, registry);
+		Identifier variant = null;
+
+		if (this.variants.isEmpty()){
+			var entry = registry.getRandom(random);
+			if (entry.isPresent())
+				variant = entry.get().getKey().get().getValue();
+		}
+		else
+			variant = PoolIdentifier.GetRandom(this.variants.get(), random, registry);
+
 		if (variant != null)
 			PaintStackUtil.SetVariant(stack, variant.toString());
 
