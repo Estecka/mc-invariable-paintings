@@ -24,7 +24,7 @@ extends ConditionalLootFunction
 			.apply(instance, LockVariantRandomlyLootFunction::new)
 	);
 
-	static public final Identifier ID = new Identifier("invarpaint", "lock_variant_randomly");
+	static public final Identifier ID = Identifier.of("invarpaint", "lock_variant_randomly");
 	static public final LootFunctionType<LockVariantRandomlyLootFunction> TYPE = new LootFunctionType<LockVariantRandomlyLootFunction>(CODEC);
 
 	static public void Register(){
