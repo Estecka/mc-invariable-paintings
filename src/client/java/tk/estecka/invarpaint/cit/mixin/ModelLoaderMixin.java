@@ -26,6 +26,8 @@ public abstract class ModelLoaderMixin
 	@Shadow private @Final Map<Identifier, UnbakedModel> unbakedModels;
 	@Shadow private @Final Map<ModelIdentifier, UnbakedModel> modelsToBake;
 
+	@Shadow private void loadInventoryVariantItemModel(Identifier id) { throw new AssertionError(); }
+
 	@Unique
 	private void AddUnsourced(Identifier texId, @Nullable Identifier fallback){
 		var model = new UnbakedPaintingItem(texId, fallback);
@@ -37,9 +39,9 @@ public abstract class ModelLoaderMixin
 	private void	AddVariantModels(BlockColors _0, Profiler profiler, Map<?,?> _2, Map<?,?> _3, CallbackInfo ci)
 	{
 		profiler.swap("painting_items");
-		this.AddUnsourced(Cits.CIT_FILLED, null);
-		this.AddUnsourced(Cits.CIT_RANDOM, null);
-		this.AddUnsourced(Cits.CIT_MISSING, null);
+		this.loadInventoryVariantItemModel(Cits.CIT_FILLED);
+		this.loadInventoryVariantItemModel(Cits.CIT_RANDOM);
+		this.loadInventoryVariantItemModel(Cits.CIT_MISSING);
 
 		var registry = RegistryUtil.GetPaintingRegitry();
 		if (!registry.isPresent())

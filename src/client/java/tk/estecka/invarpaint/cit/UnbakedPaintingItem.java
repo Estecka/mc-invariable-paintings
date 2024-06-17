@@ -43,7 +43,8 @@ implements UnbakedModel
 	@Override
 	public Collection<Identifier> getModelDependencies(){
 		var deps = List.copyOf(inner.getModelDependencies());
-		deps.add(fallback);
+		if (fallback != null)
+			deps.add(fallback);
 		return deps;
 	}
 
@@ -52,13 +53,14 @@ implements UnbakedModel
 		inner.setParents(modelLoader);
 	}
 
-	/**
-	 * Will only be called when the texture is missing, thanks to the janky 
-	 * implementation of `ModelLoader$BakerImpl`.
-	 */
 	@Override 
 	public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> spriteGetter, ModelBakeSettings settings){
-		return baker.bake(fallback, settings);
+		if (!this.ShouldFallback()) 
+			return baker.bake(this.texture, settings);
+		else if (this.fallback != null)
+			return baker.bake(this.fallback, settings);
+		else
+			throw  new RuntimeException("Attempted to bake a painting model with no fallback: "+this.texture.toString());
 	}
 
 	public boolean	ShouldFallback(){

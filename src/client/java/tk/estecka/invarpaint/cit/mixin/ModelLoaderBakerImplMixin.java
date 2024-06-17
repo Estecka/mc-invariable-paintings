@@ -14,6 +14,8 @@ public class ModelLoaderBakerImplMixin
 	/**
 	 * Unwrap the wrapper's inner JsonUnbakedModel when not falling-back.
 	 * Necessary due to the Baker having a hardcoded special-case for this type.
+	 * 
+	 * Appears to be skipped in MC 1.21 due to Fabric-API mixins; needs investigation.
 	 */
 	@ModifyExpressionValue( method="bake", at=@At(value="INVOKE", target="net/minecraft/client/render/model/ModelLoader$BakerImpl.getOrLoadModel (Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/render/model/UnbakedModel;") )
 	private UnbakedModel PaintingModelFallforward(UnbakedModel result, Identifier id, ModelBakeSettings settings){
