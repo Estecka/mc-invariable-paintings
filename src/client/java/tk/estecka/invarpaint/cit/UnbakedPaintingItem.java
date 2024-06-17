@@ -26,25 +26,27 @@ implements UnbakedModel
 		}
 	""";
 	
-	private final Identifier texture;
-	private final @Nullable Identifier fallback;
+	private final Identifier modelId;
+	private final Identifier textureId;
+	private final @Nullable Identifier fallbackId;
 	public final JsonUnbakedModel inner;
 	
 	static public JsonUnbakedModel CreateJson(Identifier id){
 		return JsonUnbakedModel.deserialize(ARBITRARY_MODEL.formatted(id.toString()));
 	}
 
-	public UnbakedPaintingItem(Identifier textureId, @Nullable Identifier fallbackId){
-		this.texture = textureId.withPrefixedPath("textures/").withSuffixedPath(".png");
-		this.fallback = fallbackId;
-		this.inner = CreateJson(textureId);
+	public UnbakedPaintingItem(Identifier id, @Nullable Identifier fallbackId){
+		this.modelId = id;
+		this.textureId = modelId.withPrefixedPath("textures/").withSuffixedPath(".png");
+		this.fallbackId = fallbackId;
+		this.inner = CreateJson(modelId);
 	}
 
 	@Override
 	public Collection<Identifier> getModelDependencies(){
 		var deps = List.copyOf(inner.getModelDependencies());
-		if (fallback != null)
-			deps.add(fallback);
+		if (fallbackId != null)
+			deps.add(fallbackId);
 		return deps;
 	}
 
@@ -53,19 +55,19 @@ implements UnbakedModel
 		inner.setParents(modelLoader);
 	}
 
-	@Override 
+	@Override
 	public @Nullable BakedModel bake(Baker baker, Function<SpriteIdentifier, Sprite> spriteGetter, ModelBakeSettings settings){
 		if (!this.ShouldFallback()) 
-			return baker.bake(this.texture, settings);
-		else if (this.fallback != null)
-			return baker.bake(this.fallback, settings);
+			return baker.bake(this.modelId, settings);
+		else if (this.fallbackId != null)
+			return baker.bake(this.fallbackId, settings);
 		else
-			throw  new RuntimeException("Attempted to bake a painting model with no fallback: "+this.texture.toString());
+			throw new RuntimeException("Attempted to bake a painting model with no fallback: "+this.modelId.toString());
 	}
 
 	public boolean	ShouldFallback(){
-		return this.fallback != null
-			&& MinecraftClient.getInstance().getResourceManager().getResource(texture).isEmpty()
+		return this.fallbackId != null
+		    && MinecraftClient.getInstance().getResourceManager().getResource(this.textureId).isEmpty()
 		    ;
 	}
 }

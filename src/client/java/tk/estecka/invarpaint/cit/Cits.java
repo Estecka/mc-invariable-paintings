@@ -10,4 +10,8 @@ public class Cits
 	static public final ModelIdentifier CIT_RANDOM  = ModelIdentifier.ofInventoryVariant(Identifier.of("invarpaint", "random_painting" ));
 
 	static public final String CIT_PREFIX = "item/painting/";
+
+	static public final ModelIdentifier OfPainting(Identifier variantId){
+		return ModelIdentifier.ofInventoryVariant(variantId.withPrefixedPath(CIT_PREFIX));
+	}
 }

@@ -40,7 +40,7 @@ public class ItemRendererMixin
 				if (variantId == null || (registry.isPresent() && !registry.get().containsId(variantId)))
 					return modelManager.getModel(Cits.CIT_MISSING);
 				else {
-					var model = modelManager.getModel(variantId.withPrefixedPath(Cits.CIT_PREFIX));
+					var model = modelManager.getModel(Cits.OfPainting(variantId));
 					if (model != null)
 						return model;
 					else

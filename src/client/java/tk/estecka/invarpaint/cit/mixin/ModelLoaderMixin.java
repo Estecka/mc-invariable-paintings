@@ -29,10 +29,10 @@ public abstract class ModelLoaderMixin
 	@Shadow private void loadInventoryVariantItemModel(Identifier id) { throw new AssertionError(); }
 
 	@Unique
-	private void AddUnsourced(Identifier texId, @Nullable Identifier fallback){
-		var model = new UnbakedPaintingItem(texId, fallback);
-		this.unbakedModels.put(texId, model);
-		this.modelsToBake.put(ModelIdentifier.ofInventoryVariant(texId), model);
+	private void AddUnsourced(Identifier id, @Nullable Identifier fallback){
+		var model = new UnbakedPaintingItem(id, fallback);
+		this.unbakedModels.put(id, model);
+		this.modelsToBake.put(ModelIdentifier.ofInventoryVariant(id), model);
 	}
 
 	@Inject( method="<init>", at=@At(value="INVOKE", target="java/util/Map.values ()Ljava/util/Collection;") )
@@ -49,7 +49,7 @@ public abstract class ModelLoaderMixin
 		else for (Identifier painting : registry.get().getIds())
 		{
 			Identifier texture = painting.withPrefixedPath(Cits.CIT_PREFIX);
-			this.AddUnsourced(texture, Cits.CIT_FILLED.id());
+			this.AddUnsourced(texture, Cits.CIT_FILLED.id().withPrefixedPath("item/"));
 		}
 	}
 }
