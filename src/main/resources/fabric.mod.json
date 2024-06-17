@@ -20,6 +20,9 @@
 
 	"environment": "*",
 	"entrypoints": {
+		"client": [
+			"tk.estecka.invarpaint.cit.Cits"
+		],
 		"main": [
 			"tk.estecka.invarpaint.loot.InvarpaintLoot"
 		]
