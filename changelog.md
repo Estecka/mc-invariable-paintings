@@ -39,6 +39,7 @@
 
 
 # v2
+## 2.0.0
 Additions:
 - Some vanilla variants are now exclusive to specific sources. Added paintings to a few more locations.
 - `lock_variant_randomly` may now specify a pool of variants to pull from.
@@ -49,3 +50,9 @@ Removals:
 - Vanilla CITs are no longer an optional resource pack. (They are back into the core assets.)
 - Removed the deprecated name `minecraft:lock_variant_randomly`.
 - Removed crafting
+
+## 2.1.0
+- Ported to MC 1.21
+- CITs are now generated based on available textures, instead of using the painting registry.
+- Shuffled a little the repartion of painting loot, including the new paintings.
+- Added CITs for the new painting

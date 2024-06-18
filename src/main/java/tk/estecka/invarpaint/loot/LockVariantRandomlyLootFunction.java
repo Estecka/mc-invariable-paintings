@@ -51,13 +51,13 @@ extends ConditionalLootFunction
 		Random random = ctx.getRandom();
 		Identifier variantId = null;
 
-		if (this.variants.isEmpty()){
+		if (this.variants.isPresent())
+			variantId = PoolIdentifier.GetRandom(this.variants.get(), random, registry);
+		else {
 			var entry = registry.getRandom(random);
 			if (entry.isPresent())
 				variantId = entry.get().getKey().get().getValue();
 		}
-		else
-			variantId = PoolIdentifier.GetRandom(this.variants.get(), random, registry);
 
 		if (variantId != null)
 			PaintStackUtil.SetVariant(stack, variantId);
