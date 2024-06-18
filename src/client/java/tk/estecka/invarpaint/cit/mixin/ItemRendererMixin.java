@@ -41,7 +41,7 @@ public class ItemRendererMixin
 					return modelManager.getModel(Cits.CIT_MISSING);
 				else {
 					var model = modelManager.getModel(Cits.OfPainting(variantId));
-					if (model != null)
+					if (model != modelManager.getMissingModel())
 						return model;
 					else
 						return modelManager.getModel(Cits.CIT_FILLED);
