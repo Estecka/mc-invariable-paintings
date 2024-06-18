@@ -22,7 +22,7 @@ public class TooltipUtil
 	static public void	AppendPaintingName(MutableText text, ItemStack stack){
 		// I could just use translatable variables,
 		// but this way is compatible with other languages
-		String variantId = PaintStackUtil.GetVariantId(stack);
+		String variantId = PaintStackUtil.GetVariantName(stack);
 		if (variantId != null)
 			text.append(
 				Text.literal(" (")

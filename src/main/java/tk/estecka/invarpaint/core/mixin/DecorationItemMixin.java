@@ -30,9 +30,9 @@ public abstract class DecorationItemMixin
 	private Optional<PaintingEntity> filterPlacedPainting(World world, BlockPos pos, Direction facing, Operation<Optional<PaintingEntity>> original, ItemUsageContext context) {
 		final var registry = world.getRegistryManager().get(RegistryKeys.PAINTING_VARIANT);
 		Optional<PaintingEntity> result;
-		String variantId = PaintStackUtil.GetVariantId(context.getStack());
-		Identifier id = (variantId==null) ? null : Identifier.tryParse(variantId);
-		RegistryEntry<PaintingVariant> itemVariant = registry.getEntry(id).orElse(null);
+		String variantName = PaintStackUtil.GetVariantName(context.getStack());
+		Identifier variantId = (variantName==null) ? null : Identifier.tryParse(variantName);
+		RegistryEntry<PaintingVariant> itemVariant = registry.getEntry(variantId).orElse(null);
 		PlayerEntity player = context.getPlayer();
 
 		if (itemVariant != null) {
@@ -47,7 +47,7 @@ public abstract class DecorationItemMixin
 				);
 			}
 		}
-		else if (player.isCreative() || (variantId!=null && InvarpaintMod.IsNokebabInstalled()))
+		else if (player.isCreative() || (variantName!=null && InvarpaintMod.IsNokebabInstalled()))
 			result = original.call(world, pos, facing);
 		else
 			result = Optional.empty();

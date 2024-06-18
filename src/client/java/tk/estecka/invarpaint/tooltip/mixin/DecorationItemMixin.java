@@ -21,7 +21,7 @@ public abstract class DecorationItemMixin
 	@Inject( method="appendTooltip", at=@At("TAIL") )
 	public void condenseTooltip(ItemStack stack, Item.TooltipContext context, List<Text> tooltip, TooltipType type, CallbackInfo ci) {
 		if (stack.isOf(Items.PAINTING)) {
-			String variantId = PaintStackUtil.GetVariantId(stack);
+			String variantId = PaintStackUtil.GetVariantName(stack);
 
 			if (variantId != null || !type.isCreative())
 				TooltipUtil.RemoveOriginalTooltip(tooltip);

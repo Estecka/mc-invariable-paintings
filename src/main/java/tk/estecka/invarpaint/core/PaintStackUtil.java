@@ -3,6 +3,7 @@ package tk.estecka.invarpaint.core;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.component.type.NbtComponent;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -10,6 +11,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import static net.minecraft.component.DataComponentTypes.CUSTOM_DATA;
 import static net.minecraft.component.DataComponentTypes.ENTITY_DATA;
@@ -20,7 +22,9 @@ public class PaintStackUtil
 	static private final String VARIANT_TAG = "variant";
 	static private final String ENTITY_TYPE_TAG = "id";
 
-	static public ItemStack	SetVariant(ItemStack stack, @NotNull String variantId){
+	static public ItemStack	SetVariant(ItemStack stack, @NotNull Entity entity) { return SetVariant(stack, GetVariantName(entity)); }
+	static public ItemStack	SetVariant(ItemStack stack, @NotNull Identifier variantId) { return SetVariant(stack, variantId.toString()); }
+	static public ItemStack	SetVariant(ItemStack stack, @NotNull String variantName){
 		NbtCompound entityTag;
 
 		NbtComponent component = stack.get(ENTITY_DATA);
@@ -37,7 +41,7 @@ public class PaintStackUtil
 
 		if (entityTag.contains(VARIANT_TAG))
 			LOGGER.warn("Existing `EntityData.variant` is being overwritten.");
-		entityTag.putString(VARIANT_TAG, variantId);
+		entityTag.putString(VARIANT_TAG, variantName);
 
 		stack.set(ENTITY_DATA, NbtComponent.of(entityTag));
 		return stack;
@@ -47,7 +51,7 @@ public class PaintStackUtil
 	static public ItemStack	SetRandomVariant(ItemStack stack, Random random, Registry<PaintingVariant> registry){
 		var variant = registry.getRandom(random);
 		if (variant.isPresent())
-			return SetVariant( stack, variant.get().getKey().get().getValue().toString() );
+			return SetVariant( stack, variant.get().getKey().get().getValue() );
 		else {
 			LOGGER.error("Unable to pull a random variant from the registry.");
 			return stack;
@@ -59,11 +63,29 @@ public class PaintStackUtil
 		return SetRandomVariant(new ItemStack(Items.PAINTING), random, registry);
 	}
 
-	static public ItemStack	CreateVariant(String variantId){
-		return SetVariant(new ItemStack(Items.PAINTING), variantId);
+	static public ItemStack	CreateVariant(Entity entity){ return CreateVariant(GetVariantName(entity)); }
+	static public ItemStack	CreateVariant(Identifier variantId){ return CreateVariant(variantId.toString()); }
+	static public ItemStack	CreateVariant(String variantName){
+		return SetVariant(new ItemStack(Items.PAINTING), variantName);
 	}
 
+	/**
+	 * @deprecated Will be changed to return an Identifier in a future release.
+	 * Replaced by `GetVariantName`
+	 */
+	@Deprecated
 	static public @Nullable String	GetVariantId(ItemStack stack){
+		return GetVariantName(stack);
+	}
+
+	/**
+	 * @implNote This particular implementation is compatible with NoKebab.
+	 */
+	static public @Nullable String	GetVariantName(Entity entity){
+		return entity.writeNbt(new NbtCompound()).getString("variant");
+	}
+
+	static public @Nullable String	GetVariantName(ItemStack stack){
 		NbtComponent entitydata = stack.get(ENTITY_DATA);
 		if (entitydata == null || !entitydata.contains(VARIANT_TAG))
 			return null;
@@ -78,8 +100,11 @@ public class PaintStackUtil
 		    ;
 	}
 
-	static public MutableText TranslatableVariantName(String variantId){
-		return Text.translatableWithFallback("painting."+variantId.replace(":",".")+".title", variantId);
+	static public MutableText TranslatableVariantName(Identifier variantId){
+		return Text.translatableWithFallback(variantId.toTranslationKey("painting", "title"), variantId.toString());
+	}
+	static public MutableText TranslatableVariantName(String variantName){
+		return Text.translatableWithFallback("painting."+variantName.replace(":",".")+".title", variantName);
 	}
 
 	/**

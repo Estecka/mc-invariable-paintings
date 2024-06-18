@@ -85,7 +85,7 @@ implements TradeOffers.Factory
 		return new TradeOffer(
 			this.priceLeft,
 			this.priceRight,
-			PaintStackUtil.CreateVariant(variant.toString()),
+			PaintStackUtil.CreateVariant(variant),
 			MAX_USE,
 			XP_GAIN,
 			0.05f

@@ -32,7 +32,7 @@ public class ItemRendererMixin
 			if (PaintStackUtil.IsObfuscated(stack))
 				return modelManager.getModel(Cits.CIT_RANDOM);
 
-			String variantName = PaintStackUtil.GetVariantId(stack);
+			String variantName = PaintStackUtil.GetVariantName(stack);
 			if (variantName != null)
 			{
 				Identifier variantId = Identifier.tryParse(variantName);
