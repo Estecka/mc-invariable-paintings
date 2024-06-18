@@ -11,7 +11,7 @@ import net.minecraft.text.TextContent;
 import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import tk.estecka.invarpaint.RegistryUtil;
+import tk.estecka.invarpaint.InvarpaintClient;
 import tk.estecka.invarpaint.core.PaintStackUtil;
 
 public class TooltipUtil
@@ -54,7 +54,7 @@ public class TooltipUtil
 
 	static public void AddVariantTooltip(List<Text> tooltip, String variantId, boolean advanced){
 		Identifier id = Identifier.tryParse(variantId);
-		Optional<Registry<PaintingVariant>> registry = RegistryUtil.GetPaintingRegitry();
+		Optional<Registry<PaintingVariant>> registry = InvarpaintClient.GetPaintingRegitry();
 		Optional<PaintingVariant> variant = registry.flatMap(r -> r.getOrEmpty(id));
 
 		// In the event the registry would be absent, consider everything as valid, and print what can be known.

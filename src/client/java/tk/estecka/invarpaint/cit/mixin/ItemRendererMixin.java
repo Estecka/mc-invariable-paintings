@@ -13,7 +13,7 @@ import net.minecraft.client.render.model.BakedModelManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
-import tk.estecka.invarpaint.RegistryUtil;
+import tk.estecka.invarpaint.InvarpaintClient;
 import tk.estecka.invarpaint.cit.Cits;
 import tk.estecka.invarpaint.core.PaintStackUtil;
 
@@ -36,7 +36,7 @@ public class ItemRendererMixin
 			if (variantName != null)
 			{
 				Identifier variantId = Identifier.tryParse(variantName);
-				var registry = RegistryUtil.GetPaintingRegitry();
+				var registry = InvarpaintClient.GetPaintingRegitry();
 				if (variantId == null || (registry.isPresent() && !registry.get().containsId(variantId)))
 					return modelManager.getModel(Cits.CIT_MISSING);
 				else {

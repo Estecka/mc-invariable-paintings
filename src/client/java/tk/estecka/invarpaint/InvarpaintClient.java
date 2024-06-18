@@ -8,7 +8,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.world.World;
 
-public class RegistryUtil
+public class InvarpaintClient
 {
 	static public Optional<Registry<PaintingVariant>> GetPaintingRegitry(){
 		World world = MinecraftClient.getInstance().world;

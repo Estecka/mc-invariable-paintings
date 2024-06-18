@@ -17,7 +17,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 import tk.estecka.invarpaint.InvarpaintMod;
 import tk.estecka.invarpaint.cit.Cits;
-import tk.estecka.invarpaint.cit.UnbakedPaintingItem;
 
 @Mixin(ModelLoader.class)
 public class ModelLoaderMixin
@@ -25,9 +24,18 @@ public class ModelLoaderMixin
 	@Shadow private @Final Map<Identifier, UnbakedModel> unbakedModels;
 	@Shadow private @Final Map<ModelIdentifier, UnbakedModel> modelsToBake;
 
+	static private final String ARBITRARY_MODEL = """
+		{
+			"parent": "item/generated",
+			"textures": {
+				"layer0": "%s"
+			}
+		}
+	""";
+
 	@Unique
 	private void AddFromTexture(Identifier modelId) {
-		JsonUnbakedModel model = UnbakedPaintingItem.CreateJson(modelId);
+		JsonUnbakedModel model = JsonUnbakedModel.deserialize(ARBITRARY_MODEL.formatted(modelId.toString()));
 		this.unbakedModels.put(modelId, model);
 		this.modelsToBake.put(ModelIdentifier.ofInventoryVariant(modelId), model);
 	}
