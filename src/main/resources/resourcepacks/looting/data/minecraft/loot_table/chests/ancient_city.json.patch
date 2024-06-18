@@ -12,7 +12,6 @@
 			"functions":[{
 				"function": "invarpaint:lock_variant_randomly",
 				"variants": [
-					"!#invarpaint:exclusive",
 					"#invarpaint:exclusive/sculk"
 				]
 			}]

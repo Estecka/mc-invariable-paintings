@@ -11,7 +11,10 @@
 			"type": "item", "name": "minecraft:painting",
 			"functions":[{
 				"function": "invarpaint:lock_variant_randomly",
-				"variants": ["!#invarpaint:exclusive"]
+				"variants": [
+					"!#invarpaint:exclusive",
+					"#invarpaint:exclusive/trial"
+				]
 			}]
 		}]
 	}
