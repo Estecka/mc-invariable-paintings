@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 public class InvarpaintClient
 {
 	static public Optional<Registry<PaintingVariant>> GetPaintingRegitry(){
+		@SuppressWarnings("resource")
 		World world = MinecraftClient.getInstance().world;
 		if (world != null)
 			return world.getRegistryManager().getOptional(RegistryKeys.PAINTING_VARIANT);

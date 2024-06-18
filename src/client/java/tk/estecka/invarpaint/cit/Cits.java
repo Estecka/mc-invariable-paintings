@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 import tk.estecka.invarpaint.InvarpaintMod;
 
 public class Cits
-implements ClientModInitializer, ModelLoadingPlugin, PreparableModelLoadingPlugin<Set<Identifier>>, DataLoader<Set<Identifier>>
+implements ClientModInitializer, PreparableModelLoadingPlugin<Set<Identifier>>, DataLoader<Set<Identifier>>
 {
 	static public final Identifier CIT_MISSING = Identifier.of("invarpaint", "item/missing_painting");
 	static public final Identifier CIT_FILLED  = Identifier.of("invarpaint", "item/filled_painting" );
@@ -34,17 +34,12 @@ implements ClientModInitializer, ModelLoadingPlugin, PreparableModelLoadingPlugi
 
 	@Override
 	public void onInitializeClient(){
-		ModelLoadingPlugin.register(this);
 		PreparableModelLoadingPlugin.register(this, this);
 	}
 
 	@Override
-	public void onInitializeModelLoader(Context pluginContext){
-		pluginContext.addModels(CIT_MISSING, CIT_FILLED, CIT_RANDOM);
-	}
-
-	@Override
 	public void onInitializeModelLoader(Set<Identifier> modelIds, ModelLoadingPlugin.Context pluginContext){
+		pluginContext.addModels(CIT_MISSING, CIT_FILLED, CIT_RANDOM);
 		availableCitsVariants.clear();
 		availableCitsVariants.addAll(modelIds);
 		InvarpaintMod.LOGGER.info("Found {} painting CITs", modelIds.size());
