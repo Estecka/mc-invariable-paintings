@@ -56,3 +56,4 @@ Removals:
 - CITs are now generated based on available textures, instead of using the painting registry.
 - Shuffled a little the repartion of painting loot, including the new paintings.
 - Added CITs for the new painting
+- Raw variant ID is now visible in advanced tooltips.

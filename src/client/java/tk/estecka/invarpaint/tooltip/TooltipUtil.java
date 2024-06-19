@@ -22,11 +22,11 @@ public class TooltipUtil
 	static public void	AppendPaintingName(MutableText text, ItemStack stack){
 		// I could just use translatable variables,
 		// but this way is compatible with other languages
-		String variantId = PaintStackUtil.GetVariantName(stack);
-		if (variantId != null)
+		String variantName = PaintStackUtil.GetVariantName(stack);
+		if (variantName != null)
 			text.append(
 				Text.literal(" (")
-					.append(PaintStackUtil.TranslatableVariantName(variantId))
+					.append(PaintStackUtil.TranslatableVariantName(variantName))
 					.append(")")
 					.formatted(Formatting.YELLOW)
 			);
@@ -52,8 +52,8 @@ public class TooltipUtil
 		});
 	}
 
-	static public void AddVariantTooltip(List<Text> tooltip, String variantId, boolean advanced){
-		Identifier id = Identifier.tryParse(variantId);
+	static public void AddVariantTooltip(List<Text> tooltip, String variantName, boolean advanced){
+		Identifier id = Identifier.tryParse(variantName);
 		Optional<Registry<PaintingVariant>> registry = InvarpaintClient.GetPaintingRegitry();
 		Optional<PaintingVariant> variant = registry.flatMap(r -> r.getOrEmpty(id));
 
@@ -70,6 +70,9 @@ public class TooltipUtil
 
 			tooltip.add(authorLine);
 		}
+
+		if (advanced)
+			tooltip.add(Text.literal(variantName).formatted(Formatting.DARK_GRAY));
 	}
 
 }
