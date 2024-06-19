@@ -21,7 +21,7 @@ implements ModInitializer
 	private void RegisterPack(String id, String displayName, boolean defaultEnabled){
 		final var mod = FabricLoader.getInstance().getModContainer(MODID).get();
 		ResourceManagerHelper.registerBuiltinResourcePack(
-			new Identifier(MODID, id), mod,
+			Identifier.of(MODID, id), mod,
 			Text.literal(displayName),
 			defaultEnabled ? ResourcePackActivationType.DEFAULT_ENABLED : ResourcePackActivationType.NORMAL
 		);

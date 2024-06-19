@@ -1,13 +1,11 @@
 {
 	"values": [
-		"minecraft:bust",
-		"minecraft:donkey_kong",
-		"minecraft:fighters",
+		"minecraft:endboss",
 		"minecraft:graham",
-		"minecraft:match",
-		"minecraft:pigscene",
-		"minecraft:pointer",
-		"minecraft:stage",
-		"minecraft:void"
+		"minecraft:passage",
+		"minecraft:pond",
+		"minecraft:skeleton",
+		"minecraft:skull_and_roses",
+		"minecraft:stage"
 	]
 }

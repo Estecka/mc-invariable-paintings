@@ -4,14 +4,16 @@
 	"value": {
 		"rolls": {
 			"type": "minecraft:binomial",
-			"n": 3,
-			"p": 0.2
+			"n": 2,
+			"p": 0.3
 		},
 		"entries":[{
 			"type": "item", "name": "minecraft:painting",
 			"functions":[{
 				"function": "invarpaint:lock_variant_randomly",
-				"variants": ["!#invarpaint:exclusive"]
+				"variants": [
+					"#invarpaint:exclusive/sculk"
+				]
 			}]
 		}]
 	}

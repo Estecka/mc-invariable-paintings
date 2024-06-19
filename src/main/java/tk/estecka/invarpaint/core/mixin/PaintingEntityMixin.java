@@ -5,7 +5,6 @@ import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import tk.estecka.invarpaint.InvarpaintMod;
 import tk.estecka.invarpaint.core.PaintStackUtil;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,10 +22,8 @@ public class PaintingEntityMixin
 
 		if (!stack.isOf(Items.PAINTING))
 			InvarpaintMod.LOGGER.error("Unexpected painting drop type: {}", stack.getItem());
-		else {
-			String variantId = painting.writeNbt(new NbtCompound()).getString("variant");
-			PaintStackUtil.SetVariant(stack, variantId);
-		}
+		else
+			PaintStackUtil.SetVariant(stack, painting);
 
 		return entity;
 	}

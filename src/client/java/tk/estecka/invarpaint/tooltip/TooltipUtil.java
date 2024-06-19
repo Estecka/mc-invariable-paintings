@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Optional;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextContent;
 import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import tk.estecka.invarpaint.InvarpaintClient;
 import tk.estecka.invarpaint.core.PaintStackUtil;
 
 public class TooltipUtil
@@ -21,11 +22,11 @@ public class TooltipUtil
 	static public void	AppendPaintingName(MutableText text, ItemStack stack){
 		// I could just use translatable variables,
 		// but this way is compatible with other languages
-		String variantId = PaintStackUtil.GetVariantId(stack);
-		if (variantId != null)
+		String variantName = PaintStackUtil.GetVariantName(stack);
+		if (variantName != null)
 			text.append(
 				Text.literal(" (")
-					.append(PaintStackUtil.TranslatableVariantName(variantId))
+					.append(PaintStackUtil.TranslatableVariantName(variantName))
 					.append(")")
 					.formatted(Formatting.YELLOW)
 			);
@@ -51,19 +52,27 @@ public class TooltipUtil
 		});
 	}
 
-	static public void AddVariantTooltip(List<Text> tooltip, String variantId, boolean advanced){
-		Identifier id = Identifier.tryParse(variantId);
-		Optional<PaintingVariant> variant = Registries.PAINTING_VARIANT.getOrEmpty(id);
-		if (variant.isEmpty())
+	static public void AddVariantTooltip(List<Text> tooltip, String variantName, boolean advanced){
+		Identifier id = Identifier.tryParse(variantName);
+		Optional<Registry<PaintingVariant>> registry = InvarpaintClient.GetPaintingRegitry();
+		Optional<PaintingVariant> variant = registry.flatMap(r -> r.getOrEmpty(id));
+
+		// In the event the registry would be absent, consider everything as valid, and print what can be known.
+		if (registry.isPresent() && variant.isEmpty())
 			tooltip.add(INVALID_TEXT);
-		else {
-			tooltip.add(
-				Text.translatable("painting.dimensions", variant.get().getWidth()/16, variant.get().getHeight()/16)
+		else if (id != null){
+			MutableText authorLine = Text.translatableWithFallback(id.toTranslationKey("painting", "author"), "").formatted(Formatting.GRAY);
+			if (variant.isPresent())
+				authorLine = Text.translatable("painting.dimensions", variant.get().width(), variant.get().height())
 					.append(" ")
-					.append(Text.translatableWithFallback(id.toTranslationKey("painting", "author"), "")
-					.formatted(Formatting.GRAY))
-			);
+					.append(authorLine)
+					;
+
+			tooltip.add(authorLine);
 		}
+
+		if (advanced)
+			tooltip.add(Text.literal(variantName).formatted(Formatting.DARK_GRAY));
 	}
 
 }

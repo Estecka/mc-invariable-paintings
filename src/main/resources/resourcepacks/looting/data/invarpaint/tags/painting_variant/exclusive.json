@@ -3,7 +3,10 @@
 		"#invarpaint:exclusive/end",
 		"#invarpaint:exclusive/nether",
 		"#invarpaint:exclusive/pillager",
+		"#invarpaint:exclusive/ruins",
 		"#invarpaint:exclusive/sculk",
-		"#invarpaint:exclusive/villager"
+		"#invarpaint:exclusive/trial",
+		"#invarpaint:exclusive/villager",
+		"#invarpaint:exclusive/wanderer"
 	]
 }
