@@ -15,7 +15,7 @@ import net.minecraft.village.TradedItem;
 import net.minecraft.village.TradeOffers.Factory;
 import net.minecraft.village.VillagerProfession;
 import fr.estecka.invarpaint.InvarpaintMod;
-import fr.estecka.invarpaint.core.PaintStackUtil;
+import fr.estecka.invarpaint.api.PaintStackUtil;
 
 public class SellPaintingFactory
 implements TradeOffers.Factory

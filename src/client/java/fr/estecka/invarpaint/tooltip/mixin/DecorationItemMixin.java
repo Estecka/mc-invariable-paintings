@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import fr.estecka.invarpaint.core.PaintStackUtil;
+import fr.estecka.invarpaint.api.PaintStackUtil;
 import fr.estecka.invarpaint.tooltip.TooltipUtil;
 
 @Mixin(DecorationItem.class)

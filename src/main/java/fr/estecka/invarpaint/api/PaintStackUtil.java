@@ -1,4 +1,4 @@
-package fr.estecka.invarpaint.core;
+package fr.estecka.invarpaint.api;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

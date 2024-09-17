@@ -12,7 +12,7 @@ import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import fr.estecka.invarpaint.InvarpaintClient;
-import fr.estecka.invarpaint.core.PaintStackUtil;
+import fr.estecka.invarpaint.api.PaintStackUtil;
 
 public class TooltipUtil
 {

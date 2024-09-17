@@ -11,7 +11,7 @@ import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import fr.estecka.invarpaint.InvarpaintMod;
-import fr.estecka.invarpaint.core.PaintStackUtil;
+import fr.estecka.invarpaint.api.PaintStackUtil;
 
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin

@@ -20,7 +20,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import fr.estecka.invarpaint.InvarpaintMod;
 import fr.estecka.invarpaint.core.PaintEntityPlacer;
-import fr.estecka.invarpaint.core.PaintStackUtil;
+import fr.estecka.invarpaint.api.PaintStackUtil;
 
 
 @Mixin(DecorationItem.class)

@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import fr.estecka.invarpaint.InvarpaintMod;
-import fr.estecka.invarpaint.core.PaintStackUtil;
+import fr.estecka.invarpaint.api.PaintStackUtil;
 
 @Mixin(ItemGroups.class)
 public class ItemGroupsMixin
