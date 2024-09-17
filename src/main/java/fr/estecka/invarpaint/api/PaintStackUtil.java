@@ -13,7 +13,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import static net.minecraft.component.DataComponentTypes.ENTITY_DATA;
 import static fr.estecka.invarpaint.InvarpaintMod.CONFIG;
-import static fr.estecka.invarpaint.InvarpaintMod.LOGGER;
 
 public final class PaintStackUtil
 {
@@ -28,23 +27,15 @@ public final class PaintStackUtil
 	static public ItemStack	SetVariant(ItemStack stack, @NotNull Identifier variantId) { return SetVariant(stack, variantId.toString()); }
 	static public ItemStack	SetVariant(ItemStack stack, @NotNull String variantName){
 		NbtCompound entityTag;
-
 		NbtComponent component = stack.get(ENTITY_DATA);
-		if (component == null) 
-			entityTag = new NbtCompound();
-		else {
-			LOGGER.warn("Existing `EntityData` is is being overwritten.");
+		if (component != null)
 			entityTag = component.copyNbt();
+		else {
+			entityTag = new NbtCompound();
+			entityTag.putString(ENTITY_TYPE_TAG, "minecraft:painting");
 		}
 
-		if (entityTag.contains(ENTITY_TYPE_TAG))
-			LOGGER.warn("Existing `EntityData.id` is being overwritten.");
-		entityTag.putString(ENTITY_TYPE_TAG, "minecraft:painting");
-
-		if (entityTag.contains(VARIANT_TAG))
-			LOGGER.warn("Existing `EntityData.variant` is being overwritten.");
 		entityTag.putString(VARIANT_TAG, variantName);
-
 		stack.set(ENTITY_DATA, NbtComponent.of(entityTag));
 		if (CONFIG.setItemModel)
 			SetModel(stack, variantName);
