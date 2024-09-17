@@ -5,21 +5,17 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.Registry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.random.Random;
-import static net.minecraft.component.DataComponentTypes.CUSTOM_DATA;
 import static net.minecraft.component.DataComponentTypes.ENTITY_DATA;
 import static fr.estecka.invarpaint.InvarpaintMod.CONFIG;
 import static fr.estecka.invarpaint.InvarpaintMod.LOGGER;
 
-public class PaintStackUtil
+public final class PaintStackUtil
 {
 	static public final Identifier INVALID_MODEL = Identifier.of("invarpaint", "item/missing_painting");
 	static public final String VARIANT_MODEL_PREFIX = "painting/";
@@ -55,22 +51,6 @@ public class PaintStackUtil
 		return stack;
 	}
 
-	@Deprecated
-	static public ItemStack	SetRandomVariant(ItemStack stack, Random random, Registry<PaintingVariant> registry){
-		var variant = registry.getRandom(random);
-		if (variant.isPresent())
-			return SetVariant( stack, variant.get().getKey().get().getValue() );
-		else {
-			LOGGER.error("Unable to pull a random variant from the registry.");
-			return stack;
-		}
-	}
-
-	@Deprecated
-	static public ItemStack	CreateRandomVariant(Random random, Registry<PaintingVariant> registry){
-		return SetRandomVariant(new ItemStack(Items.PAINTING), random, registry);
-	}
-
 	static public ItemStack	CreateVariant(Entity entity){ return CreateVariant(GetVariantName(entity)); }
 	static public ItemStack	CreateVariant(Identifier variantId){ return CreateVariant(variantId.toString()); }
 	static public ItemStack	CreateVariant(String variantName){
@@ -95,13 +75,9 @@ public class PaintStackUtil
 		return stack;
 	}
 
-	/**
-	 * @deprecated Will be changed to return an Identifier in a future release.
-	 * Replaced by `GetVariantName`
-	 */
-	@Deprecated
-	static public @Nullable String	GetVariantId(ItemStack stack){
-		return GetVariantName(stack);
+	static public @Nullable Identifier	GetVariantId(ItemStack stack){
+		String name = GetVariantName(stack);
+		return (name == null) ? null : Identifier.tryParse(GetVariantName(stack));
 	}
 
 	/**
@@ -132,16 +108,4 @@ public class PaintStackUtil
 	static public MutableText TranslatableVariantName(String variantName){
 		return Text.translatableWithFallback("painting."+variantName.replace(":",".")+".title", variantName);
 	}
-
-	/**
-	 * @deprecated Only used by the crafting addon.
-	 */
-	@Deprecated
-	static public boolean IsObfuscated(ItemStack stack){
-		NbtComponent nbt = stack.get(CUSTOM_DATA);
-		return nbt != null
-		    && nbt.contains("invarpaint:obfuscated")
-		    ;
-	}
-
 }
