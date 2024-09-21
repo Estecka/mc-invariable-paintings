@@ -2,6 +2,7 @@ package tk.estecka.invarpaint.core;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
@@ -20,6 +21,7 @@ import static tk.estecka.invarpaint.InvarpaintMod.LOGGER;
 public class PaintStackUtil
 {
 	static public final Identifier INVALID_MODEL = Identifier.of("invarpaint", "item/missing_painting");
+	static public final String VARIANT_MODEL_PREFIX = "painting/";
 
 	static private final String VARIANT_TAG = "variant";
 	static private final String ENTITY_TYPE_TAG = "id";
@@ -81,12 +83,12 @@ public class PaintStackUtil
 		if (id != null)
 			return SetModel(stack, id);
 		else {
-			// TODO
+			stack.set(DataComponentTypes.ITEM_MODEL, INVALID_MODEL);
 			return stack;
 		}
 	}
-	// TODO
 	static public ItemStack SetModel(ItemStack stack, Identifier variantId){
+		stack.set(DataComponentTypes.ITEM_MODEL, variantId.withPrefixedPath(VARIANT_MODEL_PREFIX));
 		return stack;
 	}
 
