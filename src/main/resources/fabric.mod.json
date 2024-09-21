@@ -21,8 +21,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"client": [
-			"tk.estecka.invarpaint.InvarpaintClient",
-			"tk.estecka.invarpaint.cit.Cits"
+			"tk.estecka.invarpaint.InvarpaintClient"
 		],
 		"main": [
 			"tk.estecka.invarpaint.loot.InvarpaintLoot"
@@ -30,7 +29,6 @@
 	},
 	"mixins": [
 		"invarpaint-core.mixins.json",
-		{ "environment": "client", "config": "invarpaint-cit.mixins.json" },
 		{ "environment": "client", "config": "invarpaint-tooltip.mixins.json" },
 		{ "environment": "client", "config": "invarpaint-pick.mixins.json" }
 
