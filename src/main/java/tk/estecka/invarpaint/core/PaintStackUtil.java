@@ -19,8 +19,11 @@ import static tk.estecka.invarpaint.InvarpaintMod.LOGGER;
 
 public class PaintStackUtil
 {
+	static public final Identifier INVALID_MODEL = Identifier.of("invarpaint", "item/missing_painting");
+
 	static private final String VARIANT_TAG = "variant";
 	static private final String ENTITY_TYPE_TAG = "id";
+
 
 	static public ItemStack	SetVariant(ItemStack stack, @NotNull Entity entity) { return SetVariant(stack, GetVariantName(entity)); }
 	static public ItemStack	SetVariant(ItemStack stack, @NotNull Identifier variantId) { return SetVariant(stack, variantId.toString()); }
@@ -44,6 +47,7 @@ public class PaintStackUtil
 		entityTag.putString(VARIANT_TAG, variantName);
 
 		stack.set(ENTITY_DATA, NbtComponent.of(entityTag));
+		SetModel(stack, variantName);
 		return stack;
 	}
 
@@ -66,7 +70,24 @@ public class PaintStackUtil
 	static public ItemStack	CreateVariant(Entity entity){ return CreateVariant(GetVariantName(entity)); }
 	static public ItemStack	CreateVariant(Identifier variantId){ return CreateVariant(variantId.toString()); }
 	static public ItemStack	CreateVariant(String variantName){
-		return SetVariant(new ItemStack(Items.PAINTING), variantName);
+		ItemStack stack = new ItemStack(Items.PAINTING);
+		SetVariant(stack, variantName);
+		SetModel(stack, variantName);
+		return stack;
+	}
+
+	static public ItemStack SetModel(ItemStack stack, String variantName){
+		Identifier id = Identifier.tryParse(variantName);
+		if (id != null)
+			return SetModel(stack, id);
+		else {
+			// TODO
+			return stack;
+		}
+	}
+	// TODO
+	static public ItemStack SetModel(ItemStack stack, Identifier variantId){
+		return stack;
 	}
 
 	/**
