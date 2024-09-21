@@ -19,7 +19,7 @@ public class TooltipUtil
 	static private final Text INVALID_TEXT = Text.translatable("painting.invalid").formatted(Formatting.RED);
 	static private final Text EMPTY_NOTICE = Text.literal(" (").append(Text.translatable("painting.empty")).append(")").formatted(Formatting.GRAY);
 
-	static public void	AppendPaintingName(MutableText text, ItemStack stack){
+	static public MutableText	AppendPaintingName(MutableText text, ItemStack stack){
 		// I could just use translatable variables,
 		// but this way is compatible with other languages
 		String variantName = PaintStackUtil.GetVariantName(stack);
@@ -33,6 +33,7 @@ public class TooltipUtil
 		else if (!PaintStackUtil.IsObfuscated(stack))
 			text.append(EMPTY_NOTICE);
 
+		return text;
 	}
 
 	static public void	RemoveOriginalTooltip(List<Text> tooltip){
