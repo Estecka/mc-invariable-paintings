@@ -21,6 +21,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"client": [
+			"tk.estecka.invarpaint.InvarpaintClient",
 			"tk.estecka.invarpaint.cit.Cits"
 		],
 		"main": [
