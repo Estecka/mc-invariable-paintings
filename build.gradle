@@ -68,6 +68,7 @@ jar {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}
 
+	exclude "**/*.sh"
 	exclude "**/*.xcf"
 	exclude "**/*.psd"
 	exclude "**/*.psb"
