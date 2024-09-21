@@ -43,7 +43,7 @@ public record PoolIdentifier(boolean isNegative, boolean isTag, Identifier id)
 		if (id == null)
 			return false;
 		if (this.isTag)
-			return registry.streamTags().anyMatch(tag -> tag.id().equals(this.id));
+			return registry.streamTags().anyMatch(tag -> tag.getTag().id().equals(this.id));
 		else
 			return registry.containsId(this.id);
 	}

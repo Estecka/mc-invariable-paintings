@@ -55,7 +55,7 @@ public class TooltipUtil
 	static public void AddVariantTooltip(List<Text> tooltip, String variantName, boolean advanced){
 		Identifier id = Identifier.tryParse(variantName);
 		Optional<Registry<PaintingVariant>> registry = InvarpaintClient.GetPaintingRegitry();
-		Optional<PaintingVariant> variant = registry.flatMap(r -> r.getOrEmpty(id));
+		Optional<PaintingVariant> variant = registry.flatMap(r -> r.getOptionalValue(id));
 
 		// In the event the registry would be absent, consider everything as valid, and print what can be known.
 		if (registry.isPresent() && variant.isEmpty())

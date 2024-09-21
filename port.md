@@ -36,3 +36,8 @@ Current master
 - `PaintingVariants` now measure their width and height in blocks.
 - `TooltipType` was moved to a different package
 - `ModelLoader::modelsToBake` now takes `ModelIdentifer`s as key
+
+### 24w38a
+- `DynamicRegistryManager::get` renammed to `getOrThrow` (Yarn ?)
+- `Registry::getOrEmpty` renammed to `getOptionalValue` (Yarn ?)
+- `Registry::streamTags` now wraps its values inside `Named<>`'s

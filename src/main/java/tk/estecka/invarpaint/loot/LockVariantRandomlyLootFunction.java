@@ -47,7 +47,7 @@ extends ConditionalLootFunction
 
 	@Override
 	public ItemStack	process(ItemStack stack, LootContext ctx){
-		var registry  = ctx.getWorld().getRegistryManager().get(RegistryKeys.PAINTING_VARIANT);
+		var registry  = ctx.getWorld().getRegistryManager().getOrThrow(RegistryKeys.PAINTING_VARIANT);
 		Random random = ctx.getRandom();
 		Identifier variantId = null;
 

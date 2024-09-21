@@ -28,7 +28,7 @@ public abstract class DecorationItemMixin
 {
 	@WrapOperation( method="useOnBlock", at=@At(value="INVOKE", target="Lnet/minecraft/entity/decoration/painting/PaintingEntity;placePainting(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Ljava/util/Optional;") )
 	private Optional<PaintingEntity> filterPlacedPainting(World world, BlockPos pos, Direction facing, Operation<Optional<PaintingEntity>> original, ItemUsageContext context) {
-		final var registry = world.getRegistryManager().get(RegistryKeys.PAINTING_VARIANT);
+		final var registry = world.getRegistryManager().getOrThrow(RegistryKeys.PAINTING_VARIANT);
 		Optional<PaintingEntity> result;
 		String variantName = PaintStackUtil.GetVariantName(context.getStack());
 		Identifier variantId = (variantName==null) ? null : Identifier.tryParse(variantName);
