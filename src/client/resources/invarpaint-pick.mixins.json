@@ -3,6 +3,7 @@
 	"package": "tk.estecka.invarpaint.pick.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"ItemGroupsMixin",
 		"MinecraftClientMixin"
 	],
 	"injectors": {
