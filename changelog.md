@@ -59,6 +59,5 @@ Removals:
 - Raw variant ID is now visible in advanced tooltips.
 
 # v3
-- Removed the client-side CIT logic, now fully relegated to Variants-CIT.
-- Server-side may now set the `custom_model` component of painting items.
-- Made all client-side assets available as a resource pack.
+- Server-side may now set the `item_model` component of painting items.
+- Removed the client-side CIT logic; made assets compatible with Variants-CIT.
