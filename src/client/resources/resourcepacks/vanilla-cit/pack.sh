@@ -8,4 +8,5 @@ zip $PACK -r \
 	assets/ \
 	pack.mcmeta \
 	pack.png \
+	README.md \
 	;
