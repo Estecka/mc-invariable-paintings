@@ -16,6 +16,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import static net.minecraft.component.DataComponentTypes.CUSTOM_DATA;
 import static net.minecraft.component.DataComponentTypes.ENTITY_DATA;
+import static tk.estecka.invarpaint.InvarpaintMod.CONFIG;
 import static tk.estecka.invarpaint.InvarpaintMod.LOGGER;
 
 public class PaintStackUtil
@@ -49,7 +50,8 @@ public class PaintStackUtil
 		entityTag.putString(VARIANT_TAG, variantName);
 
 		stack.set(ENTITY_DATA, NbtComponent.of(entityTag));
-		SetModel(stack, variantName);
+		if (CONFIG.setItemModel)
+			SetModel(stack, variantName);
 		return stack;
 	}
 
@@ -74,7 +76,8 @@ public class PaintStackUtil
 	static public ItemStack	CreateVariant(String variantName){
 		ItemStack stack = new ItemStack(Items.PAINTING);
 		SetVariant(stack, variantName);
-		SetModel(stack, variantName);
+		if (CONFIG.setItemModel)
+			SetModel(stack, variantName);
 		return stack;
 	}
 
