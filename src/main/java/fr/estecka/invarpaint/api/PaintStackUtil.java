@@ -84,7 +84,7 @@ public final class PaintStackUtil
 		return entitydata.copyNbt().getString(VARIANT_TAG);
 	}
 
-	static public boolean	HasVariantId(ItemStack stack){
+	static public boolean	HasVariant(ItemStack stack){
 		NbtComponent nbt = stack.get(ENTITY_DATA);
 		return nbt != null
 		    && nbt.contains(VARIANT_TAG)
