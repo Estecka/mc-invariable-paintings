@@ -14,8 +14,8 @@ import org.slf4j.LoggerFactory;
 public class InvarpaintMod
 implements ModInitializer
 {
-	static public final String MODID = "invariablepaintings";
-	static public final Logger LOGGER = LoggerFactory.getLogger("Invarpaint");
+	static public final String MODID = "invarpaint";
+	static public final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
 	static public final ConfigIO IO = new ConfigIO("invarpaint.properties");
 	static public final Config CONFIG = new Config();
