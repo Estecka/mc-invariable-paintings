@@ -13,6 +13,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import fr.estecka.invarpaint.InvarpaintClient;
 import fr.estecka.invarpaint.api.PaintStackUtil;
+import fr.estecka.invarpaint.api.PaintTextUtil;
 
 public class TooltipUtil
 {
@@ -26,7 +27,7 @@ public class TooltipUtil
 		if (variantName != null)
 			text.append(
 				Text.literal(" (")
-					.append(PaintStackUtil.TranslatableVariantName(variantName))
+					.append(PaintTextUtil.TranslatableVariantName(variantName))
 					.append(")")
 					.formatted(Formatting.YELLOW)
 			);

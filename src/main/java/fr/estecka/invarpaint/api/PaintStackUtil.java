@@ -8,8 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import static net.minecraft.component.DataComponentTypes.ENTITY_DATA;
 import static fr.estecka.invarpaint.InvarpaintMod.CONFIG;
@@ -91,12 +89,5 @@ public final class PaintStackUtil
 		return nbt != null
 		    && nbt.contains(VARIANT_TAG)
 		    ;
-	}
-
-	static public MutableText TranslatableVariantName(Identifier variantId){
-		return Text.translatableWithFallback(variantId.toTranslationKey("painting", "title"), variantId.toString());
-	}
-	static public MutableText TranslatableVariantName(String variantName){
-		return Text.translatableWithFallback("painting."+variantName.replace(":",".")+".title", variantName);
 	}
 }

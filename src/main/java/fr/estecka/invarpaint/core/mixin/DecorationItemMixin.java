@@ -21,6 +21,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import fr.estecka.invarpaint.InvarpaintMod;
 import fr.estecka.invarpaint.core.PaintEntityPlacer;
 import fr.estecka.invarpaint.api.PaintStackUtil;
+import fr.estecka.invarpaint.api.PaintTextUtil;
 
 
 @Mixin(DecorationItem.class)
@@ -39,8 +40,8 @@ public abstract class DecorationItemMixin
 			result = PaintEntityPlacer.PlaceLockedPainting(world, pos, facing, itemVariant);
 			if (result.isEmpty() && player != null) {
 				player.sendMessage(
-					InvarpaintMod.ServersideTranslatable("painting.invalid_space",
-						PaintStackUtil.TranslatableVariantName(variantId).formatted(Formatting.YELLOW),
+					PaintTextUtil.ServersideTranslatable("painting.invalid_space",
+						PaintTextUtil.TranslatableVariantName(variantId).formatted(Formatting.YELLOW),
 						Text.translatable("painting.dimensions", itemVariant.value().width(), itemVariant.value().height())
 					),
 					true

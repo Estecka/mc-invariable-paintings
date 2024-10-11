@@ -2,9 +2,6 @@ package fr.estecka.invarpaint;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Language;
 import fr.estecka.invarpaint.config.Command;
 import fr.estecka.invarpaint.config.Config;
 import fr.estecka.invarpaint.config.ConfigIO;
@@ -28,10 +25,5 @@ implements ModInitializer
 
 	static public boolean IsNokebabInstalled(){
 		return FabricLoader.getInstance().isModLoaded("no-kebab");
-	}
-
-	static public MutableText ServersideTranslatable(String key, Object ... args){
-		String fallback = Language.getInstance().get(key);
-		return Text.translatableWithFallback(key, fallback, args);
 	}
 }
