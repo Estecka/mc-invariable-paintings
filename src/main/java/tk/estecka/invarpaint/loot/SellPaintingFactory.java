@@ -26,7 +26,7 @@ implements TradeOffers.Factory
 	static public final int	EXPERT_LVL = 4;
 	static public final int	MASTER_LVL = 5;
 
-	static private final int MAX_USE = 3;
+	static private final int MAX_USE = 1;
 	static private final int XP_GAIN = 30;
 
 	public static void	Register(){

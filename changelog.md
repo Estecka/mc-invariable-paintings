@@ -61,3 +61,5 @@ Removals:
 # v3
 - Server-side may now set the `item_model` component of painting items.
 - Removed the client-side CIT logic; made assets compatible with Variants-CIT.
+- Removed the rebalanced blank painting recipe.
+- Reduced the availability of painting trades
