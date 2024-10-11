@@ -14,7 +14,7 @@ import static fr.estecka.invarpaint.InvarpaintMod.CONFIG;
 
 public final class PaintStackUtil
 {
-	static public final Identifier INVALID_MODEL = Identifier.of("invarpaint", "item/missing_painting");
+	static public final Identifier INVALID_MODEL = Identifier.of("invarpaint", "missing_painting");
 	static public final String VARIANT_MODEL_PREFIX = "painting/";
 
 	static private final String VARIANT_TAG = "variant";
