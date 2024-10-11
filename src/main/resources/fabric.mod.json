@@ -6,7 +6,9 @@
 	"name": "Invariable Paintings",
 	"description": "Turns paintings into collectibles. They are harder to obtain, and remember which variant they are when dropped.",
 	"authors": [
-		"Estecka",
+		"Estecka"
+	],
+	"contributors": [
 		"Andrew Grant"
 	],
 	"contact": {
@@ -14,7 +16,7 @@
 		"issues":  "https://github.com/Estecka/mc-invariable-paintings/issues",
 		"sources": "https://github.com/Estecka/mc-invariable-paintings"
 	},
-	"license": "GNU AGPLv3",
+	"license": "EUPL",
 
 	"icon": "assets/invarpaint/icon.png",
 
@@ -24,6 +26,7 @@
 			"tk.estecka.invarpaint.InvarpaintClient"
 		],
 		"main": [
+			"tk.estecka.invarpaint.InvarpaintMod",
 			"tk.estecka.invarpaint.loot.InvarpaintLoot"
 		]
 	},
@@ -35,7 +38,7 @@
 	],
 	"depends": {
 		"minecraft": "~1.21",
-		"fabricloader": ">=0.15.11",
+		"fabricloader": ">=0.16.5",
 		"fabric-api": "*",
 		"java": ">=21"
 	},

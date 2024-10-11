@@ -1,8 +1,8 @@
-package tk.estecka.invarpaint.core.config;
+package tk.estecka.invarpaint.config;
 
 import java.util.HashMap;
 import java.util.Map;
-import tk.estecka.invarpaint.core.config.ConfigIO.Property;
+import tk.estecka.invarpaint.config.ConfigIO.Property;
 
 public class Config
 extends ConfigIO.AFixedCoded

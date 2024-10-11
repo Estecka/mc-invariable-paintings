@@ -1,4 +1,4 @@
-package tk.estecka.invarpaint.core.config;
+package tk.estecka.invarpaint.config;
 
 
 /*
