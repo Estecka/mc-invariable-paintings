@@ -23,11 +23,11 @@
 	"environment": "*",
 	"entrypoints": {
 		"client": [
-			"tk.estecka.invarpaint.InvarpaintClient"
+			"fr.estecka.invarpaint.InvarpaintClient"
 		],
 		"main": [
-			"tk.estecka.invarpaint.InvarpaintMod",
-			"tk.estecka.invarpaint.loot.InvarpaintLoot"
+			"fr.estecka.invarpaint.InvarpaintMod",
+			"fr.estecka.invarpaint.loot.InvarpaintLoot"
 		]
 	},
 	"mixins": [

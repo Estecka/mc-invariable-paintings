@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "tk.estecka.invarpaint.core.mixin",
+	"package": "fr.estecka.invarpaint.core.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"DecorationItemMixin",
