@@ -1,21 +1,24 @@
 # Invariable Paintings
 
 ## Overview
-Turns each painting variant into its own item. When a painting is broken, it will drop the variant-locked item instead of the blank one.  
-Blank paintings can still be obtained, but can no longer be placed in survival.
-
-**No new item type was added to the game**, variant-locked items are the same as the ones available in the vanilla creative menu.
+Turns each painting variant into its own item. When a painting is broken, it will drop the variant-locked item instead of the blank one. No new item type was added to the game, variant-locked items work the same as the ones available in the vanilla creative menu.
 
 
-### Dependencies and Environment
+### Environment
 Core functionalities are **fully server-side**.
-[Patched](https://modrinth.com/mod/patched) is needed in order to add items to loot tables, but is otherwise optional.
 
-**Client-side** is recommended but optional, containing only cosmetic changes.
+**Client-side is optional,** containing only minor cosmetic and QoL changes.
+Vanilla clients will still need a separate **[resource pack](https://modrinth.com/resourcepacks/invarpaint-assets)** for CITs to work, and potentially additional assets for modded paintings.
+
+### Dependencies
+None of these dependencies are strictly required. The core mechanics can run without them, at the cost of some functionalities.
+- [Server-side] **[Patched](https://modrinth.com/mod/patched)** is needed in order to add paintings to **loot tables** without completely overwritting them.
+- [Client-side] **[Variants-CIT](https://modrinth.com/mod/variants-cit)** is an alternative to the server-sided `item_model` component. This mod is not required for painting CITs to work, but is helpful when working with modded paintings, using a resource format that is less redundant, and handling missing models more gracefully.
+
 
 ## Obtaining paintings
 ### Trading
-Filled paintings can be bought from **Master Shepherds** and **Wandering Traders**. Shepherds no longer sell variantless paintings, but will now require one to work with.
+Filled paintings can be bought from **Master Shepherds** and **Wandering Traders**. Shepherds no longer sell variantless paintings, but will now require one in their pricing.
 
 The elemental paintings are exclusive to the Wandering Trader, and few haphazardly chosen others are exclusive to the villagers.
 Modded paintings will be available to both by default.
@@ -24,38 +27,28 @@ Modded paintings will be available to both by default.
 This feature requires **[Patched](https://modrinth.com/mod/patched)**.
 
 Filled paintings can be found inside of many naturally generated chests, suspicious soils, and while fishing.
-
-Certain paintings are exclusive to some location; most notably, the Wither painting can only be found in the nether. Other paintings were spread about more haphazardly.
+Some paintings can only be found in certain location; most notably, the Wither painting can only be found in the nether. Other paintings were spread about more haphazardly.
 Modded paintings will be available in most locations by default.
 
-The loot tables are provided as a built-in datapack which can be disabled. Without the datapack, all exclusive paintings will instead be available via trading.
-
-### Crafting (deprecated)
-Experimental crafting recipes were removed as of v2.0. They were re-released as a separate addon, but will not be as actively maintained.
-See [the old Readme](https://github.com/Estecka/mc-invariable-paintings/blob/1.4.0+1.20.2/README.md#crafting-experimental) for older versions of the mod.
+The loot tables are provided as a built-in datapack which can be disabled. Without the datapack, all location-exclusive paintings will instead be available via trading.
 
 ## Inventory Icons
-Painting items can have unique textures depending on their variant. 
+Painting items have their `item_model` component set based on their variant.
+The corresponding item models must be placed at `/assets/<namespace>/models/item/painting/<variant>.json`, based on the painting variant's ID.
 
-This mod provides the icons for vanilla paintings, but it does not generate icons for modded paintings. Those can be added using a resource pack.
+Being fully server-side, this logic will assign a model to _every single_ painting variant with no regards to available textures.
+The mod's assets already includes CITs for all vanilla paintings, but for vanilla clients, you will need to create additional models for any paintings added via datapacks, even to simply give them a fallback texture.
 
-Custom icons will be searched for at `/textures/<namespace>/item/painting/<variant>.png`, based on the painting variant's ID.
-Variants that lack a custom icon will fall back to a generic built-in one.
-
+_The client-sided CIT logic used in older verison of this mod has be relegated to [Variants-CIT](https://modrinth.com/mod/variants-cit)._
 
 ## Miscellaneous changes
 ### Server-side
 - Adds a new loot function `invarpaint:lock_variant_randomly`.
 - Placement of variant-locked paintings in tight spaces is more forgiving. (Vanilla would require targeting one specific block.)
 - Shows a warning when trying to place a painting in a space that is too small.
-- Fixes a vanilla bug whereby painting items may appear to be consumed, without actually placing the painting.
+- Fixes a vanilla bug whereby failing to place a painting causes an inventory desync, where the client believes it has consummed the painting.
 
 ### Client-side
 - Creative players can pick a painting's variant by holding Ctrl.
+- The paintings in the creative inventory now have their `item_model` component set.
 - Slightly reworked the tooltip for painting items.
-
-
-## Compatibility
-Any mod that adds new paintings based on the vanilla system will be compatible, and their paintings will be obtainable through all existing means.
-
-Mods that implement their own variant system are not compatible. Amongst user-defined painting mods, [More Canvases](https://modrinth.com/mod/more-canvases) was made to be compatible with Invariable Paintings.

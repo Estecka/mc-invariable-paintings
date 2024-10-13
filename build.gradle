@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.6-SNAPSHOT'
+	id 'fabric-loom' version '1.7-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -68,6 +68,7 @@ jar {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}
 
+	exclude "**/*.sh"
 	exclude "**/*.xcf"
 	exclude "**/*.psd"
 	exclude "**/*.psb"

@@ -20,6 +20,10 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
+      - name: make pack.sh executable
+        run: chmod +x ./pack.sh
+      - name: build texture pack
+        run: ./pack.sh
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v2
       - name: setup jdk ${{ matrix.java }}

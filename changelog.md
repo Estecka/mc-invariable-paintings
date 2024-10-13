@@ -57,3 +57,9 @@ Removals:
 - Shuffled a little the repartion of painting loot, including the new paintings.
 - Added CITs for the new painting
 - Raw variant ID is now visible in advanced tooltips.
+
+# v3
+- Server-side may now set the `item_model` component of painting items.
+- Removed the client-side CIT logic; made assets compatible with Variants-CIT.
+- Removed the rebalanced blank painting recipe.
+- Reduced the availability of painting trades
