@@ -1,7 +1,7 @@
 {
 	"pack": {
 		"pack_format": 34,
-		"supported_formats": [34, 39],
+		"supported_formats": [34, 42],
 		"description": "CITs for vanilla painting items"
 	}
 }
