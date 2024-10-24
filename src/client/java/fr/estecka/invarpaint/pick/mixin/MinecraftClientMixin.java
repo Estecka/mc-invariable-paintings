@@ -10,7 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import fr.estecka.invarpaint.InvarpaintMod;
 import fr.estecka.invarpaint.api.PaintStackUtil;
 
 @Mixin(MinecraftClient.class)
@@ -20,12 +19,8 @@ public class MinecraftClientMixin
 	private ItemStack	PickPaintingVariant(Entity entity, Operation<ItemStack> original){
 		ItemStack stack = original.call(entity);
 
-		if (entity instanceof PaintingEntity && Screen.hasControlDown()){
-			if (!stack.isOf(Items.PAINTING))
-				InvarpaintMod.LOGGER.error("Unexpected painting drop type: {}", stack.getItem());
-			else
-				PaintStackUtil.SetVariant(stack, entity);
-		}
+		if (entity instanceof PaintingEntity && Screen.hasControlDown() && stack.isOf(Items.PAINTING))
+			PaintStackUtil.SetVariant(stack, entity);
 
 		return stack;
 	}
