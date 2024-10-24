@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.6-SNAPSHOT'
+	id 'fabric-loom' version '1.7-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -20,7 +20,6 @@ repositories {
 
 loom {
 	splitEnvironmentSourceSets()
-
 	mods {
 		"invariable-paintings" {
 			sourceSet sourceSets.main
@@ -28,6 +27,18 @@ loom {
 		}
 	}
 
+	runs {
+		client {
+			configName "Client"
+			programArgs "--username"
+			programArgs "Dev"
+			runDir "run/client"
+		}
+		server {
+			configName "Server"
+			runDir "run/server"
+		}
+	}
 }
 
 dependencies {
@@ -38,7 +49,6 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
 }
 
 processResources {
@@ -68,6 +78,7 @@ jar {
 		rename { "${it}_${project.base.archivesName.get()}"}
 	}
 
+	exclude "**/*.sh"
 	exclude "**/*.xcf"
 	exclude "**/*.psd"
 	exclude "**/*.psb"

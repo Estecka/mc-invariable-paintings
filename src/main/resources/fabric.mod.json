@@ -1,12 +1,17 @@
 {
 	"schemaVersion": 1,
-	"id": "invariablepaintings",
+	"id": "invarpaint",
 	"version": "${version}",
+	"provides": [
+		"invariablepaintings"
+	],
 
 	"name": "Invariable Paintings",
 	"description": "Turns paintings into collectibles. They are harder to obtain, and remember which variant they are when dropped.",
 	"authors": [
-		"Estecka",
+		"Estecka"
+	],
+	"contributors": [
 		"Andrew Grant"
 	],
 	"contact": {
@@ -14,29 +19,29 @@
 		"issues":  "https://github.com/Estecka/mc-invariable-paintings/issues",
 		"sources": "https://github.com/Estecka/mc-invariable-paintings"
 	},
-	"license": "GNU AGPLv3",
+	"license": "EUPL",
 
 	"icon": "assets/invarpaint/icon.png",
 
 	"environment": "*",
 	"entrypoints": {
 		"client": [
-			"tk.estecka.invarpaint.cit.Cits"
+			"fr.estecka.invarpaint.InvarpaintClient"
 		],
 		"main": [
-			"tk.estecka.invarpaint.loot.InvarpaintLoot"
+			"fr.estecka.invarpaint.InvarpaintMod",
+			"fr.estecka.invarpaint.loot.InvarpaintLoot"
 		]
 	},
 	"mixins": [
 		"invarpaint-core.mixins.json",
-		{ "environment": "client", "config": "invarpaint-cit.mixins.json" },
 		{ "environment": "client", "config": "invarpaint-tooltip.mixins.json" },
 		{ "environment": "client", "config": "invarpaint-pick.mixins.json" }
 
 	],
 	"depends": {
-		"minecraft": "~1.21",
-		"fabricloader": ">=0.15.11",
+		"minecraft": "^1.21.2",
+		"fabricloader": ">=0.16.7",
 		"fabric-api": "*",
 		"java": ">=21"
 	},
