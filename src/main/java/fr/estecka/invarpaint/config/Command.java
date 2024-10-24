@@ -1,5 +1,6 @@
 package fr.estecka.invarpaint.config;
 
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
@@ -20,6 +21,7 @@ import static com.mojang.brigadier.arguments.StringArgumentType.getString;
 import static net.minecraft.server.command.CommandManager.literal;
 import static net.minecraft.server.command.CommandManager.argument;
 import static fr.estecka.invarpaint.InvarpaintMod.CONFIG;
+import static fr.estecka.invarpaint.InvarpaintMod.IO;
 
 public class Command
 {
@@ -91,8 +93,9 @@ public class Command
 
 		try {
 			property.Decode(value);
+			IO.Write(CONFIG);
 		}
-		catch (IllegalArgumentException e) {
+		catch (IllegalArgumentException|IOException e) {
 			context.getSource().sendError(Text.literal(e.toString()));
 			return -1;
 		}
