@@ -39,7 +39,7 @@
 
 
 # v2
-## 2.0.0
+## 2.0
 Additions:
 - Some vanilla variants are now exclusive to specific sources. Added paintings to a few more locations.
 - `lock_variant_randomly` may now specify a pool of variants to pull from.
@@ -51,15 +51,19 @@ Removals:
 - Removed the deprecated name `minecraft:lock_variant_randomly`.
 - Removed crafting.
 
-## 2.1.0
+## 2.1
+### 2.1.0
 - Ported to MC 1.21
 - CITs are now generated based on available textures, instead of using the painting registry.
 - Shuffled a little the repartion of painting loot, including the new paintings.
 - Added CITs for the new painting.
 - Raw variant ID is now visible in advanced tooltips.
+### 2.1.1
+- Marked as incompatible with MC 1.21.2
 
 
 # v3
+- Ported to MC 1.21.2
 - Server-side may now set the `item_model` component of painting items.
 - Removed the client-side CIT logic; made assets compatible with Variants-CIT.
 - Removed the rebalanced blank painting recipe.
