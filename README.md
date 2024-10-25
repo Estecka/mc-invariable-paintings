@@ -39,7 +39,7 @@ Painting items can have unique textures depending on their variant.
 
 This mod provides the icons for vanilla paintings, but it does not generate icons for modded paintings. Those can be added using a resource pack.
 
-Custom icons will be searched for at `/textures/<namespace>/item/painting/<variant>.png`, based on the painting variant's ID.
+Custom icons will be searched for at `/assets/<namespace>/textures/item/painting/<variant>.png`, based on the painting variant's ID.
 Variants that lack a custom icon will fall back to a generic built-in one.
 
 

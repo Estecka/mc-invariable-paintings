@@ -6,7 +6,9 @@
 	"name": "Invariable Paintings",
 	"description": "Turns paintings into collectibles. They are harder to obtain, and remember which variant they are when dropped.",
 	"authors": [
-		"Estecka",
+		"Estecka"
+	],
+	"contributors": [
 		"Andrew Grant"
 	],
 	"contact": {
@@ -35,7 +37,7 @@
 
 	],
 	"depends": {
-		"minecraft": "~1.21",
+		"minecraft": ">=1.21 <1.21.2",
 		"fabricloader": ">=0.15.11",
 		"fabric-api": "*",
 		"java": ">=21"
