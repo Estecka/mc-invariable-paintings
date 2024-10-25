@@ -60,3 +60,12 @@ Removals:
 - Raw variant ID is now visible in advanced tooltips.
 ### 2.1.1
 - Marked as incompatible with MC 1.21.2
+
+
+# v3
+- Ported to MC 1.21.2
+- Server-side may now set the `item_model` component of painting items.
+- Removed the client-side CIT logic; made assets compatible with Variants-CIT.
+- Removed the rebalanced blank painting recipe.
+- Reduced the availability of painting trades.
+- Adjusted 3x3 CITs to be smaller than 4x4's.

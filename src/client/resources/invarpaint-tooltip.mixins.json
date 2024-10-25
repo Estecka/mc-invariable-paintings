@@ -1,6 +1,6 @@
 {
 	"required": true,
-	"package": "tk.estecka.invarpaint.tooltip.mixin",
+	"package": "fr.estecka.invarpaint.tooltip.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"DecorationItemMixin",

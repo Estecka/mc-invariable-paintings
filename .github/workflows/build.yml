@@ -5,6 +5,7 @@
 
 name: build
 on:
+  - pull_request
   - workflow_call
   - workflow_dispatch
 
@@ -14,12 +15,16 @@ jobs:
       matrix:
         # Use these Java versions
         java: [
-          21,    # Current Java LTS & minimum supported by Minecraft
+          21,    # Current LTS & minimum supported by Minecraft
         ]
     runs-on: ubuntu-22.04
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
+      - name: make pack.sh executable
+        run: chmod +x ./pack.sh
+      - name: build texture pack
+        run: ./pack.sh
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v2
       - name: setup jdk ${{ matrix.java }}

@@ -1,0 +1,10 @@
+{
+	"type": "painting_variant",
+	"items": ["minecraft:painting"],
+	"modelPrefix": "item/painting/",
+	"modelParent": "item/generated",
+	"fallback": "invarpaint:item/filled_painting",
+	"special": {
+		"invalid": "invarpaint:item/missing_painting"
+	}
+}
