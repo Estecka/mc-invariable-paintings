@@ -84,10 +84,20 @@ public final class PaintStackUtil
 		return entitydata.copyNbt().getString(VARIANT_TAG);
 	}
 
+	/**
+	 * Checks that a variant exists in any form
+	 */
 	static public boolean	HasVariant(ItemStack stack){
 		NbtComponent nbt = stack.get(ENTITY_DATA);
 		return nbt != null
 		    && nbt.contains(VARIANT_TAG)
 		    ;
+	}
+
+	/**
+	 * Checks that the variant is a valid identifier.
+	 */
+	static public boolean	HasVariantId(ItemStack stack){
+		return GetVariantId(stack) != null;
 	}
 }
