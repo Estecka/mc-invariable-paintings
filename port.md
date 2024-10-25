@@ -36,3 +36,11 @@ Current master
 - `PaintingVariants` now measure their width and height in blocks.
 - `TooltipType` was moved to a different package
 - `ModelLoader::modelsToBake` now takes `ModelIdentifer`s as key
+
+### 24w38a
+- (Yarn?) `DynamicRegistryManager::get` renammed to `getOrThrow`
+- (Yarn?) `Registry::getOrEmpty` renammed to `getOptionalValue`
+- `Registry::streamTags` now wraps its values inside `Named<>`'s
+
+### 1.21.2
+- `Entity.dropItem()` now requires a ServerWorld as parameter.
