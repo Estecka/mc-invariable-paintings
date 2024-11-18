@@ -11,7 +11,7 @@ import fr.estecka.invarpaint.api.PaintStackUtil;
 @Mixin(ItemGroups.class)
 public class ItemGroupsMixin
 {
-	@ModifyArg( method="method_48935", remap=false, index=0, at=@At(value="INVOKE", target="Lnet/minecraft/item/ItemGroup$Entries;add(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemGroup$StackVisibility;)V") )
+	@ModifyArg( method="method_48935", remap=false, index=0, at=@At(value="INVOKE", remap=true, target="Lnet/minecraft/item/ItemGroup$Entries;add(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemGroup$StackVisibility;)V") )
 	static private ItemStack SetPaintingComponents(ItemStack stack){
 		if (InvarpaintMod.CONFIG.setItemModel){
 			String variantName = PaintStackUtil.GetVariantName(stack);
