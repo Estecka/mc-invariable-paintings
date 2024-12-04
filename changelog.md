@@ -72,3 +72,5 @@ Removals:
 - Adjusted 3x3 CITs to be smaller than 4x4's.
 ### 3.0.1
 - Fixed client-side crash caused by remaping issue.
+### 3.0.2
+- Ported to MC 1.21.4

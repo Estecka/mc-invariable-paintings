@@ -19,7 +19,7 @@
 		"issues":  "https://github.com/Estecka/mc-invariable-paintings/issues",
 		"sources": "https://github.com/Estecka/mc-invariable-paintings"
 	},
-	"license": "EUPL",
+	"license": "EUPL-1.2",
 
 	"icon": "assets/invarpaint/icon.png",
 
@@ -40,7 +40,7 @@
 
 	],
 	"depends": {
-		"minecraft": "^1.21.2",
+		"minecraft": ">=1.21.2 <1.21.4",
 		"fabricloader": ">=0.16.7",
 		"fabric-api": "*",
 		"java": ">=21"
