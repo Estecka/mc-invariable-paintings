@@ -10,4 +10,4 @@ mkdir -p $(dirname "$DST");
 
 DST=$(realpath "$DST");
 cd "$SRC";
-zip "$DST" -r -9 .;
+zip "$DST" -r -9 ./*;

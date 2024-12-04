@@ -1,10 +1,12 @@
 package fr.estecka.invarpaint;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.player.PlayerPickItemEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import fr.estecka.invarpaint.config.Command;
 import fr.estecka.invarpaint.config.Config;
 import fr.estecka.invarpaint.config.ConfigIO;
+import fr.estecka.invarpaint.core.PaintingPickEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +23,7 @@ implements ModInitializer
 	public void onInitialize(){
 		IO.TryGetIfExists(CONFIG);
 		Command.Register();
+		PlayerPickItemEvents.ENTITY.register(new PaintingPickEvent());
 	}
 
 	static public boolean IsNokebabInstalled(){
