@@ -5,9 +5,10 @@ import java.util.Optional;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
@@ -73,7 +74,7 @@ implements TradeOffers.Factory
 	@Override
 	public TradeOffer	create(Entity entity, Random random){
 		var registry = entity.getWorld().getRegistryManager().getOrThrow(RegistryKeys.PAINTING_VARIANT);
-		Identifier variant = PoolIdentifier.GetRandom(this.pool, random, registry);
+		RegistryEntry<PaintingVariant> variant = PoolIdentifier.GetRandom(this.pool, random, registry);
 
 		if (variant == null)
 			return null;

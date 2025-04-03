@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.context.LootContext;
@@ -12,6 +13,7 @@ import net.minecraft.loot.function.LootFunctionType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import fr.estecka.invarpaint.api.PaintStackUtil;
@@ -49,18 +51,15 @@ extends ConditionalLootFunction
 	public ItemStack	process(ItemStack stack, LootContext ctx){
 		var registry  = ctx.getWorld().getRegistryManager().getOrThrow(RegistryKeys.PAINTING_VARIANT);
 		Random random = ctx.getRandom();
-		Identifier variantId = null;
+		RegistryEntry<PaintingVariant> variantEntry = null;
 
 		if (this.variants.isPresent())
-			variantId = PoolIdentifier.GetRandom(this.variants.get(), random, registry);
-		else {
-			var entry = registry.getRandom(random);
-			if (entry.isPresent())
-				variantId = entry.get().getKey().get().getValue();
-		}
+			variantEntry = PoolIdentifier.GetRandom(this.variants.get(), random, registry);
+		else
+			variantEntry = registry.getRandom(random).orElse(null);
 
-		if (variantId != null)
-			PaintStackUtil.SetVariant(stack, variantId);
+		if (variantEntry != null)
+			PaintStackUtil.SetVariant(stack, variantEntry);
 
 		return stack;
 	}
