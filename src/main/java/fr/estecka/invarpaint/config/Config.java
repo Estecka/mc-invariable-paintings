@@ -7,7 +7,7 @@ import fr.estecka.invarpaint.config.ConfigIO.Property;
 public class Config
 extends ConfigIO.AFixedCoded
 {
-	public boolean setItemModel = true;
+	public boolean setItemModel = false;
 
 	@Override
 	public Map<String, Property<?>> GetProperties(){
