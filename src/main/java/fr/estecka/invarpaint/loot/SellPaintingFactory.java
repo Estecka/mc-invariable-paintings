@@ -44,11 +44,7 @@ implements TradeOffers.Factory
 		Int2ObjectMap<Factory[]> shepherd = TradeOffers.PROFESSION_TO_LEVELED_TRADE.get(VillagerProfession.SHEPHERD);
 		shepherd.get(MASTER_LVL)[0] = SHEPHERD_TRADE;
 
-		TradeOfferHelper.registerWanderingTraderOffers(APPRENTICE_LVL, list->{
-			list.add(WANDERER_TRADE1);
-			list.add(WANDERER_TRADE2);
-		});
-		TradeOfferHelper.registerRebalancedWanderingTraderOffers(builder->builder.addOffersToPool(
+		TradeOfferHelper.registerWanderingTraderOffers(builder->builder.addOffersToPool(
 			TradeOfferHelper.WanderingTraderOffersBuilder.SELL_SPECIAL_ITEMS_POOL,
 			WANDERER_TRADE1,
 			WANDERER_TRADE2
