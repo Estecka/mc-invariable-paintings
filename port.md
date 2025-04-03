@@ -44,3 +44,7 @@ Current master
 
 ### 1.21.2
 - `Entity.dropItem()` now requires a ServerWorld as parameter.
+
+### 1.21.5
+- Painting Variants are now stored as regitry entries instead of identifiers.
+- Item Stack variants are no longer stored in the `entity_data` component.
