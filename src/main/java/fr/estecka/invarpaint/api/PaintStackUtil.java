@@ -123,8 +123,6 @@ public final class PaintStackUtil
 		var entry = entity.get(PAINTING_VARIANT);
 		return (entry == null) ? null : entry.getKey().get().getValue().toString();
 	}
-
-	// TODO: Probably incompatible with NoKebab
 	@Deprecated
 	static public @Nullable String	GetVariantName(ItemStack stack){
 		var id = GetVariantId(stack);

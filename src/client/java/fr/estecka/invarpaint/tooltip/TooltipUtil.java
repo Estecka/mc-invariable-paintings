@@ -7,8 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TextContent;
-import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import fr.estecka.invarpaint.InvarpaintClient;
@@ -37,23 +35,10 @@ public class TooltipUtil
 		return text;
 	}
 
-	static public void	RemoveOriginalTooltip(List<Text> tooltip){
-		tooltip.removeIf(text -> {
-			TextContent textContent = text.getContent();
-			if (textContent instanceof TranslatableTextContent translatable) {
-				String key = translatable.getKey();
-				return key.startsWith("painting.") 
-					&& ( key.equals("painting.random") 
-						|| key.equals("painting.dimensions") 
-						|| key.endsWith(".title") 
-						|| key.endsWith(".author") 
-					)
-				;
-			}
-			return false;
-		});
-	}
-
+	/**
+	 * @deprecated Kept around for future reference if NoKebab is ever ported.
+	 */
+	@Deprecated
 	static public void AddVariantTooltip(List<Text> tooltip, Identifier variantId, boolean advanced){
 		Optional<Registry<PaintingVariant>> registry = InvarpaintClient.GetPaintingRegitry();
 		Optional<PaintingVariant> variant = registry.flatMap(r -> r.getOptionalValue(variantId));
