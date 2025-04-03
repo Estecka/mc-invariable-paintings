@@ -10,6 +10,7 @@
 			"component": "minecraft:painting/variant",
 			"fallback": { "type":"model", "model":"invarpaint:item/filled_painting" },
 			"cases": [
+				${CASES}
 			]
 		}
 	}
