@@ -1,0 +1,16 @@
+{
+	"model":{
+		"type": "condition",
+		"property": "has_component",
+		"component": "minecraft:painting/variant",
+		"on_false": { "type":"model", "model":"minecraft:item/painting"},
+		"on_true": {
+			"type": "select",
+			"property": "component",
+			"component": "minecraft:painting/variant",
+			"fallback": { "type":"model", "model":"invarpaint:item/filled_painting" },
+			"cases": [
+			]
+		}
+	}
+}

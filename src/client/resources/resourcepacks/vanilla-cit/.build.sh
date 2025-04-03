@@ -2,7 +2,7 @@
 set -eu -o pipefail
 
 echo >&2 -e "\n\t# items";
-./.asset_generator.sh ./.templates/items.json \
+./.asset_generator.sh ./.templates/items-variants.json \
 	textures/item/ .png \
 	items/         .json \
 	;
