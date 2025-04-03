@@ -23,11 +23,11 @@ public class TooltipUtil
 	static public MutableText	AppendPaintingName(MutableText text, ItemStack stack){
 		// I could just use translatable variables,
 		// but this way is compatible with other languages
-		String variantName = PaintStackUtil.GetVariantName(stack);
-		if (variantName != null)
+		Identifier variantId = PaintStackUtil.GetVariantId(stack);
+		if (variantId != null)
 			text.append(
 				Text.literal(" (")
-					.append(PaintTextUtil.TranslatableVariantName(variantName))
+					.append(PaintTextUtil.TranslatableVariantName(variantId))
 					.append(")")
 					.formatted(Formatting.YELLOW)
 			);
@@ -54,16 +54,15 @@ public class TooltipUtil
 		});
 	}
 
-	static public void AddVariantTooltip(List<Text> tooltip, String variantName, boolean advanced){
-		Identifier id = Identifier.tryParse(variantName);
+	static public void AddVariantTooltip(List<Text> tooltip, Identifier variantId, boolean advanced){
 		Optional<Registry<PaintingVariant>> registry = InvarpaintClient.GetPaintingRegitry();
-		Optional<PaintingVariant> variant = registry.flatMap(r -> r.getOptionalValue(id));
+		Optional<PaintingVariant> variant = registry.flatMap(r -> r.getOptionalValue(variantId));
 
 		// In the event the registry would be absent, consider everything as valid, and print what can be known.
 		if (registry.isPresent() && variant.isEmpty())
 			tooltip.add(INVALID_TEXT);
-		else if (id != null){
-			MutableText authorLine = Text.translatableWithFallback(id.toTranslationKey("painting", "author"), "").formatted(Formatting.GRAY);
+		else if (variantId != null){
+			MutableText authorLine = Text.translatableWithFallback(variantId.toTranslationKey("painting", "author"), "").formatted(Formatting.GRAY);
 			if (variant.isPresent())
 				authorLine = Text.translatable("painting.dimensions", variant.get().width(), variant.get().height())
 					.append(" ")
@@ -74,7 +73,7 @@ public class TooltipUtil
 		}
 
 		if (advanced)
-			tooltip.add(Text.literal(variantName).formatted(Formatting.DARK_GRAY));
+			tooltip.add(Text.literal(variantId.toString()).formatted(Formatting.DARK_GRAY));
 	}
 
 }
