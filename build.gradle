@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.9-SNAPSHOT'
+	id 'fabric-loom' version '1.10-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -19,14 +19,6 @@ repositories {
 }
 
 loom {
-	splitEnvironmentSourceSets()
-	mods {
-		"invariable-paintings" {
-			sourceSet sourceSets.main
-			sourceSet sourceSets.client
-		}
-	}
-
 	runs {
 		client {
 			configName "Client"
