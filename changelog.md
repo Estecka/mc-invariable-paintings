@@ -76,3 +76,5 @@ Removals:
 - Ported to MC 1.21.4
 ### 3.0.3
 - Marked embedded datapack as compatible with MC 1.21.4
+### 3.0.4
+- Updated for MC 1.21.5
