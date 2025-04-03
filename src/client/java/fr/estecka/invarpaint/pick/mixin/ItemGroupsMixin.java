@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import fr.estecka.invarpaint.InvarpaintMod;
 import fr.estecka.invarpaint.api.PaintStackUtil;
 
@@ -14,9 +15,9 @@ public class ItemGroupsMixin
 	@ModifyArg( method="method_48935", remap=false, index=0, at=@At(value="INVOKE", remap=true, target="Lnet/minecraft/item/ItemGroup$Entries;add(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemGroup$StackVisibility;)V") )
 	static private ItemStack SetPaintingComponents(ItemStack stack){
 		if (InvarpaintMod.CONFIG.setItemModel){
-			String variantName = PaintStackUtil.GetVariantName(stack);
-			if (variantName != null)
-				PaintStackUtil.SetModel(stack, variantName);
+			Identifier variantId = PaintStackUtil.GetVariantId(stack);
+			if (variantId != null)
+				PaintStackUtil.SetModel(stack, variantId);
 		}
 		return stack;
 	}
