@@ -19,6 +19,14 @@ repositories {
 }
 
 loom {
+	splitEnvironmentSourceSets()
+	mods {
+		"invariable-paintings" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+
 	runs {
 		client {
 			configName "Client"
