@@ -1,7 +1,1 @@
-{
-	"when": "${NAMESPACE}:${NAME}",
-	"model": {
-		"type": "model",
-		"model": "${NAMESPACE}:item/painting/${NAME}"
-	}
-}
+				{ "model": {"type":"model","model":"${NAMESPACE}:item/painting/${NAME}"},	"when":"${NAMESPACE}:${NAME}" }
