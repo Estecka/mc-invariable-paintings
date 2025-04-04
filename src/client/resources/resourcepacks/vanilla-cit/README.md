@@ -1,9 +1,8 @@
 # Invariable Paintings Assets
 
-This pack provides item models and textures for every vanilla painting variants.
+This pack provides unique textures for every vanilla painting variants. It is primarily intended to be used by vanilla clients playing on servers with  **[Invariable Paintings](https://modrinth.com/mod/invariable-paintings)** installed, but is fit for most other use cases.
 
-This is primarily intended to be used by vanilla clients playing on servers with  **[Invariable Paintings](https://modrinth.com/mod/invariable-paintings)** installed. (Although it may also work with other server-side mods or datapack that sets the `item_model` component of painting items.)
-
-Alternatively, it will also work fully client-side using the mod **[Variants-CIT](https://modrinth.com/mod/variants-cit)**, which provides a few other functionalities:
-If a modded painting does not have an item model, it will use a generic one instead of the missing model.
-Also, painting items containing invalid variants will use another special texture, (e.g: modded paintings that have been uninstalled, painting items summoned by a command with a typo in it).
+It supports:
+- Pure-vanilla paintings from the creative inventory.
+- Vanilla paintings with their `item_model` component set to `<namespace>:painting/<path>`, based on the variant ID.
+- **[Variants-CIT](https://modrinth.com/mod/variants-cit)**, including a module that behaves like the case above.

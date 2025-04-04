@@ -1,6 +1,5 @@
 package fr.estecka.invarpaint.api;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.component.DataComponentTypes;
@@ -34,18 +33,6 @@ public final class PaintStackUtil
 		return SetVariant(stack, GetVariantEntry(entity));
 	}
 
-	// TODO
-	@Deprecated
-	static public ItemStack	SetVariant(ItemStack stack, @NotNull Identifier variantId) {
-		throw new NotImplementedException();
-	}
-
-	// TODO
-	@Deprecated
-	static public ItemStack	SetVariant(ItemStack stack, @NotNull String variantName){
-		throw new NotImplementedException();
-	}
-
 
 /******************************************************************************/
 /* # Create Variant                                                           */
@@ -61,18 +48,6 @@ public final class PaintStackUtil
 
 	static public ItemStack	CreateVariant(Entity entity){
 		return CreateVariant(GetVariantEntry(entity));
-	}
-
-	// TODO
-	@Deprecated
-	static public ItemStack	CreateVariant(Identifier variantId){
-		throw new NotImplementedException();
-	}
-
-	// TODO
-	@Deprecated
-	static public ItemStack	CreateVariant(String variantName){
-		throw new NotImplementedException();
 	}
 
 
@@ -123,6 +98,7 @@ public final class PaintStackUtil
 		var entry = entity.get(PAINTING_VARIANT);
 		return (entry == null) ? null : entry.getKey().get().getValue().toString();
 	}
+
 	@Deprecated
 	static public @Nullable String	GetVariantName(ItemStack stack){
 		var id = GetVariantId(stack);
