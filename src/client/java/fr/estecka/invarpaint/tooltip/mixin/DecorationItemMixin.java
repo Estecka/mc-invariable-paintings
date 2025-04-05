@@ -56,7 +56,7 @@ public abstract class DecorationItemMixin
 
 	@Inject(
 		method = "appendTooltip",
-		at = @At(value="INVOKE", shift=Shift.AFTER, target="java/util/function/Consumer.accept(Ljava/lang/Object;)V")
+		at = @At(value="INVOKE", ordinal=0, shift=Shift.AFTER, target="java/util/function/Consumer.accept(Ljava/lang/Object;)V")
 	)
 	private void AddRawVariant(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type, CallbackInfo ci, @Local RegistryEntry<PaintingVariant> variant) {
 		if (type.equals(TooltipType.ADVANCED))
