@@ -8,7 +8,7 @@ import net.minecraft.util.Language;
 public final class PaintTextUtil
 {
 	/**
-	 * A translatable that includes  a default translation as fallabcks. Used on
+	 * A translatable that includes  a default translation  as fallback. Used on
 	 * the server-side, in order to produce modded text that is still legible to
 	 * vanilla clients.
 	 */

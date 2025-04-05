@@ -26,6 +26,7 @@ implements ClientModInitializer
 		);
 	}
 
+	@Deprecated
 	static public Optional<Registry<PaintingVariant>> GetPaintingRegitry(){
 		@SuppressWarnings("resource")
 		World world = MinecraftClient.getInstance().world;

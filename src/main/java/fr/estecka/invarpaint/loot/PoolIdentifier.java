@@ -9,13 +9,14 @@ import com.mojang.serialization.DataResult;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 
 public record PoolIdentifier(boolean isNegative, boolean isTag, Identifier id)
 {
-	static public final  Codec<PoolIdentifier> CODEC = Codec.STRING.comapFlatMap(PoolIdentifier::Parse, p->p.toString());
+	static public final  Codec<PoolIdentifier> CODEC = Codec.STRING.comapFlatMap(PoolIdentifier::Parse, PoolIdentifier::toString);
 
 	static public DataResult<PoolIdentifier> Parse(String data){
 		boolean neg = false;
@@ -48,31 +49,38 @@ public record PoolIdentifier(boolean isNegative, boolean isTag, Identifier id)
 			return registry.containsId(this.id);
 	}
 
-	public Set<Identifier> GetPool(Registry<PaintingVariant> registry){
-		Set<Identifier> pool = new HashSet<>();
+	public Set<RegistryEntry<PaintingVariant>> GetPool(Registry<PaintingVariant> registry){
+		Set<RegistryEntry<PaintingVariant>> pool = new HashSet<>();
 
-		if (!this.isTag)
-			pool.add(this.id);
-		else for (var e : registry.iterateEntries(TagKey.of(RegistryKeys.PAINTING_VARIANT, this.id)))
-			pool.add(e.getKey().get().getValue());
+		if (!this.isTag){
+			var optEntry = registry.getEntry(this.id);
+			if (optEntry.isEmpty())
+				pool.add(optEntry.get());
+		}
+		else for (var entry : registry.iterateEntries(TagKey.of(RegistryKeys.PAINTING_VARIANT, this.id)))
+			pool.add(entry);
 
 		if (this.isNegative){
-			Set<Identifier> inverse = new HashSet<>();
-			for (Identifier id : registry.getIds())
-			if  (!pool.contains(id))
-					inverse.add(id);
+			Set<RegistryEntry<PaintingVariant>> inverse = new HashSet<>();
+			var it = registry.streamEntries().iterator();
+			while (it.hasNext()){
+				var entry = it.next();
+				if (!pool.contains(entry))
+					inverse.add(entry);
+			}
 			pool = inverse;
 		}
 
 		return pool;
 	}
 
-	static public @Nullable Identifier GetRandom(Collection<PoolIdentifier> list, Random random, Registry<PaintingVariant> registry){
-		Set<Identifier> pool = new HashSet<>();
+	static public @Nullable RegistryEntry<PaintingVariant> GetRandom(Collection<PoolIdentifier> list, Random random, Registry<PaintingVariant> registry){
+		Set<RegistryEntry<PaintingVariant>> pool = new HashSet<>();
 		for (PoolIdentifier poolId : list)
 			pool.addAll(poolId.GetPool(registry));
 
-		Identifier[] array = pool.toArray(new Identifier[0]);
+		@SuppressWarnings("unchecked")
+		RegistryEntry<PaintingVariant>[] array = pool.toArray(RegistryEntry[]::new);
 		if (array.length < 1)
 			return null;
 
