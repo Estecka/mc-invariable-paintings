@@ -2,13 +2,13 @@ package fr.estecka.invarpaint.api;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
+import static net.minecraft.component.DataComponentTypes.ITEM_MODEL;
 import static net.minecraft.component.DataComponentTypes.PAINTING_VARIANT;
 import static fr.estecka.invarpaint.InvarpaintMod.CONFIG;
 
@@ -30,7 +30,10 @@ public final class PaintStackUtil
 	}
 
 	static public ItemStack	SetVariant(ItemStack stack, @NotNull Entity entity) {
-		return SetVariant(stack, GetVariantEntry(entity));
+		var entry = GetVariantEntry(entity);
+		if (entry != null)
+			SetVariant(stack, entry);
+		return stack;
 	}
 
 
@@ -47,7 +50,11 @@ public final class PaintStackUtil
 	}
 
 	static public ItemStack	CreateVariant(Entity entity){
-		return CreateVariant(GetVariantEntry(entity));
+		var entry = GetVariantEntry(entity);
+		if (entry != null)
+			return CreateVariant(entry);
+		else
+			return new ItemStack(Items.PAINTING);
 	}
 
 
@@ -64,13 +71,13 @@ public final class PaintStackUtil
 		if (id != null)
 			return SetModel(stack, id);
 		else {
-			stack.set(DataComponentTypes.ITEM_MODEL, INVALID_MODEL);
+			stack.set(ITEM_MODEL, INVALID_MODEL);
 			return stack;
 		}
 	}
 
 	static public ItemStack SetModel(ItemStack stack, Identifier variantId){
-		stack.set(DataComponentTypes.ITEM_MODEL, variantId.withPrefixedPath(VARIANT_MODEL_PREFIX));
+		stack.set(ITEM_MODEL, variantId.withPrefixedPath(VARIANT_MODEL_PREFIX));
 		return stack;
 	}
 
