@@ -80,7 +80,10 @@ Removals:
 - Updated for MC 1.21.5
 
 # v4
+### 4.0.0
 - The resource pack no longer require the `item_model` component to be set.
 - The server no longer set the `item_model` component by default.
 - Breaking API changes, caused by minecraft internal changes.
 - Paintings with invalid variants are no longer supported by the base game. Breaks compatibility with NoKebab
+### 4.0.1
+- Marked embedded packs as compatible with MC 1.21.6 and onward.
