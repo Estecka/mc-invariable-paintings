@@ -1,5 +1,6 @@
 {
 	"values": [
+		{ "id": "minecraft:dennis", "required":false },
 		"minecraft:alban",
 		"minecraft:backyard",
 		"minecraft:baroque",

@@ -87,3 +87,6 @@ Removals:
 - Paintings with invalid variants are no longer supported by the base game. Breaks compatibility with NoKebab
 ### 4.0.1
 - Marked embedded packs as compatible with MC 1.21.6 and onward.
+### 4.0.2
+- Added Dennis item texture.
+- Added Dennis to the villager-exclusive loot pools.

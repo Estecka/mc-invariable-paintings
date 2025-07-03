@@ -24,6 +24,7 @@
 				{ "model": {"type":"model","model":"minecraft:item/painting/cotan"},	"when":"minecraft:cotan" },
 				{ "model": {"type":"model","model":"minecraft:item/painting/courbet"},	"when":"minecraft:courbet" },
 				{ "model": {"type":"model","model":"minecraft:item/painting/creebet"},	"when":"minecraft:creebet" },
+				{ "model": {"type":"model","model":"minecraft:item/painting/dennis"},	"when":"minecraft:dennis" },
 				{ "model": {"type":"model","model":"minecraft:item/painting/donkey_kong"},	"when":"minecraft:donkey_kong" },
 				{ "model": {"type":"model","model":"minecraft:item/painting/earth"},	"when":"minecraft:earth" },
 				{ "model": {"type":"model","model":"minecraft:item/painting/endboss"},	"when":"minecraft:endboss" },
