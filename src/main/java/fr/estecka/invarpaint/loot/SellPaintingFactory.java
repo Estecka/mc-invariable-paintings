@@ -73,7 +73,7 @@ implements TradeOffers.Factory
 
 	@Override
 	public TradeOffer	create(Entity entity, Random random){
-		var registry = entity.getWorld().getRegistryManager().getOrThrow(RegistryKeys.PAINTING_VARIANT);
+		var registry = entity.getEntityWorld().getRegistryManager().getOrThrow(RegistryKeys.PAINTING_VARIANT);
 		RegistryEntry<PaintingVariant> variant = PoolIdentifier.GetRandom(this.pool, random, registry);
 
 		if (variant == null)

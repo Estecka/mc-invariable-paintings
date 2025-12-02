@@ -50,3 +50,6 @@ Current master
 - Item Stack variants are no longer stored in the `entity_data` component.
 - Wandering Trader rebalance is no longer experimental.
 - It is no longer possible to remove arbitrary elements from the tooltip.
+
+### 1.21.9
+- `Entity::getWorld` was replaced with `HeldItemContext::getEntityWorld`

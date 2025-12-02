@@ -2,6 +2,8 @@
 	"pack": {
 		"pack_format": 55,
 		"supported_formats": [55, 999],
+		"min_format": 55,
+		"max_format": 999,
 		"description": "CITs for vanilla painting items"
 	}
 }
