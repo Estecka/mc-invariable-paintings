@@ -9,6 +9,8 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.permission.Permission;
+import net.minecraft.command.permission.PermissionLevel;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.text.Text;
@@ -48,7 +50,7 @@ public class Command
 		);
 
 		root.then(config);
-		root.requires(s -> s.hasPermissionLevel(3));
+		root.requires(s -> s.getPermissions().hasPermission(new Permission.Level(PermissionLevel.ADMINS)));
 		dispatcher.register(root);
 	}
 

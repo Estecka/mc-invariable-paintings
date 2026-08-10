@@ -9,6 +9,7 @@ import net.minecraft.entity.decoration.painting.PaintingVariant;
 import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradeOffers;
@@ -72,7 +73,7 @@ implements TradeOffers.Factory
 	}
 
 	@Override
-	public TradeOffer	create(Entity entity, Random random){
+	public TradeOffer create(ServerWorld world, Entity entity, Random random){
 		var registry = entity.getEntityWorld().getRegistryManager().getOrThrow(RegistryKeys.PAINTING_VARIANT);
 		RegistryEntry<PaintingVariant> variant = PoolIdentifier.GetRandom(this.pool, random, registry);
 
