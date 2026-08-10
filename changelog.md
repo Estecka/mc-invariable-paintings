@@ -92,3 +92,5 @@ Removals:
 - Added Dennis to the villager-exclusive loot pools.
 ### 4.0.3
 - Updated for MC 1.21.9
+### 4.0.4
+- Updated for MC 1.21.11 and MC 26
