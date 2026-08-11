@@ -2,56 +2,54 @@ package fr.estecka.invarpaint.loot;
 
 import java.util.List;
 import java.util.Optional;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.entity.decoration.painting.PaintingVariant;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.condition.LootCondition;
-import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.function.ConditionalLootFunction;
-import net.minecraft.loot.function.LootFunctionType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.random.Random;
 import fr.estecka.invarpaint.api.PaintStackUtil;
 
 public class LockVariantRandomlyLootFunction
-extends ConditionalLootFunction
+extends LootItemConditionalFunction
 {
 	static public final MapCodec<LockVariantRandomlyLootFunction> CODEC = RecordCodecBuilder.mapCodec(
-		instance -> ConditionalLootFunction.addConditionsField(instance)
+		instance -> LootItemConditionalFunction.commonFields(instance)
 			.and(PoolIdentifier.CODEC.listOf().optionalFieldOf("variants").forGetter(f->f.variants))
 			.apply(instance, LockVariantRandomlyLootFunction::new)
 	);
 
-	static public final Identifier ID = Identifier.of("invarpaint", "lock_variant_randomly");
-	static public final LootFunctionType<LockVariantRandomlyLootFunction> TYPE = new LootFunctionType<LockVariantRandomlyLootFunction>(CODEC);
+	static public final Identifier ID = Identifier.fromNamespaceAndPath("invarpaint", "lock_variant_randomly");
 
 	static public void Register(){
-		Registry.register(Registries.LOOT_FUNCTION_TYPE, ID, TYPE);
+		Registry.register(BuiltInRegistries.LOOT_FUNCTION_TYPE, ID, CODEC);
 	};
 
 
 	private final Optional<List<PoolIdentifier>> variants;
 
-	private LockVariantRandomlyLootFunction(List<LootCondition> conditions, Optional<List<PoolIdentifier>> variants){
+	private LockVariantRandomlyLootFunction(List<LootItemCondition> conditions, Optional<List<PoolIdentifier>> variants){
 		super(conditions);
 		this.variants = variants;
 	}
 
 	@Override
-	public LootFunctionType<LockVariantRandomlyLootFunction>	getType(){
-		return TYPE;
+	public MapCodec<? extends LootItemConditionalFunction> codec() {
+		return CODEC;
 	}
 
 	@Override
-	public ItemStack	process(ItemStack stack, LootContext ctx){
-		var registry  = ctx.getWorld().getRegistryManager().getOrThrow(RegistryKeys.PAINTING_VARIANT);
-		Random random = ctx.getRandom();
-		RegistryEntry<PaintingVariant> variantEntry = null;
+	public ItemStack run(ItemStack stack, LootContext ctx){
+		var registry  = ctx.getLevel().registryAccess().lookupOrThrow(Registries.PAINTING_VARIANT);
+		RandomSource random = ctx.getRandom();
+		Holder<PaintingVariant> variantEntry = null;
 
 		if (this.variants.isPresent())
 			variantEntry = PoolIdentifier.GetRandom(this.variants.get(), random, registry);

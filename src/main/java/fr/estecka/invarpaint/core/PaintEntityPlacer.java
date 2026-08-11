@@ -4,14 +4,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Vec3i;
+import net.minecraft.world.entity.decoration.painting.Painting;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
+import net.minecraft.world.level.Level;
 import org.joml.Vector2i;
-import net.minecraft.entity.decoration.painting.PaintingEntity;
-import net.minecraft.entity.decoration.painting.PaintingVariant;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3i;
-import net.minecraft.world.World;
 
 public class PaintEntityPlacer 
 {
@@ -113,26 +113,27 @@ public class PaintEntityPlacer
 
 	}
 
-	static public Optional<PaintingEntity>	PlaceLockedPainting(World world, BlockPos targetPos, Direction facing, RegistryEntry<PaintingVariant> variant){
-		PaintingEntity entity = new PaintingEntity(world, targetPos, facing, variant);
-		if (entity.canStayAttached())
+	// mojmap "survives" == yarn "canStayAttached"
+	static public Optional<Painting> PlaceLockedPainting(Level world, BlockPos targetPos, Direction facing, Holder<PaintingVariant> variant){
+		Painting entity = new Painting(world, targetPos, facing, variant);
+		if (entity.survives())
 			return Optional.of(entity);
 
 		// The direction of the horizontal axis of the wall
-		Vec3i right = facing.rotateYCounterclockwise().getVector();
+		Vec3i right = facing.getCounterClockWise().getUnitVec3i();
 
 		SurfaceIterator surface = new SurfaceIterator(variant.value().width(), variant.value().height());
 		surface.next(); // Skip the targeted position, which was already tested.
 		while (surface.hasNext()) {
 			Vector2i planeOffset = surface.next();
-			Vec3i worldOffset = right.multiply(planeOffset.x).add(0, planeOffset.y, 0);
+			Vec3i worldOffset = right.multiply(planeOffset.x).offset(0, planeOffset.y, 0);
 
-			entity.setPosition(
+			entity.setPos(
 				targetPos.getX() + worldOffset.getX(),
 				targetPos.getY() + worldOffset.getY(),
 				targetPos.getZ() + worldOffset.getZ()
 			);
-			if (entity.canStayAttached())
+			if (entity.survives())
 				return Optional.of(entity);
 		}
 

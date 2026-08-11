@@ -1,23 +1,23 @@
 package fr.estecka.invarpaint.core.mixin;
 
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.decoration.painting.PaintingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import fr.estecka.invarpaint.api.PaintStackUtil;
+import net.minecraft.world.entity.decoration.painting.Painting;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
-@Mixin(PaintingEntity.class)
+@Mixin(Painting.class)
 public class PaintingEntityMixin
 {
-	@ModifyExpressionValue( method="onBreak", at=@At(value="INVOKE", target="Lnet/minecraft/entity/decoration/painting/PaintingEntity;dropItem(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/item/ItemConvertible;)Lnet/minecraft/entity/ItemEntity;") )
+	@ModifyExpressionValue( method="dropItem", at=@At(value="INVOKE", target="Lnet/minecraft/world/entity/decoration/painting/Painting;spawnAtLocation(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/level/ItemLike;)Lnet/minecraft/world/entity/item/ItemEntity;") )
 	private ItemEntity setDropVariant(ItemEntity original) {
-		ItemStack stack = original.getStack();
+		ItemStack stack = original.getItem();
 
-		if (stack.isOf(Items.PAINTING))
-			PaintStackUtil.SetVariant(stack, (PaintingEntity)(Object)this);
+		if (stack.is(Items.PAINTING))
+			PaintStackUtil.SetVariant(stack, (Painting)(Object)this);
 
 		return original;
 	}

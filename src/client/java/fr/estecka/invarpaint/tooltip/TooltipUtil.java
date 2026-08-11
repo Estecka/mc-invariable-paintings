@@ -2,32 +2,32 @@ package fr.estecka.invarpaint.tooltip;
 
 import java.util.List;
 import java.util.Optional;
-import net.minecraft.entity.decoration.painting.PaintingVariant;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registry;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Registry;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
+import net.minecraft.world.item.ItemStack;
 import fr.estecka.invarpaint.InvarpaintClient;
 import fr.estecka.invarpaint.api.PaintStackUtil;
 import fr.estecka.invarpaint.api.PaintTextUtil;
 
 public class TooltipUtil
 {
-	static private final Text INVALID_TEXT = Text.translatable("painting.invalid").formatted(Formatting.RED);
-	static private final Text EMPTY_NOTICE = Text.literal(" (").append(Text.translatable("painting.empty")).append(")").formatted(Formatting.GRAY);
+	static private final Component INVALID_TEXT = Component.translatable("painting.invalid").withStyle(ChatFormatting.RED);
+	static private final Component EMPTY_NOTICE = Component.literal(" (").append(Component.translatable("painting.empty")).append(")").withStyle(ChatFormatting.GRAY);
 
-	static public MutableText	AppendPaintingName(MutableText text, ItemStack stack){
+	static public MutableComponent AppendPaintingName(MutableComponent text, ItemStack stack){
 		// I could just use translatable variables,
 		// but this way is compatible with other languages
 		Identifier variantId = PaintStackUtil.GetVariantId(stack);
 		if (variantId != null)
 			text.append(
-				Text.literal(" (")
+				Component.literal(" (")
 					.append(PaintTextUtil.TranslatableVariantName(variantId))
 					.append(")")
-					.formatted(Formatting.YELLOW)
+					.withStyle(ChatFormatting.YELLOW)
 			);
 		else
 			text.append(EMPTY_NOTICE);
@@ -39,17 +39,17 @@ public class TooltipUtil
 	 * @deprecated Kept around for future reference if NoKebab is ever ported.
 	 */
 	@Deprecated
-	static public void AddVariantTooltip(List<Text> tooltip, Identifier variantId, boolean advanced){
+	static public void AddVariantTooltip(List<Component> tooltip, Identifier variantId, boolean advanced){
 		Optional<Registry<PaintingVariant>> registry = InvarpaintClient.GetPaintingRegitry();
-		Optional<PaintingVariant> variant = registry.flatMap(r -> r.getOptionalValue(variantId));
+		Optional<PaintingVariant> variant = registry.flatMap(r -> r.getOptional(variantId));
 
 		// In the event the registry would be absent, consider everything as valid, and print what can be known.
 		if (registry.isPresent() && variant.isEmpty())
 			tooltip.add(INVALID_TEXT);
 		else if (variantId != null){
-			MutableText authorLine = Text.translatableWithFallback(variantId.toTranslationKey("painting", "author"), "").formatted(Formatting.GRAY);
+			MutableComponent authorLine = Component.translatableWithFallback(variantId.toLanguageKey("painting", "author"), "").withStyle(ChatFormatting.GRAY);
 			if (variant.isPresent())
-				authorLine = Text.translatable("painting.dimensions", variant.get().width(), variant.get().height())
+				authorLine = Component.translatable("painting.dimensions", variant.get().width(), variant.get().height())
 					.append(" ")
 					.append(authorLine)
 					;
@@ -58,7 +58,7 @@ public class TooltipUtil
 		}
 
 		if (advanced)
-			tooltip.add(Text.literal(variantId.toString()).formatted(Formatting.DARK_GRAY));
+			tooltip.add(Component.literal(variantId.toString()).withStyle(ChatFormatting.DARK_GRAY));
 	}
 
 }

@@ -1,9 +1,9 @@
 {
 	"required": true,
 	"package": "fr.estecka.invarpaint.pick.mixin",
-	"compatibilityLevel": "JAVA_21",
+	"compatibilityLevel": "JAVA_25",
 	"mixins": [
-		"ItemGroupsMixin"
+		"CreativeModeTabsMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

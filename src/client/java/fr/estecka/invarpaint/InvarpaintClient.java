@@ -2,36 +2,33 @@ package fr.estecka.invarpaint;
 
 import java.util.Optional;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+import net.fabricmc.fabric.api.resource.v1.pack.PackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.decoration.painting.PaintingVariant;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
+import net.minecraft.world.level.Level;
 
 public class InvarpaintClient
 implements ClientModInitializer
 {
 	public void	onInitializeClient(){
 		var mod = FabricLoader.getInstance().getModContainer(InvarpaintMod.MODID).get();
-		ResourceManagerHelper.registerBuiltinResourcePack(
-			Identifier.of(InvarpaintMod.MODID, "vanilla-cit"),
+		ResourceLoader.registerBuiltinPack(
+			Identifier.fromNamespaceAndPath(InvarpaintMod.MODID, "vanilla-cit"),
 			mod,
-			Text.literal("Invariable-Paintings CITs"),
-			ResourcePackActivationType.DEFAULT_ENABLED
+			PackActivationType.DEFAULT_ENABLED
 		);
 	}
 
 	@Deprecated
 	static public Optional<Registry<PaintingVariant>> GetPaintingRegitry(){
-		@SuppressWarnings("resource")
-		World world = MinecraftClient.getInstance().world;
+		Level world = Minecraft.getInstance().level;
 		if (world != null)
-			return world.getRegistryManager().getOptional(RegistryKeys.PAINTING_VARIANT);
+			return world.registryAccess().lookup(Registries.PAINTING_VARIANT);
 		else
 			return Optional.empty();
 	}

@@ -2,19 +2,19 @@ package fr.estecka.invarpaint.api;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.decoration.painting.PaintingVariant;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
-import static net.minecraft.component.DataComponentTypes.ITEM_MODEL;
-import static net.minecraft.component.DataComponentTypes.PAINTING_VARIANT;
+import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.decoration.painting.PaintingVariant;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import static net.minecraft.core.component.DataComponents.ITEM_MODEL;
+import static net.minecraft.core.component.DataComponents.PAINTING_VARIANT;
 import static fr.estecka.invarpaint.InvarpaintMod.CONFIG;
 
 public final class PaintStackUtil
 {
-	static public final Identifier INVALID_MODEL = Identifier.of("invarpaint", "missing_painting");
+	static public final Identifier INVALID_MODEL = Identifier.fromNamespaceAndPath("invarpaint", "missing_painting");
 	static public final String VARIANT_MODEL_PREFIX = "painting/";
 
 
@@ -22,7 +22,7 @@ public final class PaintStackUtil
 /* # Set Variant                                                              */
 /******************************************************************************/
 
-	static public ItemStack	SetVariant(ItemStack stack, @NotNull RegistryEntry<PaintingVariant> entry) {
+	static public ItemStack SetVariant(ItemStack stack, @NotNull Holder<PaintingVariant> entry) {
 		stack.set(PAINTING_VARIANT, entry);
 		if (CONFIG.setItemModel)
 			SetModel(stack, entry);
@@ -41,7 +41,7 @@ public final class PaintStackUtil
 /* # Create Variant                                                           */
 /******************************************************************************/
 
-	static public ItemStack	CreateVariant(@NotNull RegistryEntry<PaintingVariant> entry) {
+	static public ItemStack CreateVariant(@NotNull Holder<PaintingVariant> entry) {
 		ItemStack stack = new ItemStack(Items.PAINTING);
 		SetVariant(stack, entry);
 		if (CONFIG.setItemModel)
@@ -62,8 +62,8 @@ public final class PaintStackUtil
 /* # Set Model                                                                */
 /******************************************************************************/
 
-	static public ItemStack	SetModel(ItemStack stack, @NotNull RegistryEntry<PaintingVariant> entry) {
-		return SetModel(stack, entry.getKey().get().getValue());
+	static public ItemStack SetModel(ItemStack stack, @NotNull Holder<PaintingVariant> entry) {
+		return SetModel(stack, entry.unwrapKey().get().identifier());
 	}
 
 	static public ItemStack SetModel(ItemStack stack, String variantName){
@@ -77,7 +77,7 @@ public final class PaintStackUtil
 	}
 
 	static public ItemStack SetModel(ItemStack stack, Identifier variantId){
-		stack.set(ITEM_MODEL, variantId.withPrefixedPath(VARIANT_MODEL_PREFIX));
+		stack.set(ITEM_MODEL, variantId.withPrefix(VARIANT_MODEL_PREFIX));
 		return stack;
 	}
 
@@ -85,25 +85,25 @@ public final class PaintStackUtil
 /******************************************************************************/
 /* # Get Variant                                                              */
 /******************************************************************************/
-// TODO: Probably not compatible with NoKebab
+// Probably not compatible with NoKebab
 
-	static public @Nullable RegistryEntry<PaintingVariant>	GetVariantEntry(ItemStack stack){
+	static public @Nullable Holder<PaintingVariant> GetVariantEntry(ItemStack stack){
 		return stack.get(PAINTING_VARIANT);
 	}
 
-	static public @Nullable RegistryEntry<PaintingVariant>	GetVariantEntry(Entity entity){
+	static public @Nullable Holder<PaintingVariant> GetVariantEntry(Entity entity){
 		return entity.get(PAINTING_VARIANT);
 	}
 
 	static public @Nullable Identifier	GetVariantId(ItemStack stack){
 		var entry = GetVariantEntry(stack);
-		return (entry == null) ? null : entry.getKey().get().getValue();
+		return (entry == null) ? null : entry.unwrapKey().get().identifier();
 	}
 
 	@Deprecated
 	static public @Nullable String	GetVariantName(Entity entity){
 		var entry = entity.get(PAINTING_VARIANT);
-		return (entry == null) ? null : entry.getKey().get().getValue().toString();
+		return (entry == null) ? null : entry.unwrapKey().get().identifier().toString();
 	}
 
 	@Deprecated
@@ -121,7 +121,7 @@ public final class PaintStackUtil
 	 * Checks that a variant exists in any form
 	 */
 	static public boolean	HasVariant(ItemStack stack){
-		return stack.contains(PAINTING_VARIANT);
+		return stack.has(PAINTING_VARIANT);
 	}
 
 	/**

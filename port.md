@@ -53,3 +53,8 @@ Current master
 
 ### 1.21.9
 - `Entity::getWorld` was replaced with `HeldItemContext::getEntityWorld`
+
+## 26.1.2
+- Mojmapocalypse
+- Trades are now data-driven
+- Loot-functions are registered with a straight-up Mapodec rather than a Type.

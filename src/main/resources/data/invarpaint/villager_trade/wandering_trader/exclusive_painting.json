@@ -1,0 +1,20 @@
+{
+	"wants": {
+		"count": 24,
+		"id": "minecraft:emerald"
+	},
+	"gives": {
+		"id": "minecraft:painting"
+	},
+	"given_item_modifiers": [
+		{
+			"function": "invarpaint:lock_variant_randomly",
+			"variants": [
+				"#invarpaint:exclusive/wanderer"
+			]
+		}
+	],
+	"max_uses": 1,
+	"reputation_discount": 0.05,
+	"xp": 30
+}
